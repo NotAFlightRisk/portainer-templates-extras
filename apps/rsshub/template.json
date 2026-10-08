@@ -1,0 +1,19 @@
+{
+  "title": "RSSHub",
+  "name": "rsshub",
+  "description": "RSS feed maker for thousands of sites that don't have a feed of their own, like GitHub issues, news sites, forums and shops. Source: https://github.com/DIYgod/RSSHub",
+  "categories": ["Web", "Tools"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/DIYgod/RSSHub/master/public/logo.png",
+  "image": "diygod/rsshub:latest",
+  "restart_policy": "unless-stopped",
+  "ports": ["1200:1200/tcp"],
+  "env": [
+    {
+      "name": "ACCESS_KEY",
+      "label": "Access key",
+      "description": "Optional. Set one and every feed url needs it, like /hackernews?key=yourkey. Leave blank and anyone who can reach it can use it."
+    }
+  ],
+  "note": "Open <code>http://&lt;your-host&gt;:1200</code> to check it's up, then add feeds to your reader as paths on it, like <code>/github/issue/DIYgod/RSSHub</code>. Every route is listed in the <a href=\"https://docs.rsshub.app\" target=\"_blank\">docs</a>. There's no login, so set an access key if it faces the internet. Nothing to back up, feeds are cached in memory. Some routes need a browser, and for those swap the image tag to <code>chromium-bundled</code>."
+}
