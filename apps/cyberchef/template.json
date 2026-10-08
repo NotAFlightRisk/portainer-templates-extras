@@ -1,0 +1,12 @@
+{
+  "title": "CyberChef",
+  "name": "cyberchef",
+  "description": "Web app for encoding, decoding, encrypting, compressing and picking apart data, by chaining hundreds of small operations into a recipe. Source: https://github.com/gchq/CyberChef",
+  "categories": ["Security", "Development", "Tools"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/gchq/CyberChef/master/src/web/static/images/logo/cyberchef_512.png",
+  "image": "ghcr.io/gchq/cyberchef:11",
+  "restart_policy": "unless-stopped",
+  "ports": ["8088:8080/tcp"],
+  "note": "Open <code>http://&lt;your-host&gt;:8088</code>. There's no login and nothing to back up, since every recipe runs in your browser and your data never reaches the server. Recipes live in the URL, so bookmark or share that to keep one. Docs: <a href=\"https://github.com/gchq/CyberChef/wiki\" target=\"_blank\">github.com/gchq/CyberChef/wiki</a>"
+}
