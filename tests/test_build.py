@@ -119,6 +119,7 @@ class BuildTest(unittest.TestCase):
     def test_stack_env_and_compose_have_to_agree(self):
         compose = COMPOSE.replace("${THING_PORT:-8080}", "${THING_PORT:-9090}")
         compose += "    environment:\n      SECRET: ${THING_SECRET:?set it}\n"
+        compose += "      TOKEN: $THING_TOKEN\n      EXTRA: ${THING_EXTRA:+on}\n"
         env = STACK["env"] + [{"name": "THING_UNUSED", "label": "Unused"}]
         self.add("thing", STACK | {"env": env}, compose)
         self.assertEqual(
@@ -126,6 +127,7 @@ class BuildTest(unittest.TestCase):
             [
                 "defaults THING_PORT to '9090' but the template says '8080'",
                 "needs ${THING_SECRET} but the template has no env for it",
+                "needs ${THING_TOKEN} but the template has no env for it",
                 "never uses env THING_UNUSED",
             ],
         )
@@ -137,12 +139,51 @@ class BuildTest(unittest.TestCase):
         self.assertEqual(
             sorted(self.problems()),
             [
-                "app binds a relative path, use a named volume",
+                "app binds a host path, use a named volume",
                 "app needs restart: unless-stopped",
                 "app sets container_name, so the stack could only run once",
                 "image goes in compose.yml for a stack",
             ],
         )
+
+    def test_stack_reaching_into_the_host_is_refused(self):
+        compose = COMPOSE + "    privileged: true\n    network_mode: host\n"
+        compose += "    volumes:\n      - /var/run/docker.sock:/var/run/docker.sock\n"
+        self.add("thing", STACK, compose)
+        self.assertEqual(
+            sorted(self.problems()),
+            [
+                "app asks for host access (privileged, network_mode)",
+                "app binds a host path, use a named volume",
+            ],
+        )
+
+    def test_container_reaching_into_the_host_is_refused(self):
+        socket = {"container": "/var/run/docker.sock", "bind": "/var/run/docker.sock"}
+        self.add("thing", CONTAINER | {"privileged": True, "volumes": [socket]})
+        self.assertEqual(
+            sorted(self.problems()),
+            [
+                "is privileged, which hands it the whole host",
+                "mounts the Docker socket, which is root on the host",
+            ],
+        )
+
+    def test_secrets_never_get_a_default(self):
+        env = [{"name": "DB_PASSWORD", "label": "Password", "default": "changeme"}]
+        self.add("thing", CONTAINER | {"env": env})
+        self.assertEqual(
+            self.problems(),
+            ["env DB_PASSWORD looks like a secret, so it can't have a default"],
+        )
+
+    def test_out_of_range_port_is_caught(self):
+        self.add("thing", CONTAINER | {"ports": ["99999:80/tcp"]})
+        self.assertEqual(self.problems(), ["port 99999:80/tcp is out of range"])
+
+    def test_empty_service_is_reported_not_raised(self):
+        self.add("thing", STACK, COMPOSE + "  worker:\n")
+        self.assertIn("worker is empty", self.problems())
 
 
 if __name__ == "__main__":

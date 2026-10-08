@@ -11,7 +11,7 @@ import yaml
 from build import APPS, REPO_URL, build, report, title_key
 
 MAIN_LIST = "https://portainer-templates.as93.net/templates.json"
-TYPE_SUFFIX = re.compile(r"\s*\((container|stack|swarm|edge)\)$")
+TYPE_SUFFIX = re.compile(r"\s*\((container|stack|swarm|edge)\)$", re.IGNORECASE)
 MANIFESTS = ", ".join(
     f"application/vnd.{kind}"
     for kind in (
@@ -23,12 +23,12 @@ MANIFESTS = ", ".join(
 )
 
 
-def fetch(url, headers=None):
+def fetch(url, headers=None, body=True):
     request = urllib.request.Request(
         url, headers={"User-Agent": "curl/8", **(headers or {})}
     )
     with urllib.request.urlopen(request, timeout=30) as response:
-        return response.headers, response.read()
+        return response.headers, response.read() if body else b""
 
 
 def split_image(image):
@@ -44,52 +44,67 @@ def split_image(image):
     return "registry-1.docker.io", name if "/" in name else f"library/{name}", tag
 
 
-def manifest(image):
-    """The image's manifest, after the anonymous token dance every registry wants"""
-    registry, repo, tag = split_image(image)
-    url = f"https://{registry}/v2/{repo}/manifests/{tag}"
-    headers = {"Accept": MANIFESTS}
-    try:
-        return json.loads(fetch(url, headers)[1])
-    except HTTPError as err:
-        if err.code != 401:
-            raise
-        challenge = dict(
-            re.findall(r'(\w+)="([^"]*)"', err.headers.get("WWW-Authenticate", ""))
-        )
+def anonymous_token(err):
+    """The pull token a registry's 401 challenge points at"""
+    challenge = dict(
+        re.findall(r'(\w+)="([^"]*)"', err.headers.get("WWW-Authenticate", ""))
+    )
     query = urllib.parse.urlencode(
         {k: challenge[k] for k in ("service", "scope") if k in challenge}
     )
     token = json.loads(fetch(f"{challenge['realm']}?{query}")[1])
-    headers["Authorization"] = f"Bearer {token.get('token') or token['access_token']}"
-    return json.loads(fetch(url, headers)[1])
+    return token.get("token") or token["access_token"]
+
+
+def platforms(image):
+    """Linux arches the tag is built for, reading the config blob of a single-arch image"""
+    registry, repo, tag = split_image(image)
+    headers = {"Accept": MANIFESTS}
+
+    def get(path):
+        return json.loads(fetch(f"https://{registry}/v2/{repo}/{path}", headers)[1])
+
+    try:
+        found = get(f"manifests/{tag}")
+    except HTTPError as err:
+        if err.code != 401:
+            raise
+        headers["Authorization"] = f"Bearer {anonymous_token(err)}"
+        found = get(f"manifests/{tag}")
+    if "manifests" in found:
+        return {
+            m["platform"]["architecture"]
+            for m in found["manifests"]
+            if m.get("platform", {}).get("os") == "linux"
+        }
+    if "config" not in found:
+        return set()
+    config = get(f"blobs/{found['config']['digest']}")
+    return {config["architecture"]} if config.get("os") == "linux" else set()
 
 
 def image_problems(image):
     """(errors, warnings) for one image: it has to exist and run on amd64, arm64 is a bonus"""
     try:
-        found = manifest(image)
+        arches = platforms(image)
     except HTTPError as err:
         if err.code == 429:
             return [], [f"{image}: registry rate limited us, so not checked"]
         return [f"{image}: registry says {err.code}, does the tag exist?"], []
     except URLError as err:
         return [], [f"{image}: registry unreachable ({err.reason})"]
-    arches = {
-        m["platform"]["architecture"]
-        for m in found.get("manifests", [])
-        if m.get("platform", {}).get("os") == "linux"
-    }
     if not arches:
-        return [], [f"{image}: single-arch image, so it may not run on a Pi"]
+        return [f"{image}: no linux build that Docker can still pull"], []
     if "amd64" not in arches:
         return [f"{image}: no amd64 build, only {', '.join(sorted(arches))}"], []
-    return [], [] if "arm64" in arches else [f"{image}: no arm64 build"]
+    return [], [] if "arm64" in arches else [
+        f"{image}: no arm64 build, so no Raspberry Pi"
+    ]
 
 
 def logo_problems(url):
     try:
-        headers, _ = fetch(url)
+        headers, _ = fetch(url, body=False)
     except (HTTPError, URLError) as err:
         return [f"logo {url} failed ({err})"]
     kind = headers.get("Content-Type", "")

@@ -1,4 +1,4 @@
-"""Starts apps the way Portainer would, with an untouched form, and checks each one answers"""
+"""Starts apps the way Portainer would, with the form left at its defaults, and checks they answer"""
 
 import argparse
 import json

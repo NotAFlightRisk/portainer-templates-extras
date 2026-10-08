@@ -26,8 +26,12 @@ updates:
       prefix: "chore"
       include: "scope"
     groups:
-      # One PR for the routine bumps
+      # One PR for the routine bumps, and one for security fixes
       minor-and-patch:
         update-types:
           - "minor"
           - "patch"
+      security:
+        applies-to: security-updates
+        patterns:
+          - "*"
