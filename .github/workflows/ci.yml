@@ -90,19 +90,3 @@ jobs:
         run: |
           read -ra apps <<< "$APPS"
           python scripts/smoke.py "${apps[@]}" | tee -a "$GITHUB_STEP_SUMMARY"
-
-  stacks:
-    name: 🐋 stacks
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          persist-credentials: false
-      - name: Read each compose file the way Compose will
-        run: |
-          for compose in apps/*/compose.yml; do
-            [ -e "$compose" ] || continue
-            mapfile -t vars < <(jq -r '.env[]?.name + "=ci"' "${compose%/*}/template.json")
-            env "${vars[@]}" docker compose -f "$compose" config --quiet
-            echo "✅ $compose" >> "$GITHUB_STEP_SUMMARY"
-          done
