@@ -1,0 +1,108 @@
+name: 🚦 CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: ${{ matrix.emoji }} ${{ matrix.label }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: templates
+            emoji: ✅
+            run: python scripts/build.py --check
+          - label: tests
+            emoji: 🧪
+            run: python -m unittest discover -s tests
+          - label: lint
+            emoji: 🎨
+            run: ruff check && ruff format --check
+          - label: online
+            emoji: 🌐
+            run: python scripts/online.py
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: '3.14'
+          cache: pip
+          cache-dependency-path: scripts/requirements.txt
+      - run: pip install -r scripts/requirements.txt
+      - run: ${{ matrix.run }}
+      - name: List what's in the build
+        if: matrix.label == 'templates'
+        run: |
+          {
+            echo "| Template | Type |"
+            echo "| --- | --- |"
+            jq -r '.templates[] | "| \(.title) | \(if .type == 3 then "stack" else "container" end) |"' templates.json
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  smoke:
+    name: 🚀 smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: '3.14'
+          cache: pip
+          cache-dependency-path: scripts/requirements.txt
+      - run: pip install -r scripts/requirements.txt
+      - name: Work out which apps changed
+        id: changed
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+          EVENT: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT" = schedule ] || [ "$EVENT" = workflow_dispatch ] \
+            || ! git cat-file -e "$BASE^{commit}" 2> /dev/null; then
+            apps=$(ls apps)
+          else
+            apps=$(git diff --name-only "$BASE" HEAD -- apps | cut -d/ -f2 | sort -u)
+          fi
+          existing=$(for app in $apps; do if [ -d "apps/$app" ]; then echo "$app"; fi; done)
+          echo "apps=$(paste -sd ' ' <<< "$existing")" >> "$GITHUB_OUTPUT"
+      - name: Start them with their defaults
+        if: steps.changed.outputs.apps != ''
+        env:
+          APPS: ${{ steps.changed.outputs.apps }}
+        run: |
+          read -ra apps <<< "$APPS"
+          python scripts/smoke.py "${apps[@]}" | tee -a "$GITHUB_STEP_SUMMARY"
+
+  stacks:
+    name: 🐋 stacks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Read each compose file the way Compose will
+        run: |
+          for compose in apps/*/compose.yml; do
+            [ -e "$compose" ] || continue
+            mapfile -t vars < <(jq -r '.env[]?.name + "=ci"' "${compose%/*}/template.json")
+            env "${vars[@]}" docker compose -f "$compose" config --quiet
+            echo "✅ $compose" >> "$GITHUB_STEP_SUMMARY"
+          done

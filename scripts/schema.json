@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Portainer app templates, version 3",
+  "type": "object",
+  "required": ["version", "templates"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": "3" },
+    "templates": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/template" } }
+  },
+  "$defs": {
+    "text": { "type": "string", "minLength": 1 },
+    "path": { "type": "string", "pattern": "^/" },
+    "template": {
+      "type": "object",
+      "required": [
+        "id", "type", "title", "name", "description", "categories",
+        "platform", "logo", "note", "restart_policy"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "integer", "minimum": 1 },
+        "type": { "enum": [1, 3] },
+        "title": { "$ref": "#/$defs/text" },
+        "name": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]*$" },
+        "description": {
+          "type": "string",
+          "pattern": "\\S.* Source: https://\\S+$",
+          "maxLength": 300
+        },
+        "categories": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "AI", "Analytics", "Automation", "Backup", "Books", "Chat", "CMS", "Cloud",
+              "Dashboard", "Database", "Development", "DNS", "Documents", "Downloaders",
+              "Email", "File Sharing", "Finance", "Games", "Home Automation", "Media",
+              "Messaging", "Monitoring", "Music", "Networking", "Photos", "Productivity",
+              "Project Management", "Proxy", "Remote Desktop", "Security", "Social",
+              "Storage", "Tools", "Video", "VPN", "Web", "Wiki"
+            ]
+          }
+        },
+        "platform": { "enum": ["linux", "windows"] },
+        "logo": { "type": "string", "format": "uri", "pattern": "^https://" },
+        "note": { "$ref": "#/$defs/text" },
+        "image": { "type": "string", "pattern": "^[^\\s@]+:[\\w][\\w.-]{0,127}$" },
+        "repository": {
+          "type": "object",
+          "required": ["url", "stackfile"],
+          "additionalProperties": false,
+          "properties": {
+            "url": { "type": "string", "format": "uri", "pattern": "^https://" },
+            "stackfile": { "$ref": "#/$defs/text" }
+          }
+        },
+        "restart_policy": { "enum": ["unless-stopped", "always", "on-failure", "no"] },
+        "ports": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^\\d{1,5}:\\d{1,5}/(tcp|udp)$" }
+        },
+        "volumes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["container"],
+            "additionalProperties": false,
+            "properties": {
+              "container": { "$ref": "#/$defs/path" },
+              "bind": { "$ref": "#/$defs/path" },
+              "readonly": { "type": "boolean" }
+            }
+          }
+        },
+        "env": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "label"],
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$" },
+              "label": { "$ref": "#/$defs/text" },
+              "description": { "$ref": "#/$defs/text" },
+              "default": { "type": "string" },
+              "preset": { "type": "boolean" },
+              "select": {
+                "type": "array",
+                "minItems": 2,
+                "items": {
+                  "type": "object",
+                  "required": ["text", "value"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "text": { "$ref": "#/$defs/text" },
+                    "value": { "type": "string" },
+                    "default": { "type": "boolean" }
+                  }
+                }
+              }
+            },
+            "dependentRequired": { "preset": ["default"] }
+          }
+        },
+        "command": { "$ref": "#/$defs/text" },
+        "hostname": { "$ref": "#/$defs/text" },
+        "privileged": { "type": "boolean" },
+        "interactive": { "type": "boolean" },
+        "administrator_only": { "type": "boolean" }
+      },
+      "if": { "properties": { "type": { "const": 3 } } },
+      "then": { "required": ["repository"] },
+      "else": { "required": ["image"] }
+    }
+  }
+}

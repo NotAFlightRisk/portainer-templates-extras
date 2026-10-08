@@ -1,0 +1,12 @@
+{
+  "title": "BentoPDF",
+  "name": "bentopdf",
+  "description": "PDF toolkit that runs in your browser, so files never leave your machine. Merge, split, compress, convert, sign and edit. Source: https://github.com/alam00000/bentopdf",
+  "categories": ["Documents", "Tools"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/alam00000/bentopdf/main/public/images/favicon-512x512.png",
+  "image": "ghcr.io/alam00000/bentopdf-simple:latest",
+  "restart_policy": "unless-stopped",
+  "ports": ["8090:8080/tcp"],
+  "note": "Open <code>http://&lt;your-host&gt;:8090</code>. There's no login and nothing to back up, since every PDF is processed in your browser rather than on the server. Docs: <a href=\"https://github.com/alam00000/bentopdf#readme\" target=\"_blank\">github.com/alam00000/bentopdf</a>"
+}

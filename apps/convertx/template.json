@@ -1,0 +1,35 @@
+{
+  "title": "ConvertX",
+  "name": "convertx",
+  "description": "File converter for over a thousand formats, covering images, documents, audio, video and ebooks. Source: https://github.com/C4illin/ConvertX",
+  "categories": ["Tools", "Documents"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/C4illin/ConvertX/main/public/apple-touch-icon.png",
+  "image": "ghcr.io/c4illin/convertx:latest",
+  "restart_policy": "unless-stopped",
+  "ports": ["3000:3000/tcp"],
+  "volumes": [{ "container": "/app/data" }],
+  "env": [
+    {
+      "name": "HTTP_ALLOWED",
+      "label": "Opening it over plain http?",
+      "description": "ConvertX only sends its login cookie over HTTPS unless this is on. Switch it off once it's behind a reverse proxy with HTTPS.",
+      "select": [
+        { "text": "Yes, plain http", "value": "true", "default": true },
+        { "text": "No, it's behind HTTPS", "value": "false" }
+      ]
+    },
+    {
+      "name": "AUTO_DELETE_EVERY_N_HOURS",
+      "label": "Delete converted files after (hours)",
+      "default": "24"
+    },
+    {
+      "name": "TZ",
+      "label": "Timezone",
+      "description": "Like Europe/London",
+      "default": "UTC"
+    }
+  ],
+  "note": "Open <code>http://&lt;your-host&gt;:3000</code> and create your account straight away, since the first visitor gets it and sign-ups close after that. Uploads and the database live in the <code>/app/data</code> volume. It's a big image (LibreOffice, TeX and Calibre are all in there), so the first pull takes a while. You'll be logged out whenever the container restarts, unless you add a <code>JWT_SECRET</code> env var holding a long random string (<code>openssl rand -hex 32</code>). Docs: <a href=\"https://github.com/C4illin/ConvertX#readme\" target=\"_blank\">github.com/C4illin/ConvertX</a>"
+}

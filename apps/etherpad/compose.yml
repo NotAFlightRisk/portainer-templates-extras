@@ -1,0 +1,42 @@
+services:
+  etherpad:
+    image: etherpad/etherpad:3
+    restart: unless-stopped
+    ports:
+      - "${ETHERPAD_PORT:-9001}:9001"
+    environment:
+      NODE_ENV: production
+      ADMIN_PASSWORD: ${ETHERPAD_ADMIN_PASSWORD:?Set an admin password}
+      DB_TYPE: postgres
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: etherpad
+      DB_USER: etherpad
+      DB_PASS: ${ETHERPAD_DB_PASSWORD:?Set a database password}
+      TRUST_PROXY: ${ETHERPAD_TRUST_PROXY:-false}
+    volumes:
+      - etherpad-var:/opt/etherpad-lite/var
+      - etherpad-plugins:/opt/etherpad-lite/src/plugin_packages
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: etherpad
+      POSTGRES_USER: etherpad
+      POSTGRES_PASSWORD: ${ETHERPAD_DB_PASSWORD:?Set a database password}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U etherpad -d etherpad"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  etherpad-var:
+  etherpad-plugins:
+  postgres-data:

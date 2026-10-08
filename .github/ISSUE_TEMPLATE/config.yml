@@ -1,0 +1,21 @@
+# The chooser shown after "New issue". URLs must be absolute, relative paths won't resolve here.
+# Docs: https://docs.github.com/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository
+
+blank_issues_enabled: false
+
+contact_links:
+  - name: 🔒 Report a Security Vulnerability
+    url: https://github.com/NotAFlightRisk/portainer-templates-extras/security/policy
+    about: Never report vulnerabilities in a public issue. Read our security policy and disclose privately.
+
+  - name: 📖 Documentation
+    url: https://github.com/NotAFlightRisk/portainer-templates-extras#readme
+    about: How to use the templates, and what's in them. Worth checking before filing.
+
+  - name: 💬 Questions & Ideas
+    url: https://github.com/NotAFlightRisk/portainer-templates-extras/discussions
+    about: Ask a question or share an idea.
+
+  - name: 🛠️ Contributing Guide
+    url: https://github.com/NotAFlightRisk/portainer-templates-extras/blob/main/.github/CONTRIBUTING.md
+    about: Want to add an app yourself? Start here.

@@ -1,0 +1,35 @@
+{
+  "title": "Etherpad",
+  "name": "etherpad",
+  "description": "Collaborative text editor where everyone types in the same document at once, with history, chat and plugins. This one runs on Postgres. Source: https://github.com/ether/etherpad",
+  "categories": ["Documents", "Productivity"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/ether/etherpad/develop/src/static/img/brand.svg",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "ETHERPAD_ADMIN_PASSWORD",
+      "label": "Admin password (required)",
+      "description": "For the admin panel at /admin, where you sign in as admin. Generate one with: openssl rand -hex 32"
+    },
+    {
+      "name": "ETHERPAD_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or Etherpad can't reach its database."
+    },
+    {
+      "name": "ETHERPAD_PORT",
+      "label": "Host port for the web UI",
+      "default": "9001"
+    },
+    {
+      "name": "ETHERPAD_TRUST_PROXY",
+      "label": "Behind a reverse proxy?",
+      "select": [
+        { "text": "No", "value": "false", "default": true },
+        { "text": "Yes", "value": "true" }
+      ]
+    }
+  ],
+  "note": "Set both <b>passwords</b> before you deploy (<code>openssl rand -hex 32</code> makes good ones), since the stack won't start without them. Then open <code>http://&lt;your-host&gt;:9001</code> and start a pad. Anyone who can reach it can create and edit pads, so keep it off the open internet or put a login in front of it. The admin panel is at <code>/admin</code>, user <code>admin</code>. Pads are stored in Postgres, in the <code>postgres-data</code> volume. Docs: <a href=\"https://docs.etherpad.org\" target=\"_blank\">docs.etherpad.org</a>"
+}

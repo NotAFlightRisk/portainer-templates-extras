@@ -1,0 +1,236 @@
+{
+  "version": "3",
+  "templates": [
+    {
+      "id": 1,
+      "type": 1,
+      "title": "BentoPDF",
+      "name": "bentopdf",
+      "description": "PDF toolkit that runs in your browser, so files never leave your machine. Merge, split, compress, convert, sign and edit. Source: https://github.com/alam00000/bentopdf",
+      "categories": [
+        "Documents",
+        "Tools"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/alam00000/bentopdf/main/public/images/favicon-512x512.png",
+      "image": "ghcr.io/alam00000/bentopdf-simple:latest",
+      "restart_policy": "unless-stopped",
+      "ports": [
+        "8090:8080/tcp"
+      ],
+      "note": "Open <code>http://&lt;your-host&gt;:8090</code>. There's no login and nothing to back up, since every PDF is processed in your browser rather than on the server. Docs: <a href=\"https://github.com/alam00000/bentopdf#readme\" target=\"_blank\">github.com/alam00000/bentopdf</a>"
+    },
+    {
+      "id": 2,
+      "type": 1,
+      "title": "ConvertX",
+      "name": "convertx",
+      "description": "File converter for over a thousand formats, covering images, documents, audio, video and ebooks. Source: https://github.com/C4illin/ConvertX",
+      "categories": [
+        "Tools",
+        "Documents"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/C4illin/ConvertX/main/public/apple-touch-icon.png",
+      "image": "ghcr.io/c4illin/convertx:latest",
+      "restart_policy": "unless-stopped",
+      "ports": [
+        "3000:3000/tcp"
+      ],
+      "volumes": [
+        {
+          "container": "/app/data"
+        }
+      ],
+      "env": [
+        {
+          "name": "HTTP_ALLOWED",
+          "label": "Opening it over plain http?",
+          "description": "ConvertX only sends its login cookie over HTTPS unless this is on. Switch it off once it's behind a reverse proxy with HTTPS.",
+          "select": [
+            {
+              "text": "Yes, plain http",
+              "value": "true",
+              "default": true
+            },
+            {
+              "text": "No, it's behind HTTPS",
+              "value": "false"
+            }
+          ]
+        },
+        {
+          "name": "AUTO_DELETE_EVERY_N_HOURS",
+          "label": "Delete converted files after (hours)",
+          "default": "24"
+        },
+        {
+          "name": "TZ",
+          "label": "Timezone",
+          "description": "Like Europe/London",
+          "default": "UTC"
+        }
+      ],
+      "note": "Open <code>http://&lt;your-host&gt;:3000</code> and create your account straight away, since the first visitor gets it and sign-ups close after that. Uploads and the database live in the <code>/app/data</code> volume. It's a big image (LibreOffice, TeX and Calibre are all in there), so the first pull takes a while. You'll be logged out whenever the container restarts, unless you add a <code>JWT_SECRET</code> env var holding a long random string (<code>openssl rand -hex 32</code>). Docs: <a href=\"https://github.com/C4illin/ConvertX#readme\" target=\"_blank\">github.com/C4illin/ConvertX</a>"
+    },
+    {
+      "id": 3,
+      "type": 3,
+      "title": "Etherpad",
+      "name": "etherpad",
+      "description": "Collaborative text editor where everyone types in the same document at once, with history, chat and plugins. This one runs on Postgres. Source: https://github.com/ether/etherpad",
+      "categories": [
+        "Documents",
+        "Productivity"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/ether/etherpad/develop/src/static/img/brand.svg",
+      "restart_policy": "unless-stopped",
+      "env": [
+        {
+          "name": "ETHERPAD_ADMIN_PASSWORD",
+          "label": "Admin password (required)",
+          "description": "For the admin panel at /admin, where you sign in as admin. Generate one with: openssl rand -hex 32"
+        },
+        {
+          "name": "ETHERPAD_DB_PASSWORD",
+          "label": "Database password (required)",
+          "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or Etherpad can't reach its database."
+        },
+        {
+          "name": "ETHERPAD_PORT",
+          "label": "Host port for the web UI",
+          "default": "9001"
+        },
+        {
+          "name": "ETHERPAD_TRUST_PROXY",
+          "label": "Behind a reverse proxy?",
+          "select": [
+            {
+              "text": "No",
+              "value": "false",
+              "default": true
+            },
+            {
+              "text": "Yes",
+              "value": "true"
+            }
+          ]
+        }
+      ],
+      "note": "Set both <b>passwords</b> before you deploy (<code>openssl rand -hex 32</code> makes good ones), since the stack won't start without them. Then open <code>http://&lt;your-host&gt;:9001</code> and start a pad. Anyone who can reach it can create and edit pads, so keep it off the open internet or put a login in front of it. The admin panel is at <code>/admin</code>, user <code>admin</code>. Pads are stored in Postgres, in the <code>postgres-data</code> volume. Docs: <a href=\"https://docs.etherpad.org\" target=\"_blank\">docs.etherpad.org</a>",
+      "repository": {
+        "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
+        "stackfile": "apps/etherpad/compose.yml"
+      }
+    },
+    {
+      "id": 4,
+      "type": 1,
+      "title": "Seerr",
+      "name": "seerr",
+      "description": "Request manager for Jellyfin, Plex and Emby, where people ask for films and shows and Sonarr and Radarr fetch them. It's the merged successor to Overseerr and Jellyseerr. Source: https://github.com/seerr-team/seerr",
+      "categories": [
+        "Media"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/seerr-team/seerr/develop/public/android-chrome-512x512.png",
+      "image": "ghcr.io/seerr-team/seerr:v3",
+      "restart_policy": "unless-stopped",
+      "ports": [
+        "5055:5055/tcp"
+      ],
+      "volumes": [
+        {
+          "container": "/app/config"
+        }
+      ],
+      "env": [
+        {
+          "name": "TZ",
+          "label": "Timezone",
+          "description": "Like Europe/London",
+          "default": "UTC"
+        }
+      ],
+      "note": "Open <code>http://&lt;your-host&gt;:5055</code> and the setup wizard walks you through connecting your media server, then Sonarr and Radarr. Settings and the request database live in the <code>/app/config</code> volume. Coming from Overseerr or Jellyseerr? Seerr can take over their config, see the <a href=\"https://docs.seerr.dev\" target=\"_blank\">docs</a> for how."
+    },
+    {
+      "id": 5,
+      "type": 1,
+      "title": "Super Productivity",
+      "name": "super-productivity",
+      "description": "To-do list with timeboxing and time tracking built in, and it can pull in issues from Jira, GitHub and GitLab. Source: https://github.com/super-productivity/super-productivity",
+      "categories": [
+        "Productivity",
+        "Project Management"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/super-productivity/super-productivity/master/src/assets/icons/icon-512x512.png",
+      "image": "johannesjo/super-productivity:latest",
+      "restart_policy": "unless-stopped",
+      "ports": [
+        "8095:80/tcp"
+      ],
+      "note": "Open <code>http://&lt;your-host&gt;:8095</code>. There's no login, and your tasks are saved in your browser rather than on the server, so set up sync (WebDAV, Dropbox and others) in its settings if you use more than one device. Docs: <a href=\"https://github.com/super-productivity/super-productivity#readme\" target=\"_blank\">github.com/super-productivity/super-productivity</a>"
+    },
+    {
+      "id": 6,
+      "type": 1,
+      "title": "Termix",
+      "name": "termix",
+      "description": "SSH terminal and server manager in the browser, with saved hosts, tunnels and a file editor. Source: https://github.com/Termix-SSH/Termix",
+      "categories": [
+        "Tools",
+        "Networking"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/Termix-SSH/Termix/main/public/icon.svg",
+      "image": "ghcr.io/lukegus/termix:latest",
+      "restart_policy": "unless-stopped",
+      "ports": [
+        "8080:8080/tcp"
+      ],
+      "volumes": [
+        {
+          "container": "/app/data"
+        }
+      ],
+      "note": "Open <code>http://&lt;your-host&gt;:8080</code> and create an account, which becomes the admin. Registration stays open after that, so switch it off in the admin settings unless you want other people signing up. Hosts, keys and the database live in the <code>/app/data</code> volume, and its secrets are generated there on first start. Behind a reverse proxy it needs websockets. Docs: <a href=\"https://docs.termix.site\" target=\"_blank\">docs.termix.site</a>"
+    },
+    {
+      "id": 7,
+      "type": 1,
+      "title": "Wallos",
+      "name": "wallos",
+      "description": "Subscription tracker for keeping an eye on recurring bills, with stats, multiple currencies and reminders before things renew. Source: https://github.com/ellite/wallos",
+      "categories": [
+        "Finance"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/ellite/wallos/main/images/icon/android-chrome-512x512.png",
+      "image": "bellamy/wallos:latest",
+      "restart_policy": "unless-stopped",
+      "ports": [
+        "8282:80/tcp"
+      ],
+      "volumes": [
+        {
+          "container": "/var/www/html/db"
+        },
+        {
+          "container": "/var/www/html/images/uploads/logos"
+        }
+      ],
+      "env": [
+        {
+          "name": "TZ",
+          "label": "Timezone",
+          "description": "Like Europe/London. Used for renewal dates and reminders.",
+          "default": "UTC"
+        }
+      ],
+      "note": "Open <code>http://&lt;your-host&gt;:8282</code> and register. The first account becomes the admin, and sign-ups are closed after that. The database and any logos you upload live in the two volumes. Docs: <a href=\"https://github.com/ellite/wallos#readme\" target=\"_blank\">github.com/ellite/wallos</a>"
+    }
+  ]
+}

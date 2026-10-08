@@ -1,0 +1,40 @@
+name: 📦 Release
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        type: string
+        required: true
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag to release
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    name: 📦 Publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ inputs.tag }}
+          persist-credentials: false
+      - name: Publish the release with templates.json attached
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          gh release create "$TAG" templates.json \
+            --title "$TAG" \
+            --generate-notes \
+            --repo "$GITHUB_REPOSITORY"
+          count=$(jq '.templates | length' templates.json)
+          echo "Released $TAG with $count templates" >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,12 @@
+{
+  "title": "Super Productivity",
+  "name": "super-productivity",
+  "description": "To-do list with timeboxing and time tracking built in, and it can pull in issues from Jira, GitHub and GitLab. Source: https://github.com/super-productivity/super-productivity",
+  "categories": ["Productivity", "Project Management"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/super-productivity/super-productivity/master/src/assets/icons/icon-512x512.png",
+  "image": "johannesjo/super-productivity:latest",
+  "restart_policy": "unless-stopped",
+  "ports": ["8095:80/tcp"],
+  "note": "Open <code>http://&lt;your-host&gt;:8095</code>. There's no login, and your tasks are saved in your browser rather than on the server, so set up sync (WebDAV, Dropbox and others) in its settings if you use more than one device. Docs: <a href=\"https://github.com/super-productivity/super-productivity#readme\" target=\"_blank\">github.com/super-productivity/super-productivity</a>"
+}

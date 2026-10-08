@@ -1,0 +1,45 @@
+name: 📦 Request an app
+description: Ask for a template for an app that isn't in the list yet
+title: "[App]: "
+labels: ["new-app"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fancy writing it yourself? The [contributing guide](https://github.com/NotAFlightRisk/portainer-templates-extras/blob/main/.github/CONTRIBUTING.md) covers it, and it's only a JSON file.
+
+  - type: input
+    id: app
+    attributes:
+      label: App
+      description: Its name and its repo or website.
+      placeholder: Thing - https://github.com/you/thing
+    validations:
+      required: true
+
+  - type: input
+    id: image
+    attributes:
+      label: Official Docker image
+      description: The one the project publishes itself, if you know it.
+      placeholder: ghcr.io/you/thing:latest
+    validations:
+      required: false
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything we should know?
+      description: Does it need a database, a secret, a GPU, host networking? Got a compose file you already use?
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I've checked it isn't already in this list or the [main portainer-templates list](https://portainer-templates.as93.net)
+          required: true
+        - label: I agree to follow this project's [Code of Conduct](https://github.com/NotAFlightRisk/portainer-templates-extras/blob/main/.github/CODE_OF_CONDUCT.md)
+          required: true

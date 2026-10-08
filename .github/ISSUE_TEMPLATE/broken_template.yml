@@ -1,0 +1,60 @@
+name: 🐛 Template doesn't work
+description: A template won't load, won't deploy, or the app doesn't work once it's up
+title: "[Broken]: "
+labels: ["bug"]
+body:
+  - type: input
+    id: template
+    attributes:
+      label: Which template?
+      placeholder: Wallos
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what you got instead.
+      placeholder: Deployed it with the defaults, but the page on port 8282 never loads.
+    validations:
+      required: true
+
+  - type: input
+    id: portainer
+    attributes:
+      label: Portainer version
+      description: It's at the bottom of Portainer's sidebar.
+      placeholder: CE 2.45.2
+    validations:
+      required: true
+
+  - type: dropdown
+    id: arch
+    attributes:
+      label: Host
+      options:
+        - amd64 (most PCs and servers)
+        - arm64 (Raspberry Pi 4/5, Apple silicon, ARM servers)
+        - Something else
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: The container or stack logs from Portainer, if there are any. Formatted as code automatically.
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I've searched existing issues for duplicates
+          required: true
+        - label: I agree to follow this project's [Code of Conduct](https://github.com/NotAFlightRisk/portainer-templates-extras/blob/main/.github/CODE_OF_CONDUCT.md)
+          required: true

@@ -1,0 +1,24 @@
+{
+  "title": "Wallos",
+  "name": "wallos",
+  "description": "Subscription tracker for keeping an eye on recurring bills, with stats, multiple currencies and reminders before things renew. Source: https://github.com/ellite/wallos",
+  "categories": ["Finance"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/ellite/wallos/main/images/icon/android-chrome-512x512.png",
+  "image": "bellamy/wallos:latest",
+  "restart_policy": "unless-stopped",
+  "ports": ["8282:80/tcp"],
+  "volumes": [
+    { "container": "/var/www/html/db" },
+    { "container": "/var/www/html/images/uploads/logos" }
+  ],
+  "env": [
+    {
+      "name": "TZ",
+      "label": "Timezone",
+      "description": "Like Europe/London. Used for renewal dates and reminders.",
+      "default": "UTC"
+    }
+  ],
+  "note": "Open <code>http://&lt;your-host&gt;:8282</code> and register. The first account becomes the admin, and sign-ups are closed after that. The database and any logos you upload live in the two volumes. Docs: <a href=\"https://github.com/ellite/wallos#readme\" target=\"_blank\">github.com/ellite/wallos</a>"
+}
