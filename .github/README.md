@@ -1,15 +1,25 @@
 <h1 align="center">Portainer Templates Extras</h1>
 <p align="center">
-<i>One-click Portainer templates for self-hosted apps that aren't in the usual lists yet</i>
+<i>One-click Portainer templates for self-hosted apps that aren't in the usual lists (yet)</i>
 <br />
 <b>📋 <a href="https://raw.githubusercontent.com/NotAFlightRisk/portainer-templates-extras/main/templates.json">templates.json</a></b><br />
 </p>
 
-## About
 
-A small, hand-picked set of [Portainer](https://www.portainer.io/) app templates for apps from [awesome-selfhosted](https://awesome-selfhosted.net) that the big template lists don't cover yet. Every one has been deployed with its default settings (plus a password, where it needs one), and the whole file is checked against Portainer's template format on every change, so it won't break your template list.
+## What's in it
 
----
+<!-- apps -->
+| App | Type | What it is |
+| --- | --- | --- |
+| <img src="https://raw.githubusercontent.com/alam00000/bentopdf/main/public/images/favicon-512x512.png" width="16" /> [BentoPDF](https://github.com/alam00000/bentopdf) | container | PDF toolkit that runs in your browser, so files never leave your machine. Merge, split, compress, convert, sign and edit. |
+| <img src="https://raw.githubusercontent.com/C4illin/ConvertX/main/public/apple-touch-icon.png" width="16" /> [ConvertX](https://github.com/C4illin/ConvertX) | container | File converter for over a thousand formats, covering images, documents, audio, video and ebooks. |
+| <img src="https://raw.githubusercontent.com/ether/etherpad/develop/admin/public/brand.svg" width="16" /> [Etherpad](https://github.com/ether/etherpad) | stack | Collaborative text editor where everyone types in the same document at once, with history, chat and plugins. This one runs on Postgres. |
+| <img src="https://raw.githubusercontent.com/seerr-team/seerr/develop/public/android-chrome-512x512.png" width="16" /> [Seerr](https://github.com/seerr-team/seerr) | container | Request manager for Jellyfin, Plex and Emby, where people ask for films and shows and Sonarr and Radarr fetch them. It's the merged successor to Overseerr and Jellyseerr. |
+| <img src="https://raw.githubusercontent.com/super-productivity/super-productivity/master/src/assets/icons/icon-512x512.png" width="16" />  [Super Productivity](https://github.com/super-productivity/super-productivity) | container | To-do list with timeboxing and time tracking built in, and it can pull in issues from Jira, GitHub and GitLab. |
+| <img src="https://raw.githubusercontent.com/Termix-SSH/Termix/main/public/icon.svg" width="16" />  [Termix](https://github.com/Termix-SSH/Termix) | container | SSH terminal and server manager in the browser, with saved hosts, tunnels and a file editor. |
+| <img src="https://raw.githubusercontent.com/ellite/wallos/main/images/icon/android-chrome-512x512.png" width="16" /> [Wallos](https://github.com/ellite/wallos) | container | Subscription tracker for keeping an eye on recurring bills, with stats, multiple currencies and reminders before things renew. |
+<!-- /apps -->
+
 
 ## Usage
 
@@ -18,26 +28,6 @@ In Portainer, head to Settings --> App Templates, paste this in as the URL, and 
 ```
 https://raw.githubusercontent.com/NotAFlightRisk/portainer-templates-extras/main/templates.json
 ```
-
-Then open App Templates under your environment, pick an app and hit deploy. Each one has a note on the deploy form covering the port, the first login and where its data lives.
-
-Heads up, Portainer only takes one template URL, so this replaces whatever list you had rather then adding to it. Want a frozen copy instead? Every release has `templates.json` attached, so you can host that yourself.
-
----
-
-## What's in it
-
-<!-- apps -->
-| App | Type | What it is |
-| --- | --- | --- |
-| [BentoPDF](https://github.com/alam00000/bentopdf) | container | PDF toolkit that runs in your browser, so files never leave your machine. Merge, split, compress, convert, sign and edit. |
-| [ConvertX](https://github.com/C4illin/ConvertX) | container | File converter for over a thousand formats, covering images, documents, audio, video and ebooks. |
-| [Etherpad](https://github.com/ether/etherpad) | stack | Collaborative text editor where everyone types in the same document at once, with history, chat and plugins. This one runs on Postgres. |
-| [Seerr](https://github.com/seerr-team/seerr) | container | Request manager for Jellyfin, Plex and Emby, where people ask for films and shows and Sonarr and Radarr fetch them. It's the merged successor to Overseerr and Jellyseerr. |
-| [Super Productivity](https://github.com/super-productivity/super-productivity) | container | To-do list with timeboxing and time tracking built in, and it can pull in issues from Jira, GitHub and GitLab. |
-| [Termix](https://github.com/Termix-SSH/Termix) | container | SSH terminal and server manager in the browser, with saved hosts, tunnels and a file editor. |
-| [Wallos](https://github.com/ellite/wallos) | container | Subscription tracker for keeping an eye on recurring bills, with stats, multiple currencies and reminders before things renew. |
-<!-- /apps -->
 
 ---
 
@@ -78,7 +68,7 @@ CI runs the build check, the tests, the online checks and `ruff`, and smoke test
 
 [![contributors badge](https://readme-contribs.as93.net/contributors/NotAFlightRisk/portainer-templates-extras?shape=squircle)](https://github.com/NotAFlightRisk/portainer-templates-extras/graphs/contributors)
 
-The apps themselves belong to their authors, and each template links back to its source. Found via [awesome-selfhosted](https://github.com/awesome-selfhosted/awesome-selfhosted).
+The apps themselves belong to their authors, and each template links back to its source
 
 ---
 
