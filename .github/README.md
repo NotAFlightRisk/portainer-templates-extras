@@ -54,7 +54,6 @@ Then the scripts you'll want:
 python scripts/build.py          # validate every app and write templates.json
 python scripts/smoke.py wallos   # start an app in Docker with its defaults, check it answers
 python scripts/online.py         # check logos, image tags, and clashes with the main list
-python scripts/candidates.py     # popular awesome-selfhosted apps nobody's templated yet
 python -m unittest discover -s tests
 ```
 

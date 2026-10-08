@@ -18,7 +18,7 @@ New apps, fixes to existing templates and tweaks to the scripts are all welcome.
 
 ### 1. Check it's not already out there
 
-It shouldn't be in this list or the [main portainer-templates list](https://portainer-templates.as93.net). That one pulls this list in too, and drops any app it already has, so a duplicate here just vanishes. `python scripts/candidates.py` lists popular awesome-selfhosted apps that neither list has yet, if you're after ideas.
+It shouldn't be in this list or the [main portainer-templates list](https://portainer-templates.as93.net). That one pulls this list in too, and drops any app it already has, so a duplicate here just vanishes.
 
 ---
 
