@@ -218,7 +218,8 @@ def apps_table(templates):
         about, _, source = template["description"].rpartition(" Source: ")
         kind = "stack" if template["type"] == 3 else "container"
         about = about.replace("|", "\\|")
-        rows.append(f"| [{template['title']}]({source}) | {kind} | {about} |")
+        icon = f'<img src="{template["logo"]}" width="16" alt="" />'
+        rows.append(f"| {icon} [{template['title']}]({source}) | {kind} | {about} |")
     return "\n".join(rows) + "\n"
 
 
