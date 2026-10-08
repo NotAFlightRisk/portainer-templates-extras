@@ -4,7 +4,7 @@
   "description": "Collaborative text editor where everyone types in the same document at once, with history, chat and plugins. This one runs on Postgres. Source: https://github.com/ether/etherpad",
   "categories": ["Documents", "Productivity"],
   "platform": "linux",
-  "logo": "https://raw.githubusercontent.com/ether/etherpad/develop/src/static/img/brand.svg",
+  "logo": "https://raw.githubusercontent.com/ether/etherpad/develop/admin/public/brand.svg",
   "restart_policy": "unless-stopped",
   "env": [
     {
@@ -31,5 +31,5 @@
       ]
     }
   ],
-  "note": "Set both <b>passwords</b> before you deploy (<code>openssl rand -hex 32</code> makes good ones), since the stack won't start without them. Then open <code>http://&lt;your-host&gt;:9001</code> and start a pad. Anyone who can reach it can create and edit pads, so keep it off the open internet or put a login in front of it. The admin panel is at <code>/admin</code>, user <code>admin</code>. Pads are stored in Postgres, in the <code>postgres-data</code> volume. Docs: <a href=\"https://docs.etherpad.org\" target=\"_blank\">docs.etherpad.org</a>"
+  "note": "Set both <b>passwords</b> before you deploy (<code>openssl rand -hex 32</code> makes good ones), since the stack won't start without them. Then open <code>http://&lt;your-host&gt;:9001</code> (or whichever port you picked) and start a pad. Anyone who can reach it can create and edit pads, so keep it off the open internet or put a login in front of it. The admin panel is at <code>/admin</code>, user <code>admin</code>. Pads are stored in Postgres, in the <code>postgres-data</code> volume. Docs: <a href=\"https://docs.etherpad.org\" target=\"_blank\">docs.etherpad.org</a>"
 }

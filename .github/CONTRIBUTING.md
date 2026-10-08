@@ -34,7 +34,7 @@ The bits that trip people up:
 - `logo` is the project's own square logo, as an `https` link on its default branch.
 - `image` is the official image with a tag. A major version tag like `:3` is best if they publish one, `:latest` if that's all there is.
 - `ports` look like `8080:80/tcp`. Container port on the right, protocol always on, no host IP.
-- Every path the app writes to gets a volume, `{ "container": "/data" }`, or it's lost on the next update.
+- Every path holding data that has to survive an update gets a volume, `{ "container": "/data" }`. Caches and temp folders can be skipped.
 - Every `env` entry has a `label`, and every value is a string, `"8080"` not `8080`. One wrong type and Portainer refuses to load the whole list, not just your app.
 - Portainer sends every variable you list, even blank ones. Don't list anything that breaks when it's empty, and never give a secret a default.
 - A `select` needs exactly one option with `"default": true`, or Portainer sends nothing.
@@ -47,7 +47,7 @@ The bits that trip people up:
 If the app needs a database or anything else alongside it, put a `compose.yml` next to the template and it becomes a stack. See `apps/etherpad` for one.
 
 - The template's `env` fills in `${VARIABLES}` in the compose file and nothing else. Optional ones look like `${VAR:-default}` with the same default as the template, required ones like `${VAR:?say what's missing}`.
-- Named volumes only. Portainer can't see files in this repo, so a `./config` bind won't work.
+- Named volumes only. A relative bind like `./config` resolves somewhere inside Portainer's own data folder, not this repo, and an absolute one reaches into the host.
 - `restart: unless-stopped` on every service, and no `container_name` or `build`.
 - Give the database a healthcheck, make the app wait on it with `depends_on`, and pin the database to a major version (`postgres:17-alpine`).
 - `image`, `ports` and `volumes` go in the compose file, not the template.
@@ -64,7 +64,7 @@ python scripts/online.py         # logo, image tag, and no clash with the main l
 
 The build tells you exactly what's wrong and where. Commit your app along with the regenerated `templates.json` and `.github/README.md`, and open a PR titled `feat: add <app>`. CI runs the same checks, and starts your app for real.
 
-If you can, also deploy it from Portainer itself: point Settings --> App Templates at the raw `templates.json` on your fork, deploy with the defaults, then log in and check your data survives a redeploy. It's the only test that catches everything.
+If you can, also deploy it from Portainer itself: point Settings --> App Templates at the raw `templates.json` on your fork, deploy with the defaults, then log in and check your data survives a redeploy. It's the only test that catches everything. One catch with stacks - the generated template always points at this repo's compose file, so to try your own, add it in Portainer as a Git stack from your fork instead.
 
 ---
 

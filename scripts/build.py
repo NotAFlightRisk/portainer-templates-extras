@@ -23,7 +23,12 @@ TEMPLATE_VALIDATOR = VALIDATOR.evolve(
 )
 BUILD_KEYS = {"id", "type", "repository"}
 STACK_KEYS_FOR_COMPOSE = {"image", "ports", "volumes"}
-COMPOSE_VAR = re.compile(r"(?<!\$)\$\{(\w+)(?:(:?[-?])([^}]*))?\}")
+HOST_ACCESS = {"privileged", "devices", "cap_add"}
+HOST_NAMESPACES = ("network_mode", "pid", "ipc")
+DOCKER_SOCKET = "/var/run/docker.sock"
+SECRET_NAME = re.compile(r"PASSW(OR)?D|SECRET|TOKEN|(^|_)KEY$", re.IGNORECASE)
+NAME = r"[A-Za-z_][A-Za-z0-9_]*"
+COMPOSE_VAR = re.compile(rf"(?<!\$)\$(?:\{{({NAME})(?:(:?[-?+])([^}}]*))?\}}|({NAME}))")
 APPS_TABLE = re.compile(r"(<!-- apps -->\n).*?(<!-- /apps -->)", re.DOTALL)
 
 
@@ -70,47 +75,78 @@ def env_problems(env):
         if names.count(name) > 1
     ]
     for var in env:
+        name = var["name"]
+        if "select" in var and "default" in var:
+            found.append(f"env {name} has a select and a default, pick one")
         if (
             "select" in var
             and sum(o.get("default") is True for o in var["select"]) != 1
         ):
-            found.append(
-                f"env {var['name']} needs exactly one select option marked default"
-            )
+            found.append(f"env {name} needs exactly one select option marked default")
+        if SECRET_NAME.search(name) and var.get("default"):
+            found.append(f"env {name} looks like a secret, so it can't have a default")
+    return found
+
+
+def container_problems(template):
+    """Port and host access rules for a single container"""
+    found = [
+        f"port {port} is out of range"
+        for port in template.get("ports", [])
+        if not all(1 <= int(n) <= 65535 for n in port.split("/")[0].split(":"))
+    ]
+    if template.get("privileged"):
+        found.append("is privileged, which hands it the whole host")
+    if any(
+        volume.get("bind") == DOCKER_SOCKET for volume in template.get("volumes", [])
+    ):
+        found.append("mounts the Docker socket, which is root on the host")
     return found
 
 
 def volume_source(volume):
     if isinstance(volume, dict):
         return str(volume.get("source", ""))
-    return volume.split(":")[0] if ":" in volume else ""
+    return volume.split(":")[0] if isinstance(volume, str) and ":" in volume else ""
+
+
+def service_problems(name, service):
+    if not isinstance(service, dict):
+        return [f"{name} is empty"]
+    found = []
+    if "build" in service:
+        found.append(f"{name} uses build, Portainer needs a published image")
+    if "container_name" in service:
+        found.append(f"{name} sets container_name, so the stack could only run once")
+    if service.get("restart") != "unless-stopped":
+        found.append(f"{name} needs restart: unless-stopped")
+    risky = sorted(HOST_ACCESS & service.keys())
+    risky += [key for key in HOST_NAMESPACES if service.get(key) == "host"]
+    if risky:
+        found.append(f"{name} asks for host access ({', '.join(risky)})")
+    if any(
+        volume_source(v).startswith((".", "~", "/"))
+        for v in service.get("volumes") or []
+    ):
+        found.append(f"{name} binds a host path, use a named volume")
+    return found
 
 
 def compose_problems(text, env):
-    """Things that make a stack fail in Portainer, or fail quietly"""
+    """Things that make a stack fail in Portainer, fail quietly, or reach into the host"""
     compose = yaml.safe_load(text)
     services = compose.get("services") if isinstance(compose, dict) else None
     if not isinstance(services, dict) or not services:
         return ["no services"]
     found = ["has a top-level version key, drop it"] if "version" in compose else []
     for name, service in services.items():
-        if "build" in service:
-            found.append(f"{name} uses build, Portainer needs a published image")
-        if "container_name" in service:
-            found.append(
-                f"{name} sets container_name, so the stack could only run once"
-            )
-        if service.get("restart") != "unless-stopped":
-            found.append(f"{name} needs restart: unless-stopped")
-        if any(
-            volume_source(v).startswith((".", "~")) for v in service.get("volumes", [])
-        ):
-            found.append(f"{name} binds a relative path, use a named volume")
+        found += service_problems(name, service)
     defaults = {var["name"]: env_default(var) for var in env}
     used = set()
-    for name, op, value in COMPOSE_VAR.findall(text):
+    for braced, op, value, bare in COMPOSE_VAR.findall(text):
+        name = braced or bare
         used.add(name)
-        if name not in defaults and op not in ("-", ":-"):
+        if name not in defaults and op not in ("-", ":-", "+", ":+"):
             found.append(f"needs ${{{name}}} but the template has no env for it")
         if name in defaults and op in ("-", ":-") and value != defaults[name]:
             found.append(
@@ -133,7 +169,7 @@ def app_problems(folder, template):
         found.append(f"name should match the folder name, {folder.name}")
     compose = folder / "compose.yml"
     if not compose.exists():
-        return [(where, problem) for problem in found]
+        return [(where, problem) for problem in found + container_problems(template)]
     found += [
         f"{key} goes in compose.yml for a stack"
         for key in sorted(STACK_KEYS_FOR_COMPOSE & template.keys())

@@ -69,14 +69,15 @@ jobs:
           cache: pip
           cache-dependency-path: scripts/requirements.txt
       - run: pip install -r scripts/requirements.txt
-      - name: Work out which apps changed
+      - name: Work out which apps to start
         id: changed
         env:
           BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
           EVENT: ${{ github.event_name }}
         run: |
           if [ "$EVENT" = schedule ] || [ "$EVENT" = workflow_dispatch ] \
-            || ! git cat-file -e "$BASE^{commit}" 2> /dev/null; then
+            || ! git cat-file -e "$BASE^{commit}" 2> /dev/null \
+            || ! git diff --quiet "$BASE" HEAD -- scripts .github/workflows/ci.yml; then
             apps=$(ls apps)
           else
             apps=$(git diff --name-only "$BASE" HEAD -- apps | cut -d/ -f2 | sort -u)

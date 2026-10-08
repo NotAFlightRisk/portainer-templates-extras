@@ -7,7 +7,7 @@
 
 ## About
 
-A small, hand-picked set of [Portainer](https://www.portainer.io/) app templates for apps from [awesome-selfhosted](https://awesome-selfhosted.net) that the big template lists don't cover yet. Every one has been deployed with its defaults, and the whole file is checked against Portainer's template format on every change, so it won't break your template list.
+A small, hand-picked set of [Portainer](https://www.portainer.io/) app templates for apps from [awesome-selfhosted](https://awesome-selfhosted.net) that the big template lists don't cover yet. Every one has been deployed with its default settings (plus a password, where it needs one), and the whole file is checked against Portainer's template format on every change, so it won't break your template list.
 
 ---
 
@@ -21,7 +21,7 @@ https://raw.githubusercontent.com/NotAFlightRisk/portainer-templates-extras/main
 
 Then open App Templates under your environment, pick an app and hit deploy. Each one has a note on the deploy form covering the port, the first login and where its data lives.
 
-Heads up, Portainer only takes one template URL, so this replaces whatever list you had rather than adding to it. Want a frozen copy instead? Every release has `templates.json` attached, so you can host that yourself.
+Heads up, Portainer only takes one template URL, so this replaces whatever list you had rather then adding to it. Want a frozen copy instead? Every release has `templates.json` attached, so you can host that yourself.
 
 ---
 
@@ -68,7 +68,7 @@ python scripts/candidates.py     # popular awesome-selfhosted apps nobody's temp
 python -m unittest discover -s tests
 ```
 
-CI runs all of that (smoke tests only for the apps a PR touches), plus `ruff check` and `ruff format --check`.
+CI runs the build check, the tests, the online checks and `ruff`, and smoke tests whichever apps a PR touches.
 
 ---
 

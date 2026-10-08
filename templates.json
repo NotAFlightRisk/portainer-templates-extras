@@ -18,7 +18,7 @@
       "ports": [
         "8090:8080/tcp"
       ],
-      "note": "Open <code>http://&lt;your-host&gt;:8090</code>. There's no login and nothing to back up, since every PDF is processed in your browser rather than on the server. Docs: <a href=\"https://github.com/alam00000/bentopdf#readme\" target=\"_blank\">github.com/alam00000/bentopdf</a>"
+      "note": "Open <code>http://&lt;your-host&gt;:8090</code>. There's no login and nothing to back up, since every PDF is processed in your browser rather than on the server. Converting Word, Excel or PowerPoint files needs it served over HTTPS though (or opened as <code>localhost</code> on the same machine), as browsers block the bit it relies on over plain http. Docs: <a href=\"https://github.com/alam00000/bentopdf#readme\" target=\"_blank\">github.com/alam00000/bentopdf</a>"
     },
     {
       "id": 2,
@@ -84,7 +84,7 @@
         "Productivity"
       ],
       "platform": "linux",
-      "logo": "https://raw.githubusercontent.com/ether/etherpad/develop/src/static/img/brand.svg",
+      "logo": "https://raw.githubusercontent.com/ether/etherpad/develop/admin/public/brand.svg",
       "restart_policy": "unless-stopped",
       "env": [
         {
@@ -118,7 +118,7 @@
           ]
         }
       ],
-      "note": "Set both <b>passwords</b> before you deploy (<code>openssl rand -hex 32</code> makes good ones), since the stack won't start without them. Then open <code>http://&lt;your-host&gt;:9001</code> and start a pad. Anyone who can reach it can create and edit pads, so keep it off the open internet or put a login in front of it. The admin panel is at <code>/admin</code>, user <code>admin</code>. Pads are stored in Postgres, in the <code>postgres-data</code> volume. Docs: <a href=\"https://docs.etherpad.org\" target=\"_blank\">docs.etherpad.org</a>",
+      "note": "Set both <b>passwords</b> before you deploy (<code>openssl rand -hex 32</code> makes good ones), since the stack won't start without them. Then open <code>http://&lt;your-host&gt;:9001</code> (or whichever port you picked) and start a pad. Anyone who can reach it can create and edit pads, so keep it off the open internet or put a login in front of it. The admin panel is at <code>/admin</code>, user <code>admin</code>. Pads are stored in Postgres, in the <code>postgres-data</code> volume. Docs: <a href=\"https://docs.etherpad.org\" target=\"_blank\">docs.etherpad.org</a>",
       "repository": {
         "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
         "stackfile": "apps/etherpad/compose.yml"
@@ -196,7 +196,7 @@
           "container": "/app/data"
         }
       ],
-      "note": "Open <code>http://&lt;your-host&gt;:8080</code> and create an account, which becomes the admin. Registration stays open after that, so switch it off in the admin settings unless you want other people signing up. Hosts, keys and the database live in the <code>/app/data</code> volume, and its secrets are generated there on first start. Behind a reverse proxy it needs websockets. Docs: <a href=\"https://docs.termix.site\" target=\"_blank\">docs.termix.site</a>"
+      "note": "Open <code>http://&lt;your-host&gt;:8080</code> and create an account, which becomes the admin. Registration stays open after that, so switch it off in the admin settings unless you want other people signing up. Hosts, keys and the database live in the <code>/app/data</code> volume, and its secrets are generated there on first start. Behind a reverse proxy it needs websockets. It sends a small anonymous usage report once a day, which you can switch off in Admin Settings &gt; Usage Statistics. Docs: <a href=\"https://docs.termix.site\" target=\"_blank\">docs.termix.site</a>"
     },
     {
       "id": 7,

@@ -8,5 +8,5 @@
   "image": "ghcr.io/alam00000/bentopdf-simple:latest",
   "restart_policy": "unless-stopped",
   "ports": ["8090:8080/tcp"],
-  "note": "Open <code>http://&lt;your-host&gt;:8090</code>. There's no login and nothing to back up, since every PDF is processed in your browser rather than on the server. Docs: <a href=\"https://github.com/alam00000/bentopdf#readme\" target=\"_blank\">github.com/alam00000/bentopdf</a>"
+  "note": "Open <code>http://&lt;your-host&gt;:8090</code>. There's no login and nothing to back up, since every PDF is processed in your browser rather than on the server. Converting Word, Excel or PowerPoint files needs it served over HTTPS though (or opened as <code>localhost</code> on the same machine), as browsers block the bit it relies on over plain http. Docs: <a href=\"https://github.com/alam00000/bentopdf#readme\" target=\"_blank\">github.com/alam00000/bentopdf</a>"
 }
