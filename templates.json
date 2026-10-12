@@ -23,6 +23,31 @@
     {
       "id": 2,
       "type": 1,
+      "title": "Cloudreve",
+      "name": "cloudreve",
+      "description": "Cloud drive for your own files, with share links, WebDAV, previews for documents, photos and video, and offline downloads. Source: https://github.com/cloudreve/cloudreve",
+      "categories": [
+        "Cloud",
+        "File Sharing",
+        "Storage"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/cloudreve/frontend/master/public/static/img/logo512.png",
+      "image": "cloudreve/cloudreve:v4",
+      "restart_policy": "unless-stopped",
+      "ports": [
+        "5212:5212/tcp"
+      ],
+      "volumes": [
+        {
+          "container": "/cloudreve/data"
+        }
+      ],
+      "note": "Open <code>http://&lt;your-host&gt;:5212</code> and sign up. The first account becomes the admin, and sign-ups stay open after that, so turn them off under Admin panel --&gt; Settings --&gt; User session if it's just you. Open the Admin panel from the address you'll actually use, too. It offers to save that as the Site URL, and until you say yes, download and share links point at localhost. The database, settings and every uploaded file live in the volume. Docs: <a href=\"https://docs.cloudreve.org/en/\" target=\"_blank\">docs.cloudreve.org</a>"
+    },
+    {
+      "id": 3,
+      "type": 1,
       "title": "ConvertX",
       "name": "convertx",
       "description": "File converter for over a thousand formats, covering images, documents, audio, video and ebooks. Source: https://github.com/C4illin/ConvertX",
@@ -74,7 +99,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:3000</code> and create your account straight away, since the first visitor gets it and sign-ups close after that. Uploads and the database live in the <code>/app/data</code> volume. It's a big image (LibreOffice, TeX and Calibre are all in there), so the first pull takes a while. You'll be logged out whenever the container restarts, unless you add a <code>JWT_SECRET</code> env var holding a long random string (<code>openssl rand -hex 32</code>). Docs: <a href=\"https://github.com/C4illin/ConvertX#readme\" target=\"_blank\">github.com/C4illin/ConvertX</a>"
     },
     {
-      "id": 3,
+      "id": 4,
       "type": 1,
       "title": "CyberChef",
       "name": "cyberchef",
@@ -94,7 +119,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8088</code>. There's no login and nothing to back up, since every recipe runs in your browser and your data never reaches the server. Recipes live in the URL, so bookmark or share that to keep one. Docs: <a href=\"https://github.com/gchq/CyberChef/wiki\" target=\"_blank\">github.com/gchq/CyberChef/wiki</a>"
     },
     {
-      "id": 4,
+      "id": 5,
       "type": 3,
       "title": "Etherpad",
       "name": "etherpad",
@@ -145,7 +170,7 @@
       }
     },
     {
-      "id": 5,
+      "id": 6,
       "type": 1,
       "title": "RSSHub",
       "name": "rsshub",
@@ -171,7 +196,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:1200</code> to check it's up, then add feeds to your reader as paths on it, like <code>/github/issue/DIYgod/RSSHub</code>. Every route is listed in the <a href=\"https://docs.rsshub.app\" target=\"_blank\">docs</a>. There's no login, so set an access key if it faces the internet. Nothing to back up, feeds are cached in memory. Some routes need a browser, and for those swap the image tag to <code>chromium-bundled</code>."
     },
     {
-      "id": 6,
+      "id": 7,
       "type": 1,
       "title": "Seerr",
       "name": "seerr",
@@ -202,7 +227,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:5055</code> and the setup wizard walks you through connecting your media server, then Sonarr and Radarr. Settings and the request database live in the <code>/app/config</code> volume. Coming from Overseerr or Jellyseerr? Seerr can take over their config, see the <a href=\"https://docs.seerr.dev\" target=\"_blank\">docs</a> for how."
     },
     {
-      "id": 7,
+      "id": 8,
       "type": 1,
       "title": "Super Productivity",
       "name": "super-productivity",
@@ -221,7 +246,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8095</code>. There's no login, and your tasks are saved in your browser rather than on the server, so set up sync (WebDAV, Dropbox and others) in its settings if you use more than one device. Docs: <a href=\"https://github.com/super-productivity/super-productivity#readme\" target=\"_blank\">github.com/super-productivity/super-productivity</a>"
     },
     {
-      "id": 8,
+      "id": 9,
       "type": 1,
       "title": "Termix",
       "name": "termix",
@@ -245,7 +270,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8080</code> and create an account, which becomes the admin. Registration stays open after that, so switch it off in the admin settings unless you want other people signing up. Hosts, keys and the database live in the <code>/app/data</code> volume, and its secrets are generated there on first start. Behind a reverse proxy it needs websockets. It sends a small anonymous usage report once a day, which you can switch off in Admin Settings &gt; Usage Statistics. Docs: <a href=\"https://docs.termix.site\" target=\"_blank\">docs.termix.site</a>"
     },
     {
-      "id": 9,
+      "id": 10,
       "type": 1,
       "title": "Wallos",
       "name": "wallos",
