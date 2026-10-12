@@ -43,7 +43,7 @@
           "container": "/cloudreve/data"
         }
       ],
-      "note": "Open <code>http://&lt;your-host&gt;:5212</code> and sign up. The first account becomes the admin, and sign-ups stay open after that, so turn them off under Admin panel --&gt; Settings --&gt; User session if it's just you. While you're in there, set Site URL under Basic to the address you actually use, or share and download links point at localhost. The database, settings and every uploaded file live in the volume. Docs: <a href=\"https://docs.cloudreve.org\" target=\"_blank\">docs.cloudreve.org</a>"
+      "note": "Open <code>http://&lt;your-host&gt;:5212</code> and sign up. The first account becomes the admin, and sign-ups stay open after that, so turn them off under Admin panel --&gt; Settings --&gt; User session if it's just you. Open the Admin panel from the address you'll actually use, too. It offers to save that as the Site URL, and until you say yes, download and share links point at localhost. The database, settings and every uploaded file live in the volume. Docs: <a href=\"https://docs.cloudreve.org/en/\" target=\"_blank\">docs.cloudreve.org</a>"
     },
     {
       "id": 3,
