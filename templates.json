@@ -228,6 +228,44 @@
     },
     {
       "id": 8,
+      "type": 3,
+      "title": "SiYuan",
+      "name": "siyuan",
+      "description": "Note-taking app built from blocks, so any paragraph can be linked, embedded or queried from anywhere else. Markdown, backlinks, a graph view and daily notes. Source: https://github.com/siyuan-note/siyuan",
+      "categories": [
+        "Documents",
+        "Productivity",
+        "Wiki"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/siyuan-note/siyuan/master/app/src/assets/icon-mac.png",
+      "restart_policy": "unless-stopped",
+      "env": [
+        {
+          "name": "SIYUAN_ACCESS_AUTH_CODE",
+          "label": "Access code (required)",
+          "description": "What you type in to open your notes, and the only thing between them and anyone who can reach the port. Make it long, or generate one with: openssl rand -hex 16"
+        },
+        {
+          "name": "SIYUAN_PORT",
+          "label": "Host port for the web UI",
+          "default": "6806"
+        },
+        {
+          "name": "SIYUAN_TZ",
+          "label": "Timezone",
+          "description": "Like Europe/London. Daily notes and timestamps use it.",
+          "default": "UTC"
+        }
+      ],
+      "note": "Set the <b>access code</b> before you deploy, since the stack won't start without one. Then open <code>http://&lt;your-host&gt;:6806</code> (or whichever port you picked) and enter it. It takes half a minute or so to start. Every note, asset and setting lives in the <code>siyuan-workspace</code> volume. To change the code later, just change it here and redeploy. Docs: <a href=\"https://github.com/siyuan-note/siyuan#docker-hosting\" target=\"_blank\">github.com/siyuan-note/siyuan</a>",
+      "repository": {
+        "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
+        "stackfile": "apps/siyuan/compose.yml"
+      }
+    },
+    {
+      "id": 9,
       "type": 1,
       "title": "Super Productivity",
       "name": "super-productivity",
@@ -246,7 +284,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8095</code>. There's no login, and your tasks are saved in your browser rather than on the server, so set up sync (WebDAV, Dropbox and others) in its settings if you use more than one device. Docs: <a href=\"https://github.com/super-productivity/super-productivity#readme\" target=\"_blank\">github.com/super-productivity/super-productivity</a>"
     },
     {
-      "id": 9,
+      "id": 10,
       "type": 1,
       "title": "Termix",
       "name": "termix",
@@ -270,7 +308,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8080</code> and create an account, which becomes the admin. Registration stays open after that, so switch it off in the admin settings unless you want other people signing up. Hosts, keys and the database live in the <code>/app/data</code> volume, and its secrets are generated there on first start. Behind a reverse proxy it needs websockets. It sends a small anonymous usage report once a day, which you can switch off in Admin Settings &gt; Usage Statistics. Docs: <a href=\"https://docs.termix.site\" target=\"_blank\">docs.termix.site</a>"
     },
     {
-      "id": 10,
+      "id": 11,
       "type": 1,
       "title": "Wallos",
       "name": "wallos",

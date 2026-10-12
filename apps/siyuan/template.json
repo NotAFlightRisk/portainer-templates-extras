@@ -1,0 +1,28 @@
+{
+  "title": "SiYuan",
+  "name": "siyuan",
+  "description": "Note-taking app built from blocks, so any paragraph can be linked, embedded or queried from anywhere else. Markdown, backlinks, a graph view and daily notes. Source: https://github.com/siyuan-note/siyuan",
+  "categories": ["Documents", "Productivity", "Wiki"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/siyuan-note/siyuan/master/app/src/assets/icon-mac.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "SIYUAN_ACCESS_AUTH_CODE",
+      "label": "Access code (required)",
+      "description": "What you type in to open your notes, and the only thing between them and anyone who can reach the port. Make it long, or generate one with: openssl rand -hex 16"
+    },
+    {
+      "name": "SIYUAN_PORT",
+      "label": "Host port for the web UI",
+      "default": "6806"
+    },
+    {
+      "name": "SIYUAN_TZ",
+      "label": "Timezone",
+      "description": "Like Europe/London. Daily notes and timestamps use it.",
+      "default": "UTC"
+    }
+  ],
+  "note": "Set the <b>access code</b> before you deploy, since the stack won't start without one. Then open <code>http://&lt;your-host&gt;:6806</code> (or whichever port you picked) and enter it. It takes half a minute or so to start. Every note, asset and setting lives in the <code>siyuan-workspace</code> volume. To change the code later, just change it here and redeploy. Docs: <a href=\"https://github.com/siyuan-note/siyuan#docker-hosting\" target=\"_blank\">github.com/siyuan-note/siyuan</a>"
+}
