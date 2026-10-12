@@ -24,5 +24,5 @@
       "default": "UTC"
     }
   ],
-  "note": "Set the <b>access code</b> before you deploy, since the stack won't start without one. Then open <code>http://&lt;your-host&gt;:6806</code> (or whichever port you picked) and enter it. The first start takes a minute or so. Every note, asset and setting lives in the <code>siyuan-workspace</code> volume. To change the code later, just change it here and redeploy. Docs: <a href=\"https://github.com/siyuan-note/siyuan#docker-hosting\" target=\"_blank\">github.com/siyuan-note/siyuan</a>"
+  "note": "Set the <b>access code</b> before you deploy, since the stack won't start without one. Then open <code>http://&lt;your-host&gt;:6806</code> (or whichever port you picked) and enter it. It takes half a minute or so to start. Every note, asset and setting lives in the <code>siyuan-workspace</code> volume. To change the code later, just change it here and redeploy. Docs: <a href=\"https://github.com/siyuan-note/siyuan#docker-hosting\" target=\"_blank\">github.com/siyuan-note/siyuan</a>"
 }
