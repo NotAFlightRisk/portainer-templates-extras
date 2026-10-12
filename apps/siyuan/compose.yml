@@ -1,0 +1,15 @@
+services:
+  siyuan:
+    image: b3log/siyuan:latest
+    restart: unless-stopped
+    command: ["serve"]
+    ports:
+      - "${SIYUAN_PORT:-6806}:6806"
+    environment:
+      SIYUAN_ACCESS_AUTH_CODE: ${SIYUAN_ACCESS_AUTH_CODE:?Set an access code}
+      TZ: ${SIYUAN_TZ:-UTC}
+    volumes:
+      - siyuan-workspace:/siyuan/workspace
+
+volumes:
+  siyuan-workspace:
