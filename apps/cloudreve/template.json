@@ -1,0 +1,13 @@
+{
+  "title": "Cloudreve",
+  "name": "cloudreve",
+  "description": "Cloud drive for your own files, with share links, WebDAV, previews for documents, photos and video, and offline downloads. Source: https://github.com/cloudreve/cloudreve",
+  "categories": ["Cloud", "File Sharing", "Storage"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/cloudreve/frontend/master/public/static/img/logo512.png",
+  "image": "cloudreve/cloudreve:v4",
+  "restart_policy": "unless-stopped",
+  "ports": ["5212:5212/tcp"],
+  "volumes": [{ "container": "/cloudreve/data" }],
+  "note": "Open <code>http://&lt;your-host&gt;:5212</code> and sign up. The first account becomes the admin, and sign-ups stay open after that, so turn them off under Admin panel --&gt; Settings --&gt; User session if it's just you. While you're in there, set Site URL under Basic to the address you actually use, or share and download links point at localhost. The database, settings and every uploaded file live in the volume. Docs: <a href=\"https://docs.cloudreve.org\" target=\"_blank\">docs.cloudreve.org</a>"
+}
