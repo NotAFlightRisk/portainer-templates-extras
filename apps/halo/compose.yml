@@ -1,0 +1,36 @@
+services:
+  halo:
+    image: halohub/halo:2
+    restart: unless-stopped
+    ports:
+      - "${HALO_PORT:-8091}:8090"
+    environment:
+      TZ: ${HALO_TZ:-UTC}
+      SPRING_R2DBC_URL: r2dbc:pool:postgresql://postgres/halo
+      SPRING_R2DBC_USERNAME: halo
+      SPRING_R2DBC_PASSWORD: ${HALO_DB_PASSWORD:?Set a database password}
+      SPRING_SQL_INIT_PLATFORM: postgresql
+    volumes:
+      - halo-data:/root/.halo2
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: halo
+      POSTGRES_USER: halo
+      POSTGRES_PASSWORD: ${HALO_DB_PASSWORD:?Set a database password}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U halo -d halo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  halo-data:
+  postgres-data:

@@ -203,6 +203,43 @@
     },
     {
       "id": 7,
+      "type": 3,
+      "title": "Halo",
+      "name": "halo",
+      "description": "Website and blogging platform with a rich editor, themes, plugins, comments and pages, run from a web console. This one runs on Postgres. Source: https://github.com/halo-dev/halo",
+      "categories": [
+        "CMS",
+        "Web"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/halo-dev/halo/main/ui/src/assets/logo.png",
+      "restart_policy": "unless-stopped",
+      "env": [
+        {
+          "name": "HALO_DB_PASSWORD",
+          "label": "Database password (required)",
+          "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or Halo can't reach its database."
+        },
+        {
+          "name": "HALO_PORT",
+          "label": "Host port for the web UI",
+          "default": "8091"
+        },
+        {
+          "name": "HALO_TZ",
+          "label": "Timezone",
+          "description": "Like Europe/London. Post dates on the site use it.",
+          "default": "UTC"
+        }
+      ],
+      "note": "Set the <b>database password</b> before you deploy (<code>openssl rand -hex 32</code> makes a good one), since the stack won't start without it. Then open <code>http://&lt;your-host&gt;:8091</code> (or whichever port you picked) from the address you'll actually use, since the setup page saves it as the site's External URL. That page also creates the admin, and whoever reaches it first gets to, so do it straight away. The console is at <code>/console</code>. The sample post, About page, menu and category it starts with are in Chinese whatever language you pick, so rename or delete them there. Posts and settings live in Postgres, in the <code>postgres-data</code> volume, and uploads, themes and plugins in <code>halo-data</code>. Docs (in Chinese): <a href=\"https://docs.halo.run\" target=\"_blank\">docs.halo.run</a>",
+      "repository": {
+        "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
+        "stackfile": "apps/halo/compose.yml"
+      }
+    },
+    {
+      "id": 8,
       "type": 1,
       "title": "RSSHub",
       "name": "rsshub",
@@ -228,7 +265,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:1200</code> to check it's up, then add feeds to your reader as paths on it, like <code>/github/issue/DIYgod/RSSHub</code>. Every route is listed in the <a href=\"https://docs.rsshub.app\" target=\"_blank\">docs</a>. There's no login, so set an access key if it faces the internet. Nothing to back up, feeds are cached in memory. Some routes need a browser, and for those swap the image tag to <code>chromium-bundled</code>."
     },
     {
-      "id": 8,
+      "id": 9,
       "type": 1,
       "title": "Seerr",
       "name": "seerr",
@@ -259,7 +296,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:5055</code> and the setup wizard walks you through connecting your media server, then Sonarr and Radarr. Settings and the request database live in the <code>/app/config</code> volume. Coming from Overseerr or Jellyseerr? Seerr can take over their config, see the <a href=\"https://docs.seerr.dev\" target=\"_blank\">docs</a> for how."
     },
     {
-      "id": 9,
+      "id": 10,
       "type": 3,
       "title": "SiYuan",
       "name": "siyuan",
@@ -297,7 +334,7 @@
       }
     },
     {
-      "id": 10,
+      "id": 11,
       "type": 1,
       "title": "Super Productivity",
       "name": "super-productivity",
@@ -316,7 +353,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8095</code>. There's no login, and your tasks are saved in your browser rather than on the server, so set up sync (WebDAV, Dropbox and others) in its settings if you use more than one device. Docs: <a href=\"https://github.com/super-productivity/super-productivity#readme\" target=\"_blank\">github.com/super-productivity/super-productivity</a>"
     },
     {
-      "id": 11,
+      "id": 12,
       "type": 1,
       "title": "Termix",
       "name": "termix",
@@ -340,7 +377,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8080</code> and create an account, which becomes the admin. Registration stays open after that, so switch it off in the admin settings unless you want other people signing up. Hosts, keys and the database live in the <code>/app/data</code> volume, and its secrets are generated there on first start. Behind a reverse proxy it needs websockets. It sends a small anonymous usage report once a day, which you can switch off in Admin Settings &gt; Usage Statistics. Docs: <a href=\"https://docs.termix.site\" target=\"_blank\">docs.termix.site</a>"
     },
     {
-      "id": 12,
+      "id": 13,
       "type": 1,
       "title": "Wallos",
       "name": "wallos",

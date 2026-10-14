@@ -1,0 +1,28 @@
+{
+  "title": "Halo",
+  "name": "halo",
+  "description": "Website and blogging platform with a rich editor, themes, plugins, comments and pages, run from a web console. This one runs on Postgres. Source: https://github.com/halo-dev/halo",
+  "categories": ["CMS", "Web"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/halo-dev/halo/main/ui/src/assets/logo.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "HALO_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or Halo can't reach its database."
+    },
+    {
+      "name": "HALO_PORT",
+      "label": "Host port for the web UI",
+      "default": "8091"
+    },
+    {
+      "name": "HALO_TZ",
+      "label": "Timezone",
+      "description": "Like Europe/London. Post dates on the site use it.",
+      "default": "UTC"
+    }
+  ],
+  "note": "Set the <b>database password</b> before you deploy (<code>openssl rand -hex 32</code> makes a good one), since the stack won't start without it. Then open <code>http://&lt;your-host&gt;:8091</code> (or whichever port you picked) from the address you'll actually use, since the setup page saves it as the site's External URL. That page also creates the admin, and whoever reaches it first gets to, so do it straight away. The console is at <code>/console</code>. The sample post, About page, menu and category it starts with are in Chinese whatever language you pick, so rename or delete them there. Posts and settings live in Postgres, in the <code>postgres-data</code> volume, and uploads, themes and plugins in <code>halo-data</code>. Docs (in Chinese): <a href=\"https://docs.halo.run\" target=\"_blank\">docs.halo.run</a>"
+}
