@@ -12,7 +12,7 @@ from urllib.error import HTTPError, URLError
 
 from build import APPS, build, env_default
 
-STAND_IN = "smoke-test-only"
+STAND_IN = "smoke-test-only".ljust(32, "0")  # some apps want keys exactly 32 long
 
 
 def docker(*args, **kwargs):
