@@ -204,6 +204,57 @@
     {
       "id": 7,
       "type": 3,
+      "title": "Firefly III",
+      "name": "firefly-iii",
+      "description": "Personal finance manager for tracking what comes in and goes out, with budgets, subscriptions, recurring transactions, rules and reports. This one runs on Postgres. Source: https://github.com/firefly-iii/firefly-iii",
+      "categories": [
+        "Finance"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/firefly-iii/firefly-iii/main/public/images/logo.png",
+      "restart_policy": "unless-stopped",
+      "env": [
+        {
+          "name": "FIREFLY_APP_KEY",
+          "label": "App key (required)",
+          "description": "Exactly 32 characters. Generate one with: openssl rand -hex 16. Keep it the same when you redeploy, or everyone's logged out and API tokens stop working."
+        },
+        {
+          "name": "FIREFLY_CRON_TOKEN",
+          "label": "Cron token (required)",
+          "description": "Exactly 32 characters, and not the same as the app key. Generate one with: openssl rand -hex 16."
+        },
+        {
+          "name": "FIREFLY_DB_PASSWORD",
+          "label": "Database password (required)",
+          "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or Firefly III can't reach its database."
+        },
+        {
+          "name": "FIREFLY_PORT",
+          "label": "Host port for the web UI",
+          "default": "8092"
+        },
+        {
+          "name": "FIREFLY_TZ",
+          "label": "Timezone",
+          "description": "Like Europe/London. Transaction dates and the nightly cron use it.",
+          "default": "UTC"
+        },
+        {
+          "name": "FIREFLY_TRUSTED_PROXIES",
+          "label": "Trusted proxies",
+          "description": "Leave blank, unless it's behind a reverse proxy. Then set ** so Firefly III trusts the proxy's headers."
+        }
+      ],
+      "note": "Fill in all three <b>secrets</b> before you deploy, since the stack won't start without them. The app key and cron token must be exactly 32 characters (<code>openssl rand -hex 16</code> makes one), and keep all three the same when you redeploy. Then open <code>http://&lt;your-host&gt;:8092</code> (or whichever port you picked) and register. The first account becomes the admin and sign-ups close after it, so do it straight away. A small cron container pings Firefly III at 03:00 every night, which is what creates recurring transactions and fires subscription reminders. Transactions live in Postgres, in the <code>postgres-data</code> volume, and attachments in <code>firefly-upload</code>. Docs: <a href=\"https://docs.firefly-iii.org\" target=\"_blank\">docs.firefly-iii.org</a>",
+      "repository": {
+        "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
+        "stackfile": "apps/firefly-iii/compose.yml"
+      }
+    },
+    {
+      "id": 8,
+      "type": 3,
       "title": "Halo",
       "name": "halo",
       "description": "Website and blogging platform with a rich editor, themes, plugins, comments and pages, run from a web console. This one runs on Postgres. Source: https://github.com/halo-dev/halo",
@@ -239,7 +290,7 @@
       }
     },
     {
-      "id": 8,
+      "id": 9,
       "type": 1,
       "title": "RSSHub",
       "name": "rsshub",
@@ -265,7 +316,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:1200</code> to check it's up, then add feeds to your reader as paths on it, like <code>/github/issue/DIYgod/RSSHub</code>. Every route is listed in the <a href=\"https://docs.rsshub.app\" target=\"_blank\">docs</a>. There's no login, so set an access key if it faces the internet. Nothing to back up, feeds are cached in memory. Some routes need a browser, and for those swap the image tag to <code>chromium-bundled</code>."
     },
     {
-      "id": 9,
+      "id": 10,
       "type": 1,
       "title": "Seerr",
       "name": "seerr",
@@ -296,7 +347,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:5055</code> and the setup wizard walks you through connecting your media server, then Sonarr and Radarr. Settings and the request database live in the <code>/app/config</code> volume. Coming from Overseerr or Jellyseerr? Seerr can take over their config, see the <a href=\"https://docs.seerr.dev\" target=\"_blank\">docs</a> for how."
     },
     {
-      "id": 10,
+      "id": 11,
       "type": 3,
       "title": "SiYuan",
       "name": "siyuan",
@@ -334,7 +385,7 @@
       }
     },
     {
-      "id": 11,
+      "id": 12,
       "type": 1,
       "title": "Super Productivity",
       "name": "super-productivity",
@@ -353,7 +404,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8095</code>. There's no login, and your tasks are saved in your browser rather than on the server, so set up sync (WebDAV, Dropbox and others) in its settings if you use more than one device. Docs: <a href=\"https://github.com/super-productivity/super-productivity#readme\" target=\"_blank\">github.com/super-productivity/super-productivity</a>"
     },
     {
-      "id": 12,
+      "id": 13,
       "type": 1,
       "title": "Termix",
       "name": "termix",
@@ -377,7 +428,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8080</code> and create an account, which becomes the admin. Registration stays open after that, so switch it off in the admin settings unless you want other people signing up. Hosts, keys and the database live in the <code>/app/data</code> volume, and its secrets are generated there on first start. Behind a reverse proxy it needs websockets. It sends a small anonymous usage report once a day, which you can switch off in Admin Settings &gt; Usage Statistics. Docs: <a href=\"https://docs.termix.site\" target=\"_blank\">docs.termix.site</a>"
     },
     {
-      "id": 13,
+      "id": 14,
       "type": 1,
       "title": "Wallos",
       "name": "wallos",

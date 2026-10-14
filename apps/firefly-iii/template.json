@@ -1,0 +1,43 @@
+{
+  "title": "Firefly III",
+  "name": "firefly-iii",
+  "description": "Personal finance manager for tracking what comes in and goes out, with budgets, subscriptions, recurring transactions, rules and reports. This one runs on Postgres. Source: https://github.com/firefly-iii/firefly-iii",
+  "categories": ["Finance"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/firefly-iii/firefly-iii/main/public/images/logo.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "FIREFLY_APP_KEY",
+      "label": "App key (required)",
+      "description": "Exactly 32 characters. Generate one with: openssl rand -hex 16. Keep it the same when you redeploy, or everyone's logged out and API tokens stop working."
+    },
+    {
+      "name": "FIREFLY_CRON_TOKEN",
+      "label": "Cron token (required)",
+      "description": "Exactly 32 characters, and not the same as the app key. Generate one with: openssl rand -hex 16."
+    },
+    {
+      "name": "FIREFLY_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or Firefly III can't reach its database."
+    },
+    {
+      "name": "FIREFLY_PORT",
+      "label": "Host port for the web UI",
+      "default": "8092"
+    },
+    {
+      "name": "FIREFLY_TZ",
+      "label": "Timezone",
+      "description": "Like Europe/London. Transaction dates and the nightly cron use it.",
+      "default": "UTC"
+    },
+    {
+      "name": "FIREFLY_TRUSTED_PROXIES",
+      "label": "Trusted proxies",
+      "description": "Leave blank, unless it's behind a reverse proxy. Then set ** so Firefly III trusts the proxy's headers."
+    }
+  ],
+  "note": "Fill in all three <b>secrets</b> before you deploy, since the stack won't start without them. The app key and cron token must be exactly 32 characters (<code>openssl rand -hex 16</code> makes one), and keep all three the same when you redeploy. Then open <code>http://&lt;your-host&gt;:8092</code> (or whichever port you picked) and register. The first account becomes the admin and sign-ups close after it, so do it straight away. A small cron container pings Firefly III at 03:00 every night, which is what creates recurring transactions and fires subscription reminders. Transactions live in Postgres, in the <code>postgres-data</code> volume, and attachments in <code>firefly-upload</code>. Docs: <a href=\"https://docs.firefly-iii.org\" target=\"_blank\">docs.firefly-iii.org</a>"
+}

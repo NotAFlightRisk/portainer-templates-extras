@@ -1,0 +1,51 @@
+services:
+  firefly:
+    image: fireflyiii/core:version-6
+    restart: unless-stopped
+    ports:
+      - "${FIREFLY_PORT:-8092}:8080"
+    environment:
+      APP_KEY: ${FIREFLY_APP_KEY:?Set a 32 character app key}
+      STATIC_CRON_TOKEN: ${FIREFLY_CRON_TOKEN:?Set a 32 character cron token}
+      TZ: ${FIREFLY_TZ:-UTC}
+      TRUSTED_PROXIES: ${FIREFLY_TRUSTED_PROXIES:-}
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      DB_DATABASE: firefly
+      DB_USERNAME: firefly
+      DB_PASSWORD: ${FIREFLY_DB_PASSWORD:?Set a database password}
+    volumes:
+      - firefly-upload:/var/www/html/storage/upload
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: firefly
+      POSTGRES_USER: firefly
+      POSTGRES_PASSWORD: ${FIREFLY_DB_PASSWORD:?Set a database password}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U firefly -d firefly"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  cron:
+    image: alpine:3
+    restart: unless-stopped
+    environment:
+      TZ: ${FIREFLY_TZ:-UTC}
+      STATIC_CRON_TOKEN: ${FIREFLY_CRON_TOKEN:?Set a 32 character cron token}
+    command: ["sh", "-c", "apk add tzdata && (ln -s /usr/share/zoneinfo/$$TZ /etc/localtime || true) && echo \"0 3 * * * wget -qO- http://firefly:8080/api/v1/cron/$$STATIC_CRON_TOKEN;echo\" | crontab - && crond -f -L /dev/stdout"]
+    depends_on:
+      - firefly
+
+volumes:
+  firefly-upload:
+  postgres-data:
