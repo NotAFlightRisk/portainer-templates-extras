@@ -11,6 +11,7 @@
 <!-- apps -->
 | App | Type | What it is |
 | --- | --- | --- |
+| <img src="https://raw.githubusercontent.com/apache/answer-website/main/static/img/head-icon.png" width="16" alt="" /> [Apache Answer](https://github.com/apache/answer) | container | Question-and-answer site for a community, product forum or team knowledge base, with voting, accepted answers, tags, reputation and badges. |
 | <img src="https://raw.githubusercontent.com/alam00000/bentopdf/main/public/images/favicon-512x512.png" width="16" alt="" /> [BentoPDF](https://github.com/alam00000/bentopdf) | container | PDF toolkit that runs in your browser, so files never leave your machine. Merge, split, compress, convert, sign and edit. |
 | <img src="https://raw.githubusercontent.com/cloudreve/frontend/master/public/static/img/logo512.png" width="16" alt="" /> [Cloudreve](https://github.com/cloudreve/cloudreve) | container | Cloud drive for your own files, with share links, WebDAV, previews for documents, photos and video, and offline downloads. |
 | <img src="https://raw.githubusercontent.com/C4illin/ConvertX/main/public/apple-touch-icon.png" width="16" alt="" /> [ConvertX](https://github.com/C4illin/ConvertX) | container | File converter for over a thousand formats, covering images, documents, audio, video and ebooks. |

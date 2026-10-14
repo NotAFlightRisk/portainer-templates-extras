@@ -1,0 +1,21 @@
+{
+  "title": "Apache Answer",
+  "name": "apache-answer",
+  "description": "Question-and-answer site for a community, product forum or team knowledge base, with voting, accepted answers, tags, reputation and badges. Source: https://github.com/apache/answer",
+  "categories": ["Social", "Wiki"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/apache/answer-website/main/static/img/head-icon.png",
+  "image": "apache/answer:latest",
+  "restart_policy": "unless-stopped",
+  "ports": ["9080:80/tcp"],
+  "volumes": [{ "container": "/data" }],
+  "env": [
+    {
+      "name": "TZ",
+      "label": "Timezone",
+      "description": "Like Europe/London. The site starts on it, and you can change it later in the admin.",
+      "default": "UTC"
+    }
+  ],
+  "note": "Open <code>http://&lt;your-host&gt;:9080</code> from the address you'll actually use, since the setup wizard saves it as the Site URL that links and uploads are built from. On the database step pick <b>SQLite</b> (it defaults to MySQL, which isn't there) and leave the file as <code>/data/answer.db</code>. The last step creates the admin, and whoever reaches the wizard first gets to, so do it straight away. Sign-ups stay open but need email verification, so new accounts can't post until you set up Admin --&gt; Advanced --&gt; SMTP, or close them under Advanced --&gt; Login. The database, config and uploads all live in the volume. Docs: <a href=\"https://answer.apache.org/docs\" target=\"_blank\">answer.apache.org/docs</a>"
+}
