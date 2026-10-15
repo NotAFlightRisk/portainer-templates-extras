@@ -7,7 +7,7 @@
 
 ## What's this branch
 
-Just the website. The templates themselves live on [`main`](https://github.com/NotAFlightRisk/portainer-templates-extras), and this branch has none of that history, so the two never get in each other's way.
+Just the website. The templates themselves live on [`main`](https://github.com/NotAFlightRisk/portainer-templates-extras), and this branch has none of that history, so the two never get in each others way.
 
 The site reads `templates.json` (and each stack's `compose.yml`) straight from `main` when a page is rendered, and Vercel keeps each page for an hour. So a new template turns up here by itself within the hour - nothing in this branch needs touching.
 

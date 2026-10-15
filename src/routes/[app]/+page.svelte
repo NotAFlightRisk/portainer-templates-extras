@@ -21,8 +21,11 @@
     app.kind === 'stack' ? data.services.flatMap(({ image }) => image ?? []) : [template.image]
   );
 
-  const clip = (text: string, max = 155) =>
-    text.length <= max ? text : `${text.slice(0, text.lastIndexOf(' ', max - 3))}...`;
+  const clip = (text: string, max = 155) => {
+    if (text.length <= max) return text;
+    const cut = text.lastIndexOf(' ', max - 3);
+    return `${text.slice(0, cut > 0 ? cut : max - 3)}...`;
+  };
 
   const graph = $derived([
     {
@@ -55,49 +58,50 @@
 />
 
 <div class="band head">
-  <div class="frame">
-    <nav class="crumbs" aria-label="Breadcrumb">
-      <ol>
-        <li><a href="/#apps">Apps</a></li>
-        <li aria-current="page">{app.title}</li>
-      </ol>
-    </nav>
-    <header>
-      <AppLogo src={app.logo} title={app.title} size={56} eager />
-      <div class="title">
-        <h1>{app.title}</h1>
-        <p class="tags">
-          <span class={['badge', app.kind === 'stack' && 'stack']}>{app.kind}</span>
-          <span>{app.categories.join(' / ')}</span>
-        </p>
+  <div class="frame hero">
+    <div class="intro">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/#apps">Apps</a></li>
+          <li aria-current="page">{app.title}</li>
+        </ol>
+      </nav>
+      <header>
+        <AppLogo src={app.logo} title={app.title} size={56} eager />
+        <div class="title">
+          <h1>{app.title}</h1>
+          <p class="tags">
+            <span class={['badge', app.kind === 'stack' && 'stack']}>{app.kind}</span>
+            <span>{app.categories.join(' / ')}</span>
+          </p>
+        </div>
+      </header>
+      <p class="lead">{app.blurb}</p>
+      <div class="actions">
+        <a class="pill ghost" href={app.source}><Icon name="github" /> Source code</a>
+        <a class="pill ghost" href={files}>Template files</a>
       </div>
-    </header>
-    <p class="lead">{app.blurb}</p>
-    <div class="actions">
-      <a class="pill primary" href="#install">Install it <Icon name="down" /></a>
-      <a class="pill ghost" href={app.source}><Icon name="github" /> Source code</a>
     </div>
+
+    <section id="install" class="install" aria-labelledby="install-title">
+      <h2 id="install-title">Install {app.title}</h2>
+      <p>
+        {#if app.inMainList}
+          It's in the main Portainer Templates list, so that's the URL to use, and you get hundreds
+          of other apps with it.
+        {:else}
+          It isn't in the main Portainer Templates list yet, so use this one. Portainer takes one
+          URL at a time, so it swaps out whatever list you had before.
+        {/if}
+      </p>
+      <Install tabs={data.tabs} name={app.title} id="install" />
+    </section>
   </div>
 </div>
 
 <div class="band">
   <div class="frame body">
     <div class="main">
-      <section id="install">
-        <h2>Install {app.title}</h2>
-        <p>
-          {#if app.inMainList}
-            It's in the main Portainer Templates list, so that's the URL to use, and you get the
-            other
-            {data.mainCount - 1} apps in it too.
-          {:else}
-            It isn't in the main Portainer Templates list yet, so use this list's URL. Portainer
-            takes one URL at a time, so it swaps out whatever list you had before.
-          {/if}
-        </p>
-        <Install tabs={data.tabs} name={app.title} id="install" />
-      </section>
-
       <section>
         <h2>Before you start</h2>
         <p class="note">{@html app.note}</p>
@@ -124,7 +128,7 @@
                 {#each env as variable (variable.name)}
                   <tr>
                     <td><code>{variable.name}</code></td>
-                    <td>
+                    <td data-label="What it's for">
                       <strong>{variable.label}</strong>
                       {#if variable.description}<span>{variable.description}</span>{/if}
                       {#if variable.select}
@@ -133,7 +137,7 @@
                         >
                       {/if}
                     </td>
-                    <td>
+                    <td data-label="Default">
                       {#if data.required.includes(variable.name)}
                         <em>Needs filling in</em>
                       {:else if envDefault(variable)}
@@ -166,8 +170,8 @@
                 {#each data.services as service (service.name)}
                   <tr>
                     <td><code>{service.name}</code></td>
-                    <td><code>{service.image}</code></td>
-                    <td>
+                    <td data-label="Image"><code>{service.image}</code></td>
+                    <td data-label="Ports">
                       {#each service.ports as mapping (mapping)}
                         <code>{withDefaults(mapping)}</code>
                       {:else}
@@ -196,13 +200,16 @@
                 {#each template.ports ?? [] as mapping (mapping)}
                   <tr>
                     <td><code>{hostPort(mapping)}</code></td>
-                    <td><code>{mapping.split(':').at(-1)}</code></td>
+                    <td data-label="In the container"><code>{mapping.split(':').at(-1)}</code></td>
                   </tr>
                 {/each}
                 {#each volumes as volume, i (volume.container)}
                   <tr>
                     <td><code>{volumeNames(app.slug, volumes)[i]}</code></td>
-                    <td><code>{volume.container}</code></td>
+                    <td data-label="In the container">
+                      <code>{volume.container}</code>
+                      {#if volume.readonly}<em>read only</em>{/if}
+                    </td>
                   </tr>
                 {/each}
               </tbody>
@@ -273,11 +280,43 @@
 <style>
   .head {
     border-top: 0;
+  }
 
-    & .frame {
-      display: grid;
-      gap: var(--space-l);
-      padding-block: var(--space-xl) var(--space-2xl);
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: var(--space-2xl);
+    align-items: start;
+    padding-block: var(--space-xl) var(--space-2xl);
+
+    @media (max-width: 60rem) {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-xl);
+    }
+  }
+
+  .intro {
+    display: grid;
+    gap: var(--space-l);
+  }
+
+  .install {
+    display: grid;
+    gap: var(--space-s);
+    padding-top: var(--space-xl);
+
+    & h2 {
+      font-size: var(--text-xl);
+      font-weight: 600;
+    }
+
+    & > p {
+      color: var(--text-muted);
+      font-size: var(--text-s);
+    }
+
+    @media (max-width: 60rem) {
+      padding-top: 0;
     }
   }
 
@@ -378,7 +417,8 @@
     }
   }
 
-  .note {
+  .main section > .note {
+    max-width: none;
     padding: var(--space-l);
     border: 1px solid var(--line-soft);
     border-radius: var(--radius-m);
@@ -439,6 +479,45 @@
 
   tr:last-child td {
     border-bottom: 0;
+  }
+
+  @media (max-width: 40rem) {
+    table,
+    tbody {
+      display: block;
+    }
+
+    thead {
+      display: none;
+    }
+
+    tr {
+      display: grid;
+      gap: var(--space-xs);
+      padding: var(--space-m);
+      border-bottom: 1px solid var(--line-soft);
+
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+
+    td {
+      padding: 0;
+      border: 0;
+
+      &[data-label]::before {
+        content: attr(data-label);
+        display: block;
+        color: var(--text-faint);
+        font-size: var(--text-xs);
+      }
+
+      & code {
+        white-space: normal;
+        overflow-wrap: anywhere;
+      }
+    }
   }
 
   aside {

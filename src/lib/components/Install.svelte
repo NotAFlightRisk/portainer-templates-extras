@@ -108,9 +108,8 @@
 
   .tabs {
     display: flex;
+    flex-wrap: wrap;
     min-width: 0;
-    overflow-x: auto;
-    scrollbar-width: none;
 
     & button {
       flex: none;
@@ -181,7 +180,8 @@
     min-width: 0;
     margin: 0;
     padding: var(--space-m);
-    overflow-x: auto;
+    max-height: 26rem;
+    overflow: auto;
     color: rgb(255 255 255 / 0.9);
     font-size: 0.8125rem;
     line-height: 1.85;
@@ -190,7 +190,7 @@
 
     &.wrap {
       white-space: pre-wrap;
-      word-break: break-all;
+      line-height: 1.6;
     }
 
     & :global(.key) {

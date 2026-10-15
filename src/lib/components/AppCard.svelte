@@ -6,10 +6,8 @@
 </script>
 
 <article class={['card', app.kind]}>
-  <div class="top">
-    <AppLogo src={app.logo} title={app.title} />
-    <span class={['badge', app.kind === 'stack' && 'stack']}>{app.kind}</span>
-  </div>
+  <div class="logo"><AppLogo src={app.logo} title={app.title} /></div>
+  <span class={['badge', app.kind === 'stack' && 'stack']}>{app.kind}</span>
   <h3><a href="/{app.slug}">{app.title}</a></h3>
   <p class="blurb">{app.blurb}</p>
   <p class="categories">{app.categories.join(' / ')}</p>
@@ -18,8 +16,14 @@
 <style>
   .card {
     position: relative;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-areas:
+      'logo badge'
+      'title title'
+      'blurb blurb'
+      'categories categories';
     gap: var(--space-s);
     padding: var(--space-l);
     border: 1px solid var(--line-soft);
@@ -44,16 +48,38 @@
         scale: 1.8 1;
       }
     }
+
+    @media (max-width: 40rem) {
+      grid-template-columns: auto 1fr auto;
+      grid-template-rows: auto;
+      grid-template-areas:
+        'logo title badge'
+        'blurb blurb blurb'
+        'categories categories categories';
+      align-items: center;
+      column-gap: var(--space-m);
+      padding: var(--space-m);
+
+      & .blurb {
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+      }
+    }
   }
 
-  .top {
-    display: flex;
-    align-items: start;
-    justify-content: space-between;
+  .logo {
+    grid-area: logo;
     margin-bottom: var(--space-2xs);
   }
 
+  .badge {
+    grid-area: badge;
+    align-self: start;
+    justify-self: end;
+  }
+
   h3 {
+    grid-area: title;
     font-size: var(--text-xl);
     font-weight: 600;
 
@@ -82,6 +108,7 @@
   }
 
   .blurb {
+    grid-area: blurb;
     display: -webkit-box;
     overflow: hidden;
     color: var(--text-muted);
@@ -92,7 +119,8 @@
   }
 
   .categories {
-    margin-top: auto;
+    grid-area: categories;
+    align-self: end;
     padding-top: var(--space-xs);
     color: var(--text-faint);
     font-size: var(--text-xs);

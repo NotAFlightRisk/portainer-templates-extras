@@ -11,27 +11,29 @@
   let { data } = $props();
 
   const total = $derived(data.apps.length);
-  const allInMain = $derived(data.inMain === total);
+  const checked = $derived(data.mainCount !== undefined);
+  const allInMain = $derived(checked && data.inMain === total);
   const coverage = $derived(
-    allInMain
-      ? 'Everything on this page is in it.'
-      : data.inMain
-        ? `${data.inMain} of the ${total} here are in it so far.`
-        : `The ${total} here aren't in it yet, so use the other tab for those.`
+    !checked
+      ? "Couldn't check which of the apps here it has just now."
+      : allInMain
+        ? 'Everything on this page is in it too.'
+        : data.inMain
+          ? `${data.inMain} of the ${total} here are in it so far.`
+          : `The ${total} here aren't in it yet.`
   );
   const tabs = $derived.by(() => {
-    const next = ['Open App Templates, pick an app and hit Deploy.'];
     const ours = {
-      ...portainerTab(templateUrls.extras, next),
+      ...portainerTab(templateUrls.extras),
       id: 'extras',
       label: 'these apps',
-      note: `Gets you all ${total} apps on this page, and nothing else.`
+      note: `All ${total} apps on this page and nothing else. Then open App Templates, pick one and hit Deploy.`
     };
     const main = {
-      ...portainerTab(templateUrls.main, next),
+      ...portainerTab(templateUrls.main),
       id: 'main',
       label: 'main list',
-      note: `The main Portainer Templates list, with ${data.mainCount} apps. ${coverage}`
+      note: `The main Portainer Templates list${checked ? `, with ${data.mainCount} apps` : ''}. ${coverage}`
     };
     return allInMain ? [main, ours] : [ours, main];
   });
@@ -98,7 +100,7 @@
 </script>
 
 <Seo
-  title="{site.name} - one-click Portainer templates for self-hosted apps"
+  title="{site.name} - one-click self-hosted apps"
   description="Tested Portainer templates for {total} self-hosted apps, each with a Docker Compose file and a docker run command. Add one URL to Portainer and deploy with a click."
   {graph}
 />
@@ -217,16 +219,14 @@
 <section class="band">
   <div class="frame section paths">
     <article class="path">
-      <span class="badge">{data.mainCount} templates</span>
       <h2>The main list</h2>
       <p>
-        The big one. It pulls in templates from all over, so one URL in Portainer gets you hundreds
-        of apps. {coverage}
+        The big one. It pulls in {checked ? data.mainCount : 'hundreds of'} templates from all over, so
+        one URL in Portainer gets you every one of them. {coverage}
       </p>
       <a class="arrow-link" href={site.mainList}>See the main list <Icon name="arrow" /></a>
     </article>
     <article class="path stack">
-      <span class="badge stack">Open source</span>
       <h2>Missing an app?</h2>
       <p>
         Ask for it, or add it yourself. Each app is one JSON file, and CI checks it starts before it

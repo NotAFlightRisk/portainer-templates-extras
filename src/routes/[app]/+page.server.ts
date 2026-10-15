@@ -14,7 +14,7 @@ export async function load({ params }) {
   const related = apps
     .filter((other) => other !== app)
     .toSorted((a, b) => shared(b) - shared(a))
-    .slice(0, 3);
+    .slice(0, 4);
 
   return {
     app,
