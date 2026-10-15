@@ -1,0 +1,13 @@
+services:
+  grist:
+    image: gristlabs/grist:1
+    restart: unless-stopped
+    ports:
+      - "${GRIST_PORT:-8484}:8484"
+    environment:
+      GRIST_SESSION_SECRET: ${GRIST_SESSION_SECRET:?Set a session secret}
+    volumes:
+      - grist-data:/persist
+
+volumes:
+  grist-data:
