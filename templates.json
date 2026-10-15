@@ -6,7 +6,7 @@
       "type": 3,
       "title": "AFFiNE",
       "name": "affine",
-      "description": "Workspace that mixes docs, whiteboards and databases, so a page can flip between writing and an endless canvas. Works offline and syncs to this server. Source: https://github.com/toeverything/AFFiNE",
+      "description": "Workspace that mixes docs, whiteboards and databases, so a page can flip between writing and an endless canvas. Edits sync to this server as you type. Source: https://github.com/toeverything/AFFiNE",
       "categories": [
         "Documents",
         "Productivity",
