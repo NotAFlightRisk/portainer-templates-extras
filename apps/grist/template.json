@@ -1,0 +1,22 @@
+{
+  "title": "Grist",
+  "name": "grist",
+  "description": "Spreadsheet that works like a database, with typed columns, Python formulas, linked tables, charts and forms. Source: https://github.com/gristlabs/grist-core",
+  "categories": ["Database", "Productivity"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/gristlabs/grist-core/main/static/icons/grist.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "GRIST_SESSION_SECRET",
+      "label": "Session secret (required)",
+      "description": "Signs everyone's login cookies. Generate one with: openssl rand -hex 32"
+    },
+    {
+      "name": "GRIST_PORT",
+      "label": "Host port for the web UI",
+      "default": "8484"
+    }
+  ],
+  "note": "Set the <b>session secret</b> before you deploy, since the stack won't start without one. Then open <code>http://&lt;your-host&gt;:8484</code> (or whichever port you picked). It asks for a <b>boot key</b> first, which Grist prints in the container's logs every time it starts (look for <code>BOOT KEY</code>), then an admin email, then walks you through Quick setup. Take care on its sign-in step: <i>No authentication</i> means anyone who can reach the port can open and edit everything, so only pick it on a private network. <i>Sign in with getgrist.com</i> and forwarded headers (for Authelia and the like) are the free options, and OIDC needs an activation key. The last step has product telemetry switched on, so untick it there if you'd rather it didn't. Documents, users and settings all live in the <code>grist-data</code> volume. Docs: <a href=\"https://support.getgrist.com/self-managed/\" target=\"_blank\">support.getgrist.com/self-managed</a>"
+}

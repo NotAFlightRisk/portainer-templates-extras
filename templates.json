@@ -282,6 +282,37 @@
     {
       "id": 9,
       "type": 3,
+      "title": "Grist",
+      "name": "grist",
+      "description": "Spreadsheet that works like a database, with typed columns, Python formulas, linked tables, charts and forms. Source: https://github.com/gristlabs/grist-core",
+      "categories": [
+        "Database",
+        "Productivity"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/gristlabs/grist-core/main/static/icons/grist.png",
+      "restart_policy": "unless-stopped",
+      "env": [
+        {
+          "name": "GRIST_SESSION_SECRET",
+          "label": "Session secret (required)",
+          "description": "Signs everyone's login cookies. Generate one with: openssl rand -hex 32"
+        },
+        {
+          "name": "GRIST_PORT",
+          "label": "Host port for the web UI",
+          "default": "8484"
+        }
+      ],
+      "note": "Set the <b>session secret</b> before you deploy, since the stack won't start without one. Then open <code>http://&lt;your-host&gt;:8484</code> (or whichever port you picked). It asks for a <b>boot key</b> first, which Grist prints in the container's logs every time it starts (look for <code>BOOT KEY</code>), then an admin email, then walks you through Quick setup. Take care on its sign-in step: <i>No authentication</i> means anyone who can reach the port can open and edit everything, so only pick it on a private network. <i>Sign in with getgrist.com</i> and forwarded headers (for Authelia and the like) are the free options, and OIDC needs an activation key. The last step has product telemetry switched on, so untick it there if you'd rather it didn't. Documents, users and settings all live in the <code>grist-data</code> volume. Docs: <a href=\"https://support.getgrist.com/self-managed/\" target=\"_blank\">support.getgrist.com/self-managed</a>",
+      "repository": {
+        "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
+        "stackfile": "apps/grist/compose.yml"
+      }
+    },
+    {
+      "id": 10,
+      "type": 3,
       "title": "Halo",
       "name": "halo",
       "description": "Website and blogging platform with a rich editor, themes, plugins, comments and pages, run from a web console. This one runs on Postgres. Source: https://github.com/halo-dev/halo",
@@ -317,7 +348,7 @@
       }
     },
     {
-      "id": 10,
+      "id": 11,
       "type": 1,
       "title": "RSSHub",
       "name": "rsshub",
@@ -343,7 +374,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:1200</code> to check it's up, then add feeds to your reader as paths on it, like <code>/github/issue/DIYgod/RSSHub</code>. Every route is listed in the <a href=\"https://docs.rsshub.app\" target=\"_blank\">docs</a>. There's no login, so set an access key if it faces the internet. Nothing to back up, feeds are cached in memory. Some routes need a browser, and for those swap the image tag to <code>chromium-bundled</code>."
     },
     {
-      "id": 11,
+      "id": 12,
       "type": 1,
       "title": "Seerr",
       "name": "seerr",
@@ -374,7 +405,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:5055</code> and the setup wizard walks you through connecting your media server, then Sonarr and Radarr. Settings and the request database live in the <code>/app/config</code> volume. Coming from Overseerr or Jellyseerr? Seerr can take over their config, see the <a href=\"https://docs.seerr.dev\" target=\"_blank\">docs</a> for how."
     },
     {
-      "id": 12,
+      "id": 13,
       "type": 3,
       "title": "SiYuan",
       "name": "siyuan",
@@ -412,7 +443,7 @@
       }
     },
     {
-      "id": 13,
+      "id": 14,
       "type": 1,
       "title": "Super Productivity",
       "name": "super-productivity",
@@ -431,7 +462,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8095</code>. There's no login, and your tasks are saved in your browser rather than on the server, so set up sync (WebDAV, Dropbox and others) in its settings if you use more than one device. Docs: <a href=\"https://github.com/super-productivity/super-productivity#readme\" target=\"_blank\">github.com/super-productivity/super-productivity</a>"
     },
     {
-      "id": 14,
+      "id": 15,
       "type": 1,
       "title": "Termix",
       "name": "termix",
@@ -455,7 +486,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8080</code> and create an account, which becomes the admin. Registration stays open after that, so switch it off in the admin settings unless you want other people signing up. Hosts, keys and the database live in the <code>/app/data</code> volume, and its secrets are generated there on first start. Behind a reverse proxy it needs websockets. It sends a small anonymous usage report once a day, which you can switch off in Admin Settings &gt; Usage Statistics. Docs: <a href=\"https://docs.termix.site\" target=\"_blank\">docs.termix.site</a>"
     },
     {
-      "id": 15,
+      "id": 16,
       "type": 1,
       "title": "Wallos",
       "name": "wallos",
