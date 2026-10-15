@@ -66,11 +66,18 @@ export function dockerRun(template: Template) {
   return ['docker run -d', ...flags.map((flag) => flag.join(' ')), image].join(' \\\n  ');
 }
 
+/** Quoted only when compose's dotenv parser would otherwise eat a space, # or $ */
+const dotenv = (value: string) => {
+  if (!value || shellSafe.test(value)) return value;
+  if (!value.includes("'")) return `'${value}'`;
+  return `"${value.replace(/[\\"$]/g, '\\$&')}"`;
+};
+
 export const envFile = (envs: Env[]) =>
   envs
     .map((env) => {
       const about = [env.label, env.description].filter(Boolean).join(' - ');
-      return `# ${about}\n${env.name}=${envDefault(env)}`;
+      return `# ${about}\n${env.name}=${dotenv(envDefault(env))}`;
     })
     .join('\n\n');
 

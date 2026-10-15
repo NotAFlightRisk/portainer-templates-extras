@@ -20,9 +20,17 @@ export const hostPort = (mapping: string) => {
   return parts.at(-2) ?? parts[0];
 };
 
+/** The first TCP port published on the host, as UDP and container-only ports aren't the web UI */
 export const webPort = (app: App, stack?: Stack) => {
   const ports = stack ? stack.services.flatMap((service) => service.ports) : app.template.ports;
-  return ports?.length ? hostPort(ports[0]) : undefined;
+  const web = ports?.find(
+    (mapping) =>
+      !mapping.endsWith('/udp') &&
+      withDefaults(mapping)
+        .replace(/\/\w+$/, '')
+        .includes(':')
+  );
+  return web && hostPort(web);
 };
 
 /** Named volumes for a container, like wallos-db, since Portainer's own names are random */
@@ -40,7 +48,7 @@ export function volumeNames(slug: string, volumes: Volume[]) {
 }
 
 /** The Portainer settings tab, shared by the home page and every app */
-export function portainerTab(url: string, steps: string[]): Tab {
+export function portainerTab(url: string, steps?: string[]): Tab {
   return {
     id: 'portainer',
     label: 'Portainer',

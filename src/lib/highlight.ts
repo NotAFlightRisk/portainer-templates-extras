@@ -31,6 +31,7 @@ export function highlight(code: string, lang: Lang) {
     .split('\n')
     .map((line) => {
       const safe = escape(line);
+      if (lang === 'text') return safe.replaceAll('/', '/<wbr>');
       if (/^\s*#/.test(line)) return span('comment')(safe);
       return rules[lang].reduce((html, [pattern, kind]) => html.replace(pattern, span(kind)), safe);
     })

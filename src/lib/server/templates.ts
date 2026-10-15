@@ -1,12 +1,15 @@
 import { filterXSS } from 'xss';
 import { parse } from 'yaml';
-import { raw, templateUrls } from '#lib/site.js';
+import { raw, site, templateUrls } from '#lib/site.js';
 import type { App, Card, Stack, Template } from '#lib/types.js';
 
 interface Catalogue {
   apps: App[];
-  mainCount: number;
+  mainCount?: number;
 }
+
+type ComposePort =
+  string | number | { target: number; published?: string | number; protocol?: string };
 
 const freshFor = 10 * 60_000;
 let cached: { at: number; catalogue: Promise<Catalogue> } | undefined;
@@ -46,16 +49,25 @@ export function toApp(template: Template, inMainList: boolean): App {
   };
 }
 
+/** Titles the main list took from us, as it stamps each entry with the repo it came from */
+const fromUs = (main: (Template & { maintainer?: string })[]) =>
+  new Set(
+    main
+      .filter(({ maintainer }) => maintainer?.toLowerCase().startsWith(site.repo.toLowerCase()))
+      .map(({ title }) => squash(title))
+  );
+
 async function fetchCatalogue(): Promise<Catalogue> {
   const [ours, main] = await Promise.all([
     templates(templateUrls.extras),
-    templates(templateUrls.main)
+    // Without the main list nobody gets pointed at it, which is never the wrong advice
+    templates(templateUrls.main).catch(() => undefined)
   ]);
-  const inMain = new Set(main.map((template) => squash(template.title)));
+  const inMain = fromUs(main ?? []);
   const apps = ours
     .map((template) => toApp(template, inMain.has(squash(template.title))))
     .sort((a, b) => a.title.localeCompare(b.title));
-  return { apps, mainCount: main.length };
+  return { apps, mainCount: main?.length };
 }
 
 /** Both lists, kept for a few minutes so a burst of page renders downloads them once */
@@ -79,17 +91,24 @@ export const toCard = ({ slug, title, blurb, logo, categories, kind }: App): Car
   kind
 });
 
+/** Compose's long port syntax as the short one, so `{ target: 80, published: 8080 }` is 8080:80 */
+export const shortPort = (port: ComposePort) => {
+  if (typeof port !== 'object') return String(port);
+  const mapping = [port.published, port.target].filter((part) => part !== undefined).join(':');
+  return port.protocol && port.protocol !== 'tcp' ? `${mapping}/${port.protocol}` : mapping;
+};
+
 export async function stack(app: App): Promise<Stack> {
   const compose = await (await get(`${raw}/${app.template.repository?.stackfile}`)).text();
   const { services } = parse(compose) as {
-    services: Record<string, { image?: string; ports?: (string | number)[] }>;
+    services: Record<string, { image?: string; ports?: ComposePort[] }>;
   };
   return {
     compose,
     services: Object.entries(services).map(([name, service]) => ({
       name,
       image: service.image,
-      ports: (service.ports ?? []).map(String)
+      ports: (service.ports ?? []).map(shortPort)
     }))
   };
 }

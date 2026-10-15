@@ -35,7 +35,7 @@ export function report(error: unknown, { url, request }: RequestEvent) {
     level: 'error',
     tags: { runtime: 'vercel' },
     request: {
-      url: url.href,
+      url: url.origin + url.pathname,
       method: request.method,
       headers: { 'User-Agent': request.headers.get('user-agent') }
     },
