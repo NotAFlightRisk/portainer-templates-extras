@@ -21,7 +21,7 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
-    "sanitize-html": "^2.18.1",
+    "xss": "^1.0.15",
     "yaml": "^2.9.1"
   },
   "devDependencies": {
@@ -33,7 +33,6 @@
     "@sveltejs/kit": "^3.1.0",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "@types/node": "^26.6.5",
-    "@types/sanitize-html": "^2.16.2",
     "prettier": "^3.9.10",
     "prettier-plugin-svelte": "^4.1.1",
     "svelte": "^5.57.2",

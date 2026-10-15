@@ -1,4 +1,4 @@
-import sanitizeHtml from 'sanitize-html';
+import { filterXSS } from 'xss';
 import { parse } from 'yaml';
 import { raw, templateUrls } from '#lib/site.js';
 import type { App, Card, Stack, Template } from '#lib/types.js';
@@ -24,10 +24,10 @@ const templates = async (url: string): Promise<Template[]> =>
   (await (await get(url)).json()).templates;
 
 const tidy = (html: string) =>
-  sanitizeHtml(html, {
-    allowedTags: ['a', 'b', 'code', 'i', 'br'],
-    allowedAttributes: { a: ['href'] },
-    allowedSchemes: ['https', 'http']
+  filterXSS(html, {
+    whiteList: { a: ['href'], b: [], code: [], i: [], br: [] },
+    stripIgnoreTag: true,
+    stripIgnoreTagBody: ['script', 'style']
   });
 
 export function toApp(template: Template, inMainList: boolean): App {
