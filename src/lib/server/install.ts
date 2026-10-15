@@ -83,7 +83,7 @@ export function installTabs(app: App, stack?: Stack): Tab[] {
     needed.length
       ? `Fill in ${needed.join(' and ')}. Everything else can stay as it is.`
       : 'The form works as it comes, so change only what you want to.',
-    `Hit Deploy the ${app.kind}${open ? `, then open \`http://<your-server>:${open}\`` : ''}.`
+    `Hit Deploy the ${app.kind}${open ? `, then open \`http://<your-server>:${open}\` in a browser` : ''}.`
   ]);
 
   if (!stack) {

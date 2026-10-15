@@ -41,7 +41,7 @@
       background: var(--surface-raised);
 
       & h3::after {
-        width: 4.5rem;
+        scale: 1.8 1;
       }
     }
   }
@@ -64,7 +64,8 @@
       height: 1px;
       margin-top: var(--space-s);
       background: var(--edge);
-      transition: width 0.35s var(--ease-out);
+      transform-origin: left;
+      transition: scale 0.35s var(--ease-out);
     }
 
     & a {

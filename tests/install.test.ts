@@ -132,7 +132,7 @@ describe('install tabs', () => {
   it('asks for the fields a stack cannot start without', () => {
     const [portainer] = installTabs(toApp(etherpad, false), stack);
     expect(portainer.steps?.[1]).toBe('Fill in Admin password. Everything else can stay as it is.');
-    expect(portainer.steps?.[2]).toContain('`http://<your-server>:9001`');
+    expect(portainer.steps?.[2]).toContain('`http://<your-server>:9001` in a browser');
   });
 
   it('gives a stack its .env file and the commands to fetch the compose file', () => {

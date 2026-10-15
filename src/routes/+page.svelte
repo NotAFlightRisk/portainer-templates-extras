@@ -125,7 +125,7 @@
   </div>
 </section>
 
-<div class="frame">
+<div class="frame strip-frame">
   <div class="strip">
     <p>In the list</p>
     <ul>
@@ -292,10 +292,13 @@
     padding-top: var(--space-xs);
   }
 
+  .strip-frame {
+    padding-bottom: var(--space-2xl);
+  }
+
   .strip {
     display: grid;
     grid-template-columns: auto 1fr;
-    margin-bottom: var(--space-2xl);
     border: 1px solid var(--line-soft);
     border-radius: var(--radius-l);
     background: var(--surface);

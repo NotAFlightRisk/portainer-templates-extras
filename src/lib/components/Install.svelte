@@ -65,7 +65,8 @@
       <p class="intro">{@html inline(tab.intro)}</p>
       <div class="code">
         <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-        <pre bind:this={blocks[i]} tabindex="0"><code>{@html highlight(tab.code, tab.lang)}</code
+        <pre bind:this={blocks[i]} class:wrap={tab.lang === 'text'} tabindex="0"><code
+            >{@html highlight(tab.code, tab.lang)}</code
           ></pre>
         <button class="copy" onclick={() => copy(tab, blocks[i])}>
           <Icon name={copied === tab.id ? 'check' : 'copy'} />
@@ -186,6 +187,11 @@
     line-height: 1.85;
     tab-size: 2;
     scrollbar-width: thin;
+
+    &.wrap {
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
 
     & :global(.key) {
       color: var(--accent);
