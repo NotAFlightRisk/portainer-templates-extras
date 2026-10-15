@@ -1,0 +1,22 @@
+{
+  "title": "Bytebase",
+  "name": "bytebase",
+  "description": "Database change management for teams, where schema changes to Postgres, MySQL and plenty of others get planned, reviewed and rolled out with a full history, plus a web SQL editor. Source: https://github.com/bytebase/bytebase",
+  "categories": ["Database", "Development"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/bytebase/bytebase/main/frontend/src/assets/logo-icon.svg",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "BYTEBASE_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "For Bytebase's own Postgres. Generate one with: openssl rand -hex 32. Keep it the same when you redeploy."
+    },
+    {
+      "name": "BYTEBASE_PORT",
+      "label": "Host port for the web UI",
+      "default": "8093"
+    }
+  ],
+  "note": "Set the <b>database password</b> before you deploy (<code>openssl rand -hex 32</code>), since the stack won't start without it. Then open <code>http://&lt;your-host&gt;:8093</code> (or whichever port you picked) and create the first account, which becomes the workspace admin. Docs: <a href=\"https://docs.bytebase.com\" target=\"_blank\">docs.bytebase.com</a>"
+}

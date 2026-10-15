@@ -1,0 +1,32 @@
+services:
+  bytebase:
+    image: bytebase/bytebase:latest
+    restart: unless-stopped
+    ports:
+      - "${BYTEBASE_PORT:-8093}:8080"
+    environment:
+      PG_URL: postgresql://bytebase:${BYTEBASE_DB_PASSWORD:?Set a database password}@postgres:5432/bytebase
+    volumes:
+      - bytebase-data:/var/opt/bytebase
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: bytebase
+      POSTGRES_USER: bytebase
+      POSTGRES_PASSWORD: ${BYTEBASE_DB_PASSWORD:?Set a database password}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bytebase -d bytebase"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  bytebase-data:
+  postgres-data:
