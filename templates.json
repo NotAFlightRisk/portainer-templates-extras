@@ -81,6 +81,37 @@
     },
     {
       "id": 4,
+      "type": 3,
+      "title": "Bytebase",
+      "name": "bytebase",
+      "description": "Database change management for teams. Plan, review and roll out schema changes to Postgres, MySQL and 20-odd other databases with a full history, or query them from a web SQL editor. Source: https://github.com/bytebase/bytebase",
+      "categories": [
+        "Database",
+        "Development"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/bytebase/bytebase/main/frontend/src/assets/logo-icon.svg",
+      "restart_policy": "unless-stopped",
+      "env": [
+        {
+          "name": "BYTEBASE_DB_PASSWORD",
+          "label": "Database password (required)",
+          "description": "For Bytebase's own Postgres. Generate one with: openssl rand -hex 32. Keep it the same when you redeploy."
+        },
+        {
+          "name": "BYTEBASE_PORT",
+          "label": "Host port for the web UI",
+          "default": "8093"
+        }
+      ],
+      "note": "Set the <b>database password</b> before you deploy (<code>openssl rand -hex 32</code> makes a good one), since the stack won't start without it. Then open <code>http://&lt;your-host&gt;:8093</code> (or whichever port you picked). That page creates the admin, and whoever reaches it first gets to, so do it straight away. Sign-ups stay open after that (new people join as members), so tick Disallow self-service signup under Settings --&gt; General if anyone else can reach it, and set the External URL there to the address you actually use. Each time it starts, Bytebase sends the first account's email address, everyone's email domains and your SQL review rules to bytebase.com, unless you untick Participate in improvement program on that same page. When you add a database, use your host's IP rather than <code>localhost</code>, which is the Bytebase container itself. The free Community plan covers 20 users and 10 instances. Bytebase keeps everything in Postgres, in the <code>postgres-data</code> volume, and any sample instance you start in <code>bytebase-data</code>. Docs: <a href=\"https://docs.bytebase.com/get-started/self-host/deploy-with-docker\" target=\"_blank\">docs.bytebase.com</a>",
+      "repository": {
+        "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
+        "stackfile": "apps/bytebase/compose.yml"
+      }
+    },
+    {
+      "id": 5,
       "type": 1,
       "title": "Cloudreve",
       "name": "cloudreve",
@@ -105,7 +136,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:5212</code> and sign up. The first account becomes the admin, and sign-ups stay open after that, so turn them off under Admin panel --&gt; Settings --&gt; User session if it's just you. Open the Admin panel from the address you'll actually use, too. It offers to save that as the Site URL, and until you say yes, download and share links point at localhost. The database, settings and every uploaded file live in the volume. Docs: <a href=\"https://docs.cloudreve.org/en/\" target=\"_blank\">docs.cloudreve.org</a>"
     },
     {
-      "id": 5,
+      "id": 6,
       "type": 1,
       "title": "ConvertX",
       "name": "convertx",
@@ -158,7 +189,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:3000</code> and create your account straight away, since the first visitor gets it and sign-ups close after that. Uploads and the database live in the <code>/app/data</code> volume. It's a big image (LibreOffice, TeX and Calibre are all in there), so the first pull takes a while. You'll be logged out whenever the container restarts, unless you add a <code>JWT_SECRET</code> env var holding a long random string (<code>openssl rand -hex 32</code>). Docs: <a href=\"https://github.com/C4illin/ConvertX#readme\" target=\"_blank\">github.com/C4illin/ConvertX</a>"
     },
     {
-      "id": 6,
+      "id": 7,
       "type": 1,
       "title": "CyberChef",
       "name": "cyberchef",
@@ -178,7 +209,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8088</code>. There's no login and nothing to back up, since every recipe runs in your browser and your data never reaches the server. Recipes live in the URL, so bookmark or share that to keep one. Docs: <a href=\"https://github.com/gchq/CyberChef/wiki\" target=\"_blank\">github.com/gchq/CyberChef/wiki</a>"
     },
     {
-      "id": 7,
+      "id": 8,
       "type": 3,
       "title": "Etherpad",
       "name": "etherpad",
@@ -229,7 +260,7 @@
       }
     },
     {
-      "id": 8,
+      "id": 9,
       "type": 3,
       "title": "Firefly III",
       "name": "firefly-iii",
@@ -280,7 +311,7 @@
       }
     },
     {
-      "id": 9,
+      "id": 10,
       "type": 3,
       "title": "Grist",
       "name": "grist",
@@ -311,7 +342,7 @@
       }
     },
     {
-      "id": 10,
+      "id": 11,
       "type": 3,
       "title": "Halo",
       "name": "halo",
@@ -348,7 +379,7 @@
       }
     },
     {
-      "id": 11,
+      "id": 12,
       "type": 1,
       "title": "RSSHub",
       "name": "rsshub",
@@ -374,7 +405,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:1200</code> to check it's up, then add feeds to your reader as paths on it, like <code>/github/issue/DIYgod/RSSHub</code>. Every route is listed in the <a href=\"https://docs.rsshub.app\" target=\"_blank\">docs</a>. There's no login, so set an access key if it faces the internet. Nothing to back up, feeds are cached in memory. Some routes need a browser, and for those swap the image tag to <code>chromium-bundled</code>."
     },
     {
-      "id": 12,
+      "id": 13,
       "type": 1,
       "title": "Seerr",
       "name": "seerr",
@@ -405,7 +436,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:5055</code> and the setup wizard walks you through connecting your media server, then Sonarr and Radarr. Settings and the request database live in the <code>/app/config</code> volume. Coming from Overseerr or Jellyseerr? Seerr can take over their config, see the <a href=\"https://docs.seerr.dev\" target=\"_blank\">docs</a> for how."
     },
     {
-      "id": 13,
+      "id": 14,
       "type": 3,
       "title": "SiYuan",
       "name": "siyuan",
@@ -443,7 +474,7 @@
       }
     },
     {
-      "id": 14,
+      "id": 15,
       "type": 1,
       "title": "Super Productivity",
       "name": "super-productivity",
@@ -462,7 +493,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8095</code>. There's no login, and your tasks are saved in your browser rather than on the server, so set up sync (WebDAV, Dropbox and others) in its settings if you use more than one device. Docs: <a href=\"https://github.com/super-productivity/super-productivity#readme\" target=\"_blank\">github.com/super-productivity/super-productivity</a>"
     },
     {
-      "id": 15,
+      "id": 16,
       "type": 1,
       "title": "Termix",
       "name": "termix",
@@ -486,7 +517,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8080</code> and create an account, which becomes the admin. Registration stays open after that, so switch it off in the admin settings unless you want other people signing up. Hosts, keys and the database live in the <code>/app/data</code> volume, and its secrets are generated there on first start. Behind a reverse proxy it needs websockets. It sends a small anonymous usage report once a day, which you can switch off in Admin Settings &gt; Usage Statistics. Docs: <a href=\"https://docs.termix.site\" target=\"_blank\">docs.termix.site</a>"
     },
     {
-      "id": 16,
+      "id": 17,
       "type": 1,
       "title": "Wallos",
       "name": "wallos",
