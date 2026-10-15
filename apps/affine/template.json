@@ -1,0 +1,17 @@
+{
+  "title": "AFFiNE",
+  "name": "affine",
+  "description": "Workspace that mixes docs, whiteboards and databases, so a page can flip between writing and an endless canvas. Works offline and syncs to this server. Source: https://github.com/toeverything/AFFiNE",
+  "categories": ["Documents", "Productivity", "Wiki"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/toeverything/AFFiNE/canary/packages/frontend/apps/electron/resources/icons/icon_stable_512x512.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "AFFINE_PORT",
+      "label": "Host port for the web UI",
+      "default": "3010"
+    }
+  ],
+  "note": "Open <code>http://&lt;your-host&gt;:3010</code> (or whichever port you picked). The first start takes a minute while it sets up the database, then it asks you to create the admin account, and whoever gets there first does, so do it straight away. The workspace it opens is only saved in your browser, so make a new one from the workspace menu (it goes on this server by default) and keep your docs there. In the admin panel at <code>/admin</code>, set the External URL under Settings --&gt; Server to the address people actually use, or invite links point at localhost. New accounts can't invite anyone or make share links for their first 24 hours, which you can change under Settings --&gt; Auth. Sign-ups need email (Settings --&gt; Notification), so until then add people yourself under Accounts. Docs live in Postgres, in the <code>postgres-data</code> volume, uploads in <code>affine-storage</code>, and the server's own key in <code>affine-config</code>. Docs: <a href=\"https://docs.affine.pro/self-host-affine/\" target=\"_blank\">docs.affine.pro</a>"
+}
