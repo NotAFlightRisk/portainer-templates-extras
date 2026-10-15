@@ -84,7 +84,7 @@
       "type": 3,
       "title": "Bytebase",
       "name": "bytebase",
-      "description": "Database change management for teams, where schema changes to Postgres, MySQL and plenty of others get planned, reviewed and rolled out with a full history, plus a web SQL editor. Source: https://github.com/bytebase/bytebase",
+      "description": "Database change management for teams. Plan, review and roll out schema changes to Postgres, MySQL and 20-odd other databases with a full history, or query them from a web SQL editor. Source: https://github.com/bytebase/bytebase",
       "categories": [
         "Database",
         "Development"
@@ -104,7 +104,7 @@
           "default": "8093"
         }
       ],
-      "note": "Set the <b>database password</b> before you deploy (<code>openssl rand -hex 32</code>), since the stack won't start without it. Then open <code>http://&lt;your-host&gt;:8093</code> (or whichever port you picked) and create the first account, which becomes the workspace admin. Docs: <a href=\"https://docs.bytebase.com\" target=\"_blank\">docs.bytebase.com</a>",
+      "note": "Set the <b>database password</b> before you deploy (<code>openssl rand -hex 32</code> makes a good one), since the stack won't start without it. Then open <code>http://&lt;your-host&gt;:8093</code> (or whichever port you picked). That page creates the admin, and whoever reaches it first gets to, so do it straight away. Sign-ups stay open after that (new people join as members), so tick Disallow self-service signup under Settings --&gt; General if anyone else can reach it, and set the External URL there to the address you actually use. Each time it starts, Bytebase sends the first account's email address, everyone's email domains and your SQL review rules to bytebase.com, unless you untick Participate in improvement program on that same page. When you add a database, use your host's IP rather than <code>localhost</code>, which is the Bytebase container itself. The free Community plan covers 20 users and 10 instances. Bytebase keeps everything in Postgres, in the <code>postgres-data</code> volume, and any sample instance you start in <code>bytebase-data</code>. Docs: <a href=\"https://docs.bytebase.com/get-started/self-host/deploy-with-docker\" target=\"_blank\">docs.bytebase.com</a>",
       "repository": {
         "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
         "stackfile": "apps/bytebase/compose.yml"
