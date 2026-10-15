@@ -1,0 +1,25 @@
+# Secrets & local config
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+
+# SvelteKit
+.svelte-kit/
+/build/
+/.vercel/
+vite.config.ts.timestamp-*
+
+# Logs, editors and OS crap
+*.log
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# Working notes - design, plan, debug and review scratch, never committed
+iains-notes/
+/.impeccable/

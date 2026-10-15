@@ -1,0 +1,51 @@
+{
+  "name": "portainer-templates-extras-website",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Website for Portainer Templates Extras, one page per app with ways to install it",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NotAFlightRisk/portainer-templates-extras.git"
+  },
+  "homepage": "https://portainer-templates-extras.peng.ly",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "prepare": "svelte-kit sync || echo ''",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "test": "vitest run",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "dependencies": {
+    "sanitize-html": "^2.18.1",
+    "yaml": "^2.9.1"
+  },
+  "devDependencies": {
+    "@fontsource-variable/geist-mono": "^5.3.0",
+    "@fontsource-variable/inter": "^5.3.0",
+    "@sentry/browser": "^11.8.0",
+    "@sentry/vite-plugin": "^5.4.1",
+    "@sveltejs/adapter-vercel": "^7.0.1",
+    "@sveltejs/kit": "^3.1.0",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "@types/node": "^26.6.5",
+    "@types/sanitize-html": "^2.16.2",
+    "prettier": "^3.9.10",
+    "prettier-plugin-svelte": "^4.1.1",
+    "svelte": "^5.57.2",
+    "svelte-check": "^4.7.6",
+    "typescript": "^6.0.3",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.5"
+  },
+  "engines": {
+    "node": ">=22.17.0"
+  },
+  "imports": {
+    "#lib/*": "./src/lib/*"
+  }
+}

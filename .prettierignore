@@ -1,0 +1,5 @@
+.svelte-kit
+.vercel
+build
+package-lock.json
+iains-notes
