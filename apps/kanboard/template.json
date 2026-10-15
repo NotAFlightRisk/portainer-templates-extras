@@ -1,0 +1,16 @@
+{
+  "title": "Kanboard",
+  "name": "kanboard",
+  "description": "Kanban project management that stays out of the way, with boards, swimlanes, subtasks, time tracking, automatic actions and a plugin system. Source: https://github.com/kanboard/kanboard",
+  "categories": ["Project Management", "Productivity"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/kanboard/kanboard/main/assets/img/adaptive-favicon.svg",
+  "image": "kanboard/kanboard:latest",
+  "restart_policy": "unless-stopped",
+  "ports": ["8094:80/tcp"],
+  "volumes": [
+    { "container": "/var/www/app/data" },
+    { "container": "/var/www/app/plugins" }
+  ],
+  "note": "Open <code>http://&lt;your-host&gt;:8094</code> and sign in as <code>admin</code> / <code>admin</code>, then change that password straight away under My profile --&gt; Change password, as it's the same on every install. There are no open sign-ups, the admin adds users. Set Settings --&gt; Application URL to the address you use, so links in emails point to the right place. The SQLite database and attachments live in the data volume, plugins in the other. Docs: <a href=\"https://docs.kanboard.org/v1/admin/docker/\" target=\"_blank\">docs.kanboard.org</a>"
+}
