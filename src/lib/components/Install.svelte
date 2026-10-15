@@ -135,6 +135,11 @@
       &:focus-visible {
         outline-offset: -2px;
       }
+
+      @media (max-width: 30rem) {
+        padding-inline: var(--space-s);
+        font-size: var(--text-xs);
+      }
     }
   }
 

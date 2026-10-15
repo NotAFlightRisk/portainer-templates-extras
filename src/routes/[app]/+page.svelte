@@ -79,7 +79,6 @@
       <p class="lead">{app.blurb}</p>
       <div class="actions">
         <a class="pill ghost" href={app.source}><Icon name="github" /> Source code</a>
-        <a class="pill ghost" href={files}>Template files</a>
       </div>
     </div>
 
@@ -306,8 +305,8 @@
     padding-top: var(--space-xl);
 
     & h2 {
-      font-size: var(--text-xl);
-      font-weight: 600;
+      font-size: var(--text-2xl);
+      font-weight: 700;
     }
 
     & > p {
