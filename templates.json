@@ -408,6 +408,30 @@
     {
       "id": 13,
       "type": 1,
+      "title": "Readeck",
+      "name": "readeck",
+      "description": "Read-it-later app that saves the full text and images of web pages, with highlights, labels, collections, full-text search and e-book export. Source: https://codeberg.org/readeck/readeck",
+      "categories": [
+        "Productivity",
+        "Books"
+      ],
+      "platform": "linux",
+      "logo": "https://codeberg.org/readeck/readeck/raw/branch/main/web/media/logo-square.svg",
+      "image": "codeberg.org/readeck/readeck:latest",
+      "restart_policy": "unless-stopped",
+      "ports": [
+        "8097:8000/tcp"
+      ],
+      "volumes": [
+        {
+          "container": "/readeck"
+        }
+      ],
+      "note": "Open <code>http://&lt;your-host&gt;:8097</code> and create your account. Whoever gets there first becomes the admin, and there are no open sign-ups after that, the admin adds users under Settings --&gt; Users. The <a href=\"https://readeck.org/en/extension\" target=\"_blank\">browser extension</a> saves pages in one click. Readeck won't fetch pages on private addresses, so links to things on your LAN save without their content. The settings, generated secret key, SQLite database and every saved page live in the volume. Docs: <a href=\"https://readeck.org/en/docs/\" target=\"_blank\">readeck.org</a>"
+    },
+    {
+      "id": 14,
+      "type": 1,
       "title": "RSSHub",
       "name": "rsshub",
       "description": "RSS feed maker for thousands of sites that don't have a feed of their own, like GitHub issues, news sites, forums and shops. Source: https://github.com/DIYgod/RSSHub",
@@ -432,7 +456,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:1200</code> to check it's up, then add feeds to your reader as paths on it, like <code>/github/issue/DIYgod/RSSHub</code>. Every route is listed in the <a href=\"https://docs.rsshub.app\" target=\"_blank\">docs</a>. There's no login, so set an access key if it faces the internet. Nothing to back up, feeds are cached in memory. Some routes need a browser, and for those swap the image tag to <code>chromium-bundled</code>."
     },
     {
-      "id": 14,
+      "id": 15,
       "type": 1,
       "title": "Seerr",
       "name": "seerr",
@@ -463,7 +487,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:5055</code> and the setup wizard walks you through connecting your media server, then Sonarr and Radarr. Settings and the request database live in the <code>/app/config</code> volume. Coming from Overseerr or Jellyseerr? Seerr can take over their config, see the <a href=\"https://docs.seerr.dev\" target=\"_blank\">docs</a> for how."
     },
     {
-      "id": 15,
+      "id": 16,
       "type": 3,
       "title": "SiYuan",
       "name": "siyuan",
@@ -501,7 +525,7 @@
       }
     },
     {
-      "id": 16,
+      "id": 17,
       "type": 1,
       "title": "Super Productivity",
       "name": "super-productivity",
@@ -520,7 +544,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8095</code>. There's no login, and your tasks are saved in your browser rather than on the server, so set up sync (WebDAV, Dropbox and others) in its settings if you use more than one device. Docs: <a href=\"https://github.com/super-productivity/super-productivity#readme\" target=\"_blank\">github.com/super-productivity/super-productivity</a>"
     },
     {
-      "id": 17,
+      "id": 18,
       "type": 1,
       "title": "Termix",
       "name": "termix",
@@ -544,7 +568,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8080</code> and create an account, which becomes the admin. Registration stays open after that, so switch it off in the admin settings unless you want other people signing up. Hosts, keys and the database live in the <code>/app/data</code> volume, and its secrets are generated there on first start. Behind a reverse proxy it needs websockets. It sends a small anonymous usage report once a day, which you can switch off in Admin Settings &gt; Usage Statistics. Docs: <a href=\"https://docs.termix.site\" target=\"_blank\">docs.termix.site</a>"
     },
     {
-      "id": 18,
+      "id": 19,
       "type": 1,
       "title": "Wallos",
       "name": "wallos",

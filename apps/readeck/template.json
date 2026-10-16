@@ -1,0 +1,13 @@
+{
+  "title": "Readeck",
+  "name": "readeck",
+  "description": "Read-it-later app that saves the full text and images of web pages, with highlights, labels, collections, full-text search and e-book export. Source: https://codeberg.org/readeck/readeck",
+  "categories": ["Productivity", "Books"],
+  "platform": "linux",
+  "logo": "https://codeberg.org/readeck/readeck/raw/branch/main/web/media/logo-square.svg",
+  "image": "codeberg.org/readeck/readeck:latest",
+  "restart_policy": "unless-stopped",
+  "ports": ["8097:8000/tcp"],
+  "volumes": [{ "container": "/readeck" }],
+  "note": "Open <code>http://&lt;your-host&gt;:8097</code> and create your account. Whoever gets there first becomes the admin, and there are no open sign-ups after that, the admin adds users under Settings --&gt; Users. The <a href=\"https://readeck.org/en/extension\" target=\"_blank\">browser extension</a> saves pages in one click. Readeck won't fetch pages on private addresses, so links to things on your LAN save without their content. The settings, generated secret key, SQLite database and every saved page live in the volume. Docs: <a href=\"https://readeck.org/en/docs/\" target=\"_blank\">readeck.org</a>"
+}
