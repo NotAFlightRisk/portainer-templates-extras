@@ -313,6 +313,47 @@
     {
       "id": 11,
       "type": 3,
+      "title": "ezBookkeeping",
+      "name": "ezbookkeeping",
+      "description": "Personal finance app for logging what you spend and earn across accounts and currencies, with receipt photos, scheduled transactions and charts. Imports bank statement files, GnuCash and Firefly III, and installs on a phone like an app. Source: https://github.com/mayswind/ezbookkeeping",
+      "categories": [
+        "Finance"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/mayswind/ezbookkeeping/main/public/img/ezbookkeeping-512.png",
+      "restart_policy": "unless-stopped",
+      "env": [
+        {
+          "name": "EZBOOKKEEPING_SECRET_KEY",
+          "label": "Secret key (required)",
+          "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or two-factor logins stop working."
+        },
+        {
+          "name": "EZBOOKKEEPING_DB_PASSWORD",
+          "label": "Database password (required)",
+          "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or ezBookkeeping can't reach its database."
+        },
+        {
+          "name": "EZBOOKKEEPING_PORT",
+          "label": "Host port for the web UI",
+          "default": "8100"
+        },
+        {
+          "name": "EZBOOKKEEPING_URL",
+          "label": "Address you'll open it on",
+          "description": "Like http://192.168.1.10:8100/. Receipt photos, profile pictures and the phone QR code all point here, so they break on any other address.",
+          "default": "http://localhost:8100/"
+        }
+      ],
+      "note": "Set both <b>secrets</b> before you deploy (<code>openssl rand -hex 32</code> makes good ones), since the stack won't start without them, and keep them the same when you redeploy. Put the address you'll actually type in the browser in the address field too, or receipt photos won't load. Then open <code>http://&lt;your-host&gt;:8100</code> (or whichever port you picked) and create an account. Tick Use Preset Transaction Categories on the second step, or you start with none. Every account gets its own separate books, but sign-ups stay open, so once you've made yours add <code>EZBOOKKEEPING_SIGNUPS</code> = <code>false</code> to the stack's environment variables and update the stack. Exchange rates come from the European Central Bank, and maps load from OpenStreetMap. Everything lives in Postgres, in the <code>postgres-data</code> volume, with receipt photos and avatars in <code>ezbookkeeping-storage</code>. Docs: <a href=\"https://ezbookkeeping.mayswind.net\" target=\"_blank\">ezbookkeeping.mayswind.net</a>",
+      "repository": {
+        "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
+        "stackfile": "apps/ezbookkeeping/compose.yml"
+      }
+    },
+    {
+      "id": 12,
+      "type": 3,
       "title": "Firefly III",
       "name": "firefly-iii",
       "description": "Personal finance manager for tracking what comes in and goes out, with budgets, subscriptions, recurring transactions, rules and reports. This one runs on Postgres. Source: https://github.com/firefly-iii/firefly-iii",
@@ -362,7 +403,7 @@
       }
     },
     {
-      "id": 12,
+      "id": 13,
       "type": 3,
       "title": "Grist",
       "name": "grist",
@@ -393,7 +434,7 @@
       }
     },
     {
-      "id": 13,
+      "id": 14,
       "type": 3,
       "title": "Halo",
       "name": "halo",
@@ -430,7 +471,7 @@
       }
     },
     {
-      "id": 14,
+      "id": 15,
       "type": 1,
       "title": "Kanboard",
       "name": "kanboard",
@@ -457,7 +498,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8094</code> and sign in as <code>admin</code> / <code>admin</code>, then change that password straight away under My profile --&gt; Change password, as it's the same on every install. There are no open sign-ups, the admin adds users. Set Settings --&gt; Application URL to the address you use, so links in emails point to the right place. The SQLite database and attachments live in the data volume, plugins in the other. Docs: <a href=\"https://docs.kanboard.org/v1/admin/docker/\" target=\"_blank\">docs.kanboard.org</a>"
     },
     {
-      "id": 15,
+      "id": 16,
       "type": 1,
       "title": "Readeck",
       "name": "readeck",
@@ -481,7 +522,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8097</code> and create your account. Whoever gets there first becomes the admin, and there are no open sign-ups after that, the admin adds users under Settings --&gt; Users. The <a href=\"https://readeck.org/en/extension\" target=\"_blank\">browser extension</a> saves pages in one click. Readeck won't fetch pages on private addresses, so links to things on your LAN save without their content. The settings, generated secret key, SQLite database and every saved page live in the volume. Docs: <a href=\"https://readeck.org/en/docs/\" target=\"_blank\">readeck.org</a>"
     },
     {
-      "id": 16,
+      "id": 17,
       "type": 1,
       "title": "RSSHub",
       "name": "rsshub",
@@ -507,7 +548,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:1200</code> to check it's up, then add feeds to your reader as paths on it, like <code>/github/issue/DIYgod/RSSHub</code>. Every route is listed in the <a href=\"https://docs.rsshub.app\" target=\"_blank\">docs</a>. There's no login, so set an access key if it faces the internet. Nothing to back up, feeds are cached in memory. Some routes need a browser, and for those swap the image tag to <code>chromium-bundled</code>."
     },
     {
-      "id": 17,
+      "id": 18,
       "type": 1,
       "title": "Seerr",
       "name": "seerr",
@@ -538,7 +579,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:5055</code> and the setup wizard walks you through connecting your media server, then Sonarr and Radarr. Settings and the request database live in the <code>/app/config</code> volume. Coming from Overseerr or Jellyseerr? Seerr can take over their config, see the <a href=\"https://docs.seerr.dev\" target=\"_blank\">docs</a> for how."
     },
     {
-      "id": 18,
+      "id": 19,
       "type": 3,
       "title": "SiYuan",
       "name": "siyuan",
@@ -576,7 +617,7 @@
       }
     },
     {
-      "id": 19,
+      "id": 20,
       "type": 1,
       "title": "Super Productivity",
       "name": "super-productivity",
@@ -595,7 +636,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8095</code>. There's no login, and your tasks are saved in your browser rather than on the server, so set up sync (WebDAV, Dropbox and others) in its settings if you use more than one device. Docs: <a href=\"https://github.com/super-productivity/super-productivity#readme\" target=\"_blank\">github.com/super-productivity/super-productivity</a>"
     },
     {
-      "id": 20,
+      "id": 21,
       "type": 1,
       "title": "Termix",
       "name": "termix",
@@ -619,7 +660,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8080</code> and create an account, which becomes the admin. Registration stays open after that, so switch it off in the admin settings unless you want other people signing up. Hosts, keys and the database live in the <code>/app/data</code> volume, and its secrets are generated there on first start. Behind a reverse proxy it needs websockets. It sends a small anonymous usage report once a day, which you can switch off in Admin Settings &gt; Usage Statistics. Docs: <a href=\"https://docs.termix.site\" target=\"_blank\">docs.termix.site</a>"
     },
     {
-      "id": 21,
+      "id": 22,
       "type": 1,
       "title": "TREK",
       "name": "trek",
@@ -670,7 +711,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8099</code> and sign in as <code>admin@trek.local</code>. The password's printed in the container's logs on first start (search them for First Run), and TREK makes you pick a new one straight away. Anyone who can reach it can register their own account, so switch off Password Registration under Administration --&gt; Settings if that's not what you want. Place search asks TREK's own places.liketrek.com as well as OpenStreetMap, add a <code>TREK_PLACES_ENABLED=false</code> env to keep it to OpenStreetMap. The database, its encryption key and every upload live in the two volumes. Docs: <a href=\"https://github.com/liketrek/TREK/wiki\" target=\"_blank\">github.com/liketrek/TREK/wiki</a>"
     },
     {
-      "id": 22,
+      "id": 23,
       "type": 1,
       "title": "Wallos",
       "name": "wallos",

@@ -1,0 +1,39 @@
+services:
+  ezbookkeeping:
+    image: mayswind/ezbookkeeping:latest
+    restart: unless-stopped
+    ports:
+      - "${EZBOOKKEEPING_PORT:-8100}:8080"
+    environment:
+      EBK_SECURITY_SECRET_KEY: ${EZBOOKKEEPING_SECRET_KEY:?Set a secret key}
+      EBK_SERVER_ROOT_URL: ${EZBOOKKEEPING_URL:-http://localhost:8100/}
+      EBK_USER_ENABLE_REGISTER: ${EZBOOKKEEPING_SIGNUPS:-true}
+      EBK_DATABASE_TYPE: postgres
+      EBK_DATABASE_HOST: postgres:5432
+      EBK_DATABASE_NAME: ezbookkeeping
+      EBK_DATABASE_USER: ezbookkeeping
+      EBK_DATABASE_PASSWD: ${EZBOOKKEEPING_DB_PASSWORD:?Set a database password}
+    volumes:
+      - ezbookkeeping-storage:/ezbookkeeping/storage
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ezbookkeeping
+      POSTGRES_USER: ezbookkeeping
+      POSTGRES_PASSWORD: ${EZBOOKKEEPING_DB_PASSWORD:?Set a database password}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ezbookkeeping -d ezbookkeeping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  ezbookkeeping-storage:
+  postgres-data:
