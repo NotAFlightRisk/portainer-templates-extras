@@ -1,0 +1,22 @@
+{
+  "title": "copyparty",
+  "name": "copyparty",
+  "description": "File server in one Python app, with resumable uploads, thumbnails, search and a music player in the browser, plus WebDAV for mounting it as a drive. Source: https://github.com/9001/copyparty",
+  "categories": ["File Sharing", "Storage"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/9001/copyparty/hovudstraum/docs/logo-sq.svg",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "COPYPARTY_PASSWORD",
+      "label": "Password (required)",
+      "description": "What you'll log in with. Anything long and hard to guess, or generate one with: openssl rand -hex 16"
+    },
+    {
+      "name": "COPYPARTY_PORT",
+      "label": "Host port for the web UI",
+      "default": "3923"
+    }
+  ],
+  "note": "Set the <b>password</b> before you deploy, since the stack won't start without one. Then open <code>http://&lt;your-host&gt;:3923</code> (or whichever port you picked) and you'll land on a login box that only wants the password, no username. Logged in, you can upload, make folders, move, delete and see everything, while anyone else just gets that login box (upstream's own default is read-write for everyone). Files live in the <code>copyparty-files</code> volume, and the search index, thumbnails and logins live in <code>copyparty-config</code>. WebDAV clients connect to the same address, with any username and that password. Its <i>switch to https</i> button uses a certificate built into every copyparty, so it's no real protection, and a reverse proxy is the way to get proper HTTPS. Docs: <a href=\"https://github.com/9001/copyparty#readme\" target=\"_blank\">github.com/9001/copyparty</a>"
+}

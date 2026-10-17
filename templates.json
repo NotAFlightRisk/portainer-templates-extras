@@ -190,6 +190,37 @@
     },
     {
       "id": 7,
+      "type": 3,
+      "title": "copyparty",
+      "name": "copyparty",
+      "description": "File server in one Python app, with resumable uploads, thumbnails, search and a music player in the browser, plus WebDAV for mounting it as a drive. Source: https://github.com/9001/copyparty",
+      "categories": [
+        "File Sharing",
+        "Storage"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/9001/copyparty/hovudstraum/docs/logo-sq.svg",
+      "restart_policy": "unless-stopped",
+      "env": [
+        {
+          "name": "COPYPARTY_PASSWORD",
+          "label": "Password (required)",
+          "description": "What you'll log in with. Anything long and hard to guess, or generate one with: openssl rand -hex 16"
+        },
+        {
+          "name": "COPYPARTY_PORT",
+          "label": "Host port for the web UI",
+          "default": "3923"
+        }
+      ],
+      "note": "Set the <b>password</b> before you deploy, since the stack won't start without one. Then open <code>http://&lt;your-host&gt;:3923</code> (or whichever port you picked) and you'll land on a login box that only wants the password, no username. Logged in, you can upload, make folders, move, delete and see everything, while anyone else just gets that login box (upstream's own default is read-write for everyone). Files live in the <code>copyparty-files</code> volume, and the search index, thumbnails and logins live in <code>copyparty-config</code>. WebDAV clients connect to the same address, with any username and that password. Its <i>switch to https</i> button uses a certificate built into every copyparty, so it's no real protection, and a reverse proxy is the way to get proper HTTPS. Docs: <a href=\"https://github.com/9001/copyparty#readme\" target=\"_blank\">github.com/9001/copyparty</a>",
+      "repository": {
+        "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
+        "stackfile": "apps/copyparty/compose.yml"
+      }
+    },
+    {
+      "id": 8,
       "type": 1,
       "title": "CyberChef",
       "name": "cyberchef",
@@ -209,7 +240,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8088</code>. There's no login and nothing to back up, since every recipe runs in your browser and your data never reaches the server. Recipes live in the URL, so bookmark or share that to keep one. Docs: <a href=\"https://github.com/gchq/CyberChef/wiki\" target=\"_blank\">github.com/gchq/CyberChef/wiki</a>"
     },
     {
-      "id": 8,
+      "id": 9,
       "type": 1,
       "title": "drawDB",
       "name": "drawdb",
@@ -229,7 +260,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8098/editor</code>. There's no login and nothing to back up on the server, since diagrams are saved in your browser's own storage, so another browser or a cleared cache starts empty. File --&gt; Export as --&gt; JSON keeps a copy, and File --&gt; Import from brings it back. Plain /editor makes a fresh copy of your last diagram on every visit, so bookmark the /editor/diagrams/... address it moves you to. Share and version history need drawDB's separate backend, which isn't included. Icon fonts load from jsDelivr and cdnjs, and the home page at / pulls in tweets and a GitHub star count from outside services. Docs: <a href=\"https://drawdb-io.github.io/docs\" target=\"_blank\">drawdb-io.github.io/docs</a>"
     },
     {
-      "id": 9,
+      "id": 10,
       "type": 3,
       "title": "Etherpad",
       "name": "etherpad",
@@ -280,7 +311,7 @@
       }
     },
     {
-      "id": 10,
+      "id": 11,
       "type": 3,
       "title": "Firefly III",
       "name": "firefly-iii",
@@ -331,7 +362,7 @@
       }
     },
     {
-      "id": 11,
+      "id": 12,
       "type": 3,
       "title": "Grist",
       "name": "grist",
@@ -362,7 +393,7 @@
       }
     },
     {
-      "id": 12,
+      "id": 13,
       "type": 3,
       "title": "Halo",
       "name": "halo",
@@ -399,7 +430,7 @@
       }
     },
     {
-      "id": 13,
+      "id": 14,
       "type": 1,
       "title": "Kanboard",
       "name": "kanboard",
@@ -426,7 +457,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8094</code> and sign in as <code>admin</code> / <code>admin</code>, then change that password straight away under My profile --&gt; Change password, as it's the same on every install. There are no open sign-ups, the admin adds users. Set Settings --&gt; Application URL to the address you use, so links in emails point to the right place. The SQLite database and attachments live in the data volume, plugins in the other. Docs: <a href=\"https://docs.kanboard.org/v1/admin/docker/\" target=\"_blank\">docs.kanboard.org</a>"
     },
     {
-      "id": 14,
+      "id": 15,
       "type": 1,
       "title": "Readeck",
       "name": "readeck",
@@ -450,7 +481,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8097</code> and create your account. Whoever gets there first becomes the admin, and there are no open sign-ups after that, the admin adds users under Settings --&gt; Users. The <a href=\"https://readeck.org/en/extension\" target=\"_blank\">browser extension</a> saves pages in one click. Readeck won't fetch pages on private addresses, so links to things on your LAN save without their content. The settings, generated secret key, SQLite database and every saved page live in the volume. Docs: <a href=\"https://readeck.org/en/docs/\" target=\"_blank\">readeck.org</a>"
     },
     {
-      "id": 15,
+      "id": 16,
       "type": 1,
       "title": "RSSHub",
       "name": "rsshub",
@@ -476,7 +507,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:1200</code> to check it's up, then add feeds to your reader as paths on it, like <code>/github/issue/DIYgod/RSSHub</code>. Every route is listed in the <a href=\"https://docs.rsshub.app\" target=\"_blank\">docs</a>. There's no login, so set an access key if it faces the internet. Nothing to back up, feeds are cached in memory. Some routes need a browser, and for those swap the image tag to <code>chromium-bundled</code>."
     },
     {
-      "id": 16,
+      "id": 17,
       "type": 1,
       "title": "Seerr",
       "name": "seerr",
@@ -507,7 +538,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:5055</code> and the setup wizard walks you through connecting your media server, then Sonarr and Radarr. Settings and the request database live in the <code>/app/config</code> volume. Coming from Overseerr or Jellyseerr? Seerr can take over their config, see the <a href=\"https://docs.seerr.dev\" target=\"_blank\">docs</a> for how."
     },
     {
-      "id": 17,
+      "id": 18,
       "type": 3,
       "title": "SiYuan",
       "name": "siyuan",
@@ -545,7 +576,7 @@
       }
     },
     {
-      "id": 18,
+      "id": 19,
       "type": 1,
       "title": "Super Productivity",
       "name": "super-productivity",
@@ -564,7 +595,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8095</code>. There's no login, and your tasks are saved in your browser rather than on the server, so set up sync (WebDAV, Dropbox and others) in its settings if you use more than one device. Docs: <a href=\"https://github.com/super-productivity/super-productivity#readme\" target=\"_blank\">github.com/super-productivity/super-productivity</a>"
     },
     {
-      "id": 19,
+      "id": 20,
       "type": 1,
       "title": "Termix",
       "name": "termix",
@@ -588,7 +619,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8080</code> and create an account, which becomes the admin. Registration stays open after that, so switch it off in the admin settings unless you want other people signing up. Hosts, keys and the database live in the <code>/app/data</code> volume, and its secrets are generated there on first start. Behind a reverse proxy it needs websockets. It sends a small anonymous usage report once a day, which you can switch off in Admin Settings &gt; Usage Statistics. Docs: <a href=\"https://docs.termix.site\" target=\"_blank\">docs.termix.site</a>"
     },
     {
-      "id": 20,
+      "id": 21,
       "type": 1,
       "title": "TREK",
       "name": "trek",
@@ -639,7 +670,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8099</code> and sign in as <code>admin@trek.local</code>. The password's printed in the container's logs on first start (search them for First Run), and TREK makes you pick a new one straight away. Anyone who can reach it can register their own account, so switch off Password Registration under Administration --&gt; Settings if that's not what you want. Place search asks TREK's own places.liketrek.com as well as OpenStreetMap, add a <code>TREK_PLACES_ENABLED=false</code> env to keep it to OpenStreetMap. The database, its encryption key and every upload live in the two volumes. Docs: <a href=\"https://github.com/liketrek/TREK/wiki\" target=\"_blank\">github.com/liketrek/TREK/wiki</a>"
     },
     {
-      "id": 21,
+      "id": 22,
       "type": 1,
       "title": "Wallos",
       "name": "wallos",

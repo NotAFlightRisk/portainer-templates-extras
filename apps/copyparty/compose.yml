@@ -1,0 +1,22 @@
+services:
+  copyparty:
+    image: copyparty/ac:latest
+    restart: unless-stopped
+    ports:
+      - "${COPYPARTY_PORT:-3923}:3923"
+    command:
+      - -a
+      - "admin:${COPYPARTY_PASSWORD:?Set a password}"
+      - -v
+      - /w::A,admin
+      - --hist
+      - /cfg/hists
+      - -e2dsa
+      - -e2ts
+    volumes:
+      - copyparty-files:/w
+      - copyparty-config:/cfg
+
+volumes:
+  copyparty-files:
+  copyparty-config:
