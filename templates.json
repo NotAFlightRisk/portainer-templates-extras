@@ -590,6 +590,57 @@
     {
       "id": 20,
       "type": 1,
+      "title": "TREK",
+      "name": "trek",
+      "description": "Trip planner for working out each day of a holiday on a map, with bookings, budgets, packing lists and live editing with whoever's coming along. Source: https://github.com/liketrek/TREK",
+      "categories": [
+        "Productivity",
+        "Tools"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/liketrek/TREK/main/client/public/icons/icon.svg",
+      "image": "mauriceboe/trek:4",
+      "restart_policy": "unless-stopped",
+      "ports": [
+        "8099:3000/tcp"
+      ],
+      "volumes": [
+        {
+          "container": "/app/data"
+        },
+        {
+          "container": "/app/uploads"
+        }
+      ],
+      "env": [
+        {
+          "name": "COOKIE_SECURE",
+          "label": "Opening it over plain http?",
+          "description": "TREK only sends its login cookie over HTTPS unless this is on. Switch it off once it's behind a reverse proxy with HTTPS.",
+          "select": [
+            {
+              "text": "Yes, plain http",
+              "value": "false",
+              "default": true
+            },
+            {
+              "text": "No, it's behind HTTPS",
+              "value": "true"
+            }
+          ]
+        },
+        {
+          "name": "TZ",
+          "label": "Timezone",
+          "description": "Like Europe/London. Reminders and scheduled jobs run on it.",
+          "default": "UTC"
+        }
+      ],
+      "note": "Open <code>http://&lt;your-host&gt;:8099</code> and sign in as <code>admin@trek.local</code>. The password's printed in the container's logs on first start (search them for First Run), and TREK makes you pick a new one straight away. Anyone who can reach it can register their own account, so switch off Password Registration under Administration --&gt; Settings if that's not what you want. Place search asks TREK's own places.liketrek.com as well as OpenStreetMap, add a <code>TREK_PLACES_ENABLED=false</code> env to keep it to OpenStreetMap. The database, its encryption key and every upload live in the two volumes. Docs: <a href=\"https://github.com/liketrek/TREK/wiki\" target=\"_blank\">github.com/liketrek/TREK/wiki</a>"
+    },
+    {
+      "id": 21,
+      "type": 1,
       "title": "Wallos",
       "name": "wallos",
       "description": "Subscription tracker for keeping an eye on recurring bills, with stats, multiple currencies and reminders before things renew. Source: https://github.com/ellite/wallos",
