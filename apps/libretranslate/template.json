@@ -1,0 +1,23 @@
+{
+  "title": "LibreTranslate",
+  "name": "libretranslate",
+  "description": "Machine translation server with a page for translating text and documents, plus a JSON API for other apps to call. Runs its own models, so nothing you translate leaves the box. Source: https://github.com/LibreTranslate/LibreTranslate",
+  "categories": ["Tools", "AI"],
+  "platform": "linux",
+  "logo": "https://avatars.githubusercontent.com/u/77352747?s=256",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "LIBRETRANSLATE_LANGUAGES",
+      "label": "Languages",
+      "description": "Two-letter codes, comma separated, like en,es,fr,de,it,ja. Each one is a couple of hundred MB of models to download.",
+      "default": "en,es,fr,de"
+    },
+    {
+      "name": "LIBRETRANSLATE_PORT",
+      "label": "Host port for the web UI",
+      "default": "5100"
+    }
+  ],
+  "note": "Open <code>http://&lt;your-host&gt;:5100</code> (or whichever port you picked). The first start downloads models for the languages you listed, about 900 MB for the default four, so give it a minute or two before the page answers. There are no accounts, so anyone who can reach it can use it and its API (reference at <code>/docs</code>). Keep it on your LAN, or see the docs for API keys and rate limits. To add languages later, change the list and update the stack, and the new ones download on the next start. Each start also checks for model updates. The models live in the <code>libretranslate-models</code> volume. Codes: <a href=\"https://docs.libretranslate.com/guides/supported_languages/\" target=\"_blank\">supported languages</a>. Docs: <a href=\"https://docs.libretranslate.com\" target=\"_blank\">docs.libretranslate.com</a>"
+}
