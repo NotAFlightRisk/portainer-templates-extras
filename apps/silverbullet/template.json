@@ -1,0 +1,13 @@
+{
+  "title": "SilverBullet",
+  "name": "silverbullet",
+  "description": "Notes app for Markdown pages you can program, with two-way links, tasks, queries over everything you've written and Lua scripting for your own commands and widgets. Source: https://github.com/silverbulletmd/silverbullet",
+  "categories": ["Documents", "Productivity", "Wiki"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/silverbulletmd/silverbullet/main/client/images/logo.png",
+  "image": "ghcr.io/silverbulletmd/silverbullet:latest-slim",
+  "restart_policy": "unless-stopped",
+  "ports": ["3300:3000/tcp"],
+  "volumes": [{ "container": "/data" }],
+  "note": "Open <code>http://&lt;your-host&gt;:3300</code> and the setup wizard asks for an admin account, then your first space (at <code>/notes</code> by default). There's no setup code, so whoever gets there first owns the server - do it straight after deploying, and from the address you'll actually use, since the admin dashboard always sends you back there (change it under Admin --&gt; Server). Over plain http on anything but localhost it runs online-only, so no offline use, local encryption or single sign-on. Put it behind an HTTPS proxy to get those back. Accounts, settings and every page (as plain Markdown files) live in the volume. This is the slim image, so if you want the Runtime API, which needs Chromium, use the <code>latest</code> tag instead. Docs: <a href=\"https://docs.silverbullet.md/Install\" target=\"_blank\">docs.silverbullet.md</a>"
+}
