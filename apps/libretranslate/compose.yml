@@ -1,0 +1,20 @@
+services:
+  libretranslate:
+    image: libretranslate/libretranslate:latest
+    restart: unless-stopped
+    ports:
+      - "${LIBRETRANSLATE_PORT:-5100}:5000"
+    environment:
+      LT_LOAD_ONLY: ${LIBRETRANSLATE_LANGUAGES:-en,es,fr,de}
+      LT_UPDATE_MODELS: "true"
+    healthcheck:
+      test: ["CMD-SHELL", "./venv/bin/python scripts/healthcheck.py"]
+      interval: 10s
+      timeout: 4s
+      retries: 4
+      start_period: 5s
+    volumes:
+      - libretranslate-models:/home/libretranslate/.local
+
+volumes:
+  libretranslate-models:
