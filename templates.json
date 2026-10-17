@@ -804,6 +804,41 @@
         }
       ],
       "note": "Open <code>http://&lt;your-host&gt;:8282</code> and register. The first account becomes the admin, and sign-ups are closed after that. The database and any logos you upload live in the two volumes. Docs: <a href=\"https://github.com/ellite/wallos#readme\" target=\"_blank\">github.com/ellite/wallos</a>"
+    },
+    {
+      "id": 26,
+      "type": 3,
+      "title": "Zipline",
+      "name": "zipline",
+      "description": "File sharing and screenshot host that works with ShareX, Flameshot and the like, with a link shortener, text pastes, folders, and files that can expire, need a password or delete themselves after so many views. Source: https://github.com/diced/zipline",
+      "categories": [
+        "File Sharing"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/diced/zipline/trunk/public/favicon-512x512.png",
+      "restart_policy": "unless-stopped",
+      "env": [
+        {
+          "name": "ZIPLINE_SECRET",
+          "label": "Secret (required)",
+          "description": "At least 32 characters. Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or every login and upload token stops working."
+        },
+        {
+          "name": "ZIPLINE_DB_PASSWORD",
+          "label": "Database password (required)",
+          "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or Zipline can't reach its database."
+        },
+        {
+          "name": "ZIPLINE_PORT",
+          "label": "Host port for the web UI",
+          "default": "3200"
+        }
+      ],
+      "note": "Set both <b>secrets</b> before you deploy (<code>openssl rand -hex 32</code> makes good ones), since the stack won't start without them, and keep them the same when you redeploy. Then open <code>http://&lt;your-host&gt;:3200</code> (or whichever port you picked) and create the first account, which becomes the super admin. There are no open sign-ups, so you add everyone else under Users. Settings, under your name in the top corner, makes ready-to-use ShareX and Flameshot configs. Links use whatever address you opened it on, and the rest of the settings (domains, HTTPS links, sign-ups, the 100 MB file limit) live in the dashboard under Server Settings. It checks GitHub for new versions, which you can switch off there under Features. Files and thumbnails live in the <code>zipline-uploads</code> volume, everything else in <code>postgres-data</code>. Docs: <a href=\"https://zipline.diced.sh/docs/get-started\" target=\"_blank\">zipline.diced.sh</a>",
+      "repository": {
+        "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
+        "stackfile": "apps/zipline/compose.yml"
+      }
     }
   ]
 }

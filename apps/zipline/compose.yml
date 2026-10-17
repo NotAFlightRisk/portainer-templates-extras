@@ -1,0 +1,33 @@
+services:
+  zipline:
+    image: ghcr.io/diced/zipline:latest
+    restart: unless-stopped
+    ports:
+      - "${ZIPLINE_PORT:-3200}:3000"
+    environment:
+      CORE_SECRET: ${ZIPLINE_SECRET:?Set a secret of at least 32 characters}
+      DATABASE_URL: postgres://zipline:${ZIPLINE_DB_PASSWORD:?Set a database password}@postgres:5432/zipline
+    volumes:
+      - zipline-uploads:/zipline/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: zipline
+      POSTGRES_USER: zipline
+      POSTGRES_PASSWORD: ${ZIPLINE_DB_PASSWORD:?Set a database password}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U zipline -d zipline"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  zipline-uploads:
+  postgres-data:
