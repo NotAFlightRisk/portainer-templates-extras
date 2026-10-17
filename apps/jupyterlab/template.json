@@ -1,0 +1,13 @@
+{
+  "title": "JupyterLab",
+  "name": "jupyterlab",
+  "description": "Python notebooks in the browser for poking at data and plotting it, with a terminal alongside. It's Jupyter's scipy-notebook image, so pandas, NumPy, matplotlib and scikit-learn come installed. Source: https://github.com/jupyter/docker-stacks",
+  "categories": ["Development", "Tools"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/packages/ui-components/style/icons/jupyter/jupyter.svg",
+  "image": "quay.io/jupyter/scipy-notebook:latest",
+  "restart_policy": "unless-stopped",
+  "ports": ["8888:8888/tcp"],
+  "volumes": [{ "container": "/home/jovyan" }],
+  "note": "Open <code>http://&lt;your-host&gt;:8888</code>. It asks for a token, which is in the container's logs (the link ending <code>/lab?token=...</code>). Put that token and a new password into Setup a Password underneath, and you'll log in with the password from then on - otherwise the token changes on every restart. Whoever logs in gets a terminal inside the container, so keep it off the open internet unless it's behind HTTPS. Your notebooks, settings, password and anything you <code>pip install --user</code> live in the home folder volume. A plain <code>pip install</code> goes into the image and is gone after an update. Docs: <a href=\"https://jupyter-docker-stacks.readthedocs.io\" target=\"_blank\">jupyter-docker-stacks.readthedocs.io</a>"
+}
