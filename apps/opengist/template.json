@@ -1,0 +1,13 @@
+{
+  "title": "Opengist",
+  "name": "opengist",
+  "description": "Pastebin built on Git, like GitHub Gist: every snippet is a repo you can clone, push to and fork, with syntax highlighting, Markdown, embeds, search, and public, unlisted or private gists. Source: https://github.com/thomiceli/opengist",
+  "categories": ["Development", "Tools"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/thomiceli/opengist/master/public/img/opengist.svg",
+  "image": "ghcr.io/thomiceli/opengist:1",
+  "restart_policy": "unless-stopped",
+  "ports": ["6157:6157/tcp", "2222:2222/tcp"],
+  "volumes": [{ "container": "/opengist" }],
+  "note": "Open <code>http://&lt;your-host&gt;:6157</code> and register. The first account becomes the admin and sign-ups stay open after it, so once everyone's in, tick Disable signup under Admin --&gt; Configuration (invitations still work). Public gists can be read without logging in unless you tick Require login there too. Every gist is a Git repo: clone and push over http on 6157, or over SSH on 2222 once you've added a key under Settings. Anyone who adds an email gets their avatar from Gravatar, which the same admin page can turn off. Behind an HTTPS proxy, add <code>OG_EXTERNAL_URL</code> (like <code>https://gist.example.com</code>) to the container's environment so the login cookie is Secure and passkeys work. The SQLite database, every gist's repo, the search index and the generated secret key live in the volume. Docs: <a href=\"https://opengist.io/docs\" target=\"_blank\">opengist.io</a>"
+}
