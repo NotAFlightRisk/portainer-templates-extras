@@ -1,0 +1,12 @@
+{
+  "title": "drawDB",
+  "name": "drawdb",
+  "description": "Database diagram editor for drawing entity relationships in the browser, then exporting them as SQL for MySQL, PostgreSQL, SQLite, MariaDB or SQL Server, or importing an existing schema to see it. Source: https://github.com/drawdb-io/drawdb",
+  "categories": ["Database", "Development", "Tools"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/drawdb-io/drawdb/main/src/assets/icon-dark.png",
+  "image": "ghcr.io/drawdb-io/drawdb:latest",
+  "restart_policy": "unless-stopped",
+  "ports": ["8098:80/tcp"],
+  "note": "Open <code>http://&lt;your-host&gt;:8098/editor</code>. There's no login and nothing to back up on the server, since diagrams are saved in your browser's own storage, so another browser or a cleared cache starts empty. File --&gt; Export as --&gt; JSON keeps a copy, and File --&gt; Import from brings it back. Plain /editor makes a fresh copy of your last diagram on every visit, so bookmark the /editor/diagrams/... address it moves you to. Share and version history need drawDB's separate backend, which isn't included. Icon fonts load from jsDelivr and cdnjs, and the home page at / pulls in tweets and a GitHub star count from outside services. Docs: <a href=\"https://drawdb-io.github.io/docs\" target=\"_blank\">drawdb-io.github.io/docs</a>"
+}
