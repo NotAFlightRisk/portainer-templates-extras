@@ -36,6 +36,7 @@
 | <img src="https://raw.githubusercontent.com/liketrek/TREK/main/client/public/icons/icon.svg" width="16" alt="" /> [TREK](https://github.com/liketrek/TREK) | container | Trip planner for working out each day of a holiday on a map, with bookings, budgets, packing lists and live editing with whoever's coming along. |
 | <img src="https://raw.githubusercontent.com/muety/wakapi/master/static/assets/images/icon-512x512.png" width="16" alt="" /> [Wakapi](https://github.com/muety/wakapi) | stack | Coding time tracker that works with the WakaTime editor plugins. Point them at your own server and get stats per project, language, editor and machine, plus badges you can put in a README. |
 | <img src="https://raw.githubusercontent.com/ellite/wallos/main/images/icon/android-chrome-512x512.png" width="16" alt="" /> [Wallos](https://github.com/ellite/wallos) | container | Subscription tracker for keeping an eye on recurring bills, with stats, multiple currencies and reminders before things renew. |
+| <img src="https://raw.githubusercontent.com/diced/zipline/trunk/public/favicon-512x512.png" width="16" alt="" /> [Zipline](https://github.com/diced/zipline) | stack | File sharing and screenshot host that works with ShareX, Flameshot and the like, with a link shortener, text pastes, folders, and files that can expire, need a password or delete themselves after so many views. |
 <!-- /apps -->
 
 
