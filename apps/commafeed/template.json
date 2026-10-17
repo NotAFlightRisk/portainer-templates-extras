@@ -1,0 +1,20 @@
+{
+  "title": "CommaFeed",
+  "name": "commafeed",
+  "description": "RSS reader in the style of Google Reader, with four layouts, keyboard shortcuts for nearly everything, rules that mark entries as read, OPML import and the Fever and Google Reader APIs for mobile apps. Source: https://github.com/Athou/commafeed",
+  "categories": ["Productivity", "Social"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/Athou/commafeed/master/commafeed-client/src/assets/logo.svg",
+  "image": "athou/commafeed:latest-h2",
+  "restart_policy": "unless-stopped",
+  "ports": ["8082:8082/tcp"],
+  "volumes": [{ "container": "/commafeed/data" }],
+  "env": [
+    {
+      "name": "QUARKUS_HTTP_AUTH_SESSION_ENCRYPTION_KEY",
+      "label": "Session key",
+      "description": "Keeps you logged in when it restarts. At least 16 characters, generate one with: openssl rand -hex 16. Leave it blank and every restart or update logs everyone out."
+    }
+  ],
+  "note": "Open <code>http://&lt;your-host&gt;:8082</code> and the first page creates the admin account. There's no setup code, so do it straight after deploying. Sign-ups are off, so the admin adds everyone else from the user menu --&gt; Manage users. It won't subscribe to feeds on private addresses, so for one on your own network add <code>COMMAFEED_HTTP_CLIENT_BLOCK_LOCAL_ADDRESSES=false</code> to the environment, but only if you trust everyone using it. Mobile apps log in with your username and an API key, which you make at the bottom of Settings --&gt; Profile, where the Fever and Google Reader addresses are too. Everything lives in the H2 database in the volume. Docs: <a href=\"https://athou.github.io/commafeed/documentation\" target=\"_blank\">athou.github.io/commafeed</a>"
+}
