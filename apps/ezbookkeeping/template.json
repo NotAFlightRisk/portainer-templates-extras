@@ -1,0 +1,33 @@
+{
+  "title": "ezBookkeeping",
+  "name": "ezbookkeeping",
+  "description": "Personal finance app for logging what you spend and earn across accounts and currencies, with receipt photos, scheduled transactions and charts. Imports bank statement files, GnuCash and Firefly III, and installs on a phone like an app. Source: https://github.com/mayswind/ezbookkeeping",
+  "categories": ["Finance"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/mayswind/ezbookkeeping/main/public/img/ezbookkeeping-512.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "EZBOOKKEEPING_SECRET_KEY",
+      "label": "Secret key (required)",
+      "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or two-factor logins stop working."
+    },
+    {
+      "name": "EZBOOKKEEPING_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or ezBookkeeping can't reach its database."
+    },
+    {
+      "name": "EZBOOKKEEPING_PORT",
+      "label": "Host port for the web UI",
+      "default": "8100"
+    },
+    {
+      "name": "EZBOOKKEEPING_URL",
+      "label": "Address you'll open it on",
+      "description": "Like http://192.168.1.10:8100/. Receipt photos, profile pictures and the phone QR code all point here, so they break on any other address.",
+      "default": "http://localhost:8100/"
+    }
+  ],
+  "note": "Set both <b>secrets</b> before you deploy (<code>openssl rand -hex 32</code> makes good ones), since the stack won't start without them, and keep them the same when you redeploy. Put the address you'll actually type in the browser in the address field too, or receipt photos won't load. Then open <code>http://&lt;your-host&gt;:8100</code> (or whichever port you picked) and create an account. Tick Use Preset Transaction Categories on the second step, or you start with none. Every account gets its own separate books, but sign-ups stay open, so once you've made yours add <code>EZBOOKKEEPING_SIGNUPS</code> = <code>false</code> to the stack's environment variables and update the stack. Exchange rates come from the European Central Bank, and maps load from OpenStreetMap. Everything lives in Postgres, in the <code>postgres-data</code> volume, with receipt photos and avatars in <code>ezbookkeeping-storage</code>. Docs: <a href=\"https://ezbookkeeping.mayswind.net\" target=\"_blank\">ezbookkeeping.mayswind.net</a>"
+}
