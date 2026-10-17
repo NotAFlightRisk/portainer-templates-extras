@@ -1,0 +1,27 @@
+{
+  "title": "Wakapi",
+  "name": "wakapi",
+  "description": "Coding time tracker that works with the WakaTime editor plugins. Point them at your own server and get stats per project, language, editor and machine, plus badges you can put in a README. Source: https://github.com/muety/wakapi",
+  "categories": ["Development", "Analytics"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/muety/wakapi/master/static/assets/images/icon-512x512.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "WAKAPI_PASSWORD_SALT",
+      "label": "Password salt (required)",
+      "description": "Mixed into every password hash. Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or nobody can log in."
+    },
+    {
+      "name": "WAKAPI_COOKIE_KEY",
+      "label": "Cookie key",
+      "description": "Keeps you logged in when it restarts. Generate one with: openssl rand -base64 32. Leave it blank and every restart logs everyone out."
+    },
+    {
+      "name": "WAKAPI_PORT",
+      "label": "Host port for the web UI",
+      "default": "3100"
+    }
+  ],
+  "note": "Set the <b>password salt</b> before you deploy (<code>openssl rand -hex 32</code> makes a good one), since the stack won't start without it, and keep it the same when you redeploy. Then open <code>http://&lt;your-host&gt;:3100</code> (or whichever port you picked) and sign up. The first account is the admin. Sign-ups stay open, so once you've made yours add <code>WAKAPI_ALLOW_SIGNUP</code> = <code>false</code> to the stack's environment variables and update the stack. The setup page shows the <code>~/.wakatime.cfg</code> lines for your editor's WakaTime plugin, with your API key. Invite links point at localhost until you add <code>WAKAPI_PUBLIC_URL</code> (like <code>http://192.168.1.10:3100</code>) there too. The logged-out front page loads one badge image from badges.fw-web.space. Everything lives in SQLite, in the <code>wakapi-data</code> volume. Docs: <a href=\"https://github.com/muety/wakapi#readme\" target=\"_blank\">github.com/muety/wakapi</a>"
+}
