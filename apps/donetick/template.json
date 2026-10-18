@@ -1,0 +1,28 @@
+{
+  "title": "Donetick",
+  "name": "donetick",
+  "description": "Chore and task tracker for households, with natural-language scheduling, assignee rotation, subtasks, points and rewards, labels, NFC tags and a calendar feed. Source: https://github.com/donetick/donetick",
+  "categories": ["Productivity", "Home Automation"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/donetick/donetick/develop/assets/logo.svg",
+  "image": "donetick/donetick:latest",
+  "restart_policy": "unless-stopped",
+  "ports": ["2021:2021/tcp"],
+  "volumes": [{ "container": "/donetick-data" }, { "container": "/config" }],
+  "env": [
+    {
+      "name": "DT_SQLITE_PATH",
+      "label": "Database file",
+      "description": "Keeps the database in the data volume, so leave it as it is.",
+      "default": "/donetick-data/donetick.db",
+      "preset": true
+    },
+    {
+      "name": "DT_SERVER_PUBLIC_HOST",
+      "label": "Address",
+      "description": "Where you'll open it, like http://192.168.1.10:2021. The calendar feed link is built from this.",
+      "default": "http://localhost:2021"
+    }
+  ],
+  "note": "Open <code>http://&lt;your-host&gt;:2021</code> and click Create one. Sign-ups stay open: everyone makes their own account, then asks to join your circle with the code under Settings --&gt; Circle Settings, where you accept them. Once everyone's in, add <code>DONETICK_DISABLE_SIGNUP=true</code> to the container's environment. Crash reports and usage analytics stay off unless you tick them on the screen after signing up. Photo attachments and avatars need S3-compatible storage set up as their storage docs say, and uploads fail without it. The phone apps only connect over HTTPS with a real certificate, so they need a proxy in front. The SQLite database lives in the data volume, and the generated login secret and settings (<code>selfhosted.yaml</code>) in the config one. Docs: <a href=\"https://docs.donetick.com/getting-started/\" target=\"_blank\">docs.donetick.com</a>"
+}
