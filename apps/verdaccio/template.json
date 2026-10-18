@@ -1,0 +1,13 @@
+{
+  "title": "Verdaccio",
+  "name": "verdaccio",
+  "description": "Private npm registry and caching proxy: publish your own packages to it, and install everything else through it so npmjs downloads get cached locally. Works with npm, yarn and pnpm. Source: https://github.com/verdaccio/verdaccio",
+  "categories": ["Development", "Storage"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/verdaccio/verdaccio/master/packages/ui-components/src/components/Logo/img/logo.svg",
+  "image": "verdaccio/verdaccio:6",
+  "restart_policy": "unless-stopped",
+  "ports": ["4873:4873/tcp"],
+  "volumes": [{ "container": "/verdaccio/storage" }],
+  "note": "Open <code>http://&lt;your-host&gt;:4873</code> to browse packages, and point npm at it with <code>npm config set registry http://&lt;your-host&gt;:4873/</code>. Anything it doesn't host comes from npmjs and gets cached. There's no admin: <code>npm login --registry http://&lt;your-host&gt;:4873/</code> makes an account the first time, and any account can publish and unpublish any package. Sign-ups stay open and packages can be read without logging in, which is upstream's default and only changes in its config.yaml, so keep it on your own network. Authors with an email get their avatar from Gravatar in the web UI. Accounts, packages, the npmjs cache and the generated token secret live in the volume. Docs: <a href=\"https://www.verdaccio.org/docs/docker\" target=\"_blank\">verdaccio.org</a>"
+}
