@@ -1,0 +1,22 @@
+{
+  "title": "KitchenOwl",
+  "name": "kitchenowl",
+  "description": "Grocery list and recipe manager for households, with shopping lists that sync live between everyone, recipes you can add to the list in one go, a meal planner and shared expenses. Source: https://github.com/TomBursch/kitchenowl",
+  "categories": ["Productivity", "Finance"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/TomBursch/kitchenowl/main/kitchenowl/assets/icon/icon-rounded.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "KITCHENOWL_SECRET",
+      "label": "Secret key (required)",
+      "description": "Signs everyone's logins. Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or everyone gets logged out."
+    },
+    {
+      "name": "KITCHENOWL_PORT",
+      "label": "Host port for the web UI",
+      "default": "8070"
+    }
+  ],
+  "note": "Set the <b>secret key</b> before you deploy (<code>openssl rand -hex 32</code> makes a good one), since the stack won't start without it. Then open <code>http://&lt;your-host&gt;:8070</code> (or whichever port you picked) and the first page creates the admin account. There's no setup code, so do it straight after deploying. Sign-ups are off, so the admin adds everyone else under Settings --&gt; Users, then adds them to a household's members. The SQLite database and uploaded photos live in the <code>kitchenowl-data</code> volume. Docs: <a href=\"https://docs.kitchenowl.org/latest/self-hosting/\" target=\"_blank\">docs.kitchenowl.org</a>"
+}
