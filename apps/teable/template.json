@@ -1,0 +1,33 @@
+{
+  "title": "Teable",
+  "name": "teable",
+  "description": "Spreadsheet-style database in the vein of Airtable, built on Postgres: grid, kanban, calendar, gallery and form views, file attachments, formulas, real-time collaboration and an API. Source: https://github.com/teableio/teable",
+  "categories": ["Database", "Productivity"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/teableio/teable/develop/apps/nextjs-app/public/images/favicon/favicon.svg",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "TEABLE_SECRET",
+      "label": "Secret key (required)",
+      "description": "Signs logins and encrypts stored tokens. Generate one with: openssl rand -hex 32"
+    },
+    {
+      "name": "TEABLE_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "Letters and numbers only, since it goes into a database URL. Generate one with: openssl rand -hex 32"
+    },
+    {
+      "name": "TEABLE_URL",
+      "label": "Address you'll open it on",
+      "description": "Like http://192.168.1.10:3500. Invite links and profile pictures point here, so they break on any other address.",
+      "default": "http://localhost:3500"
+    },
+    {
+      "name": "TEABLE_PORT",
+      "label": "Host port for the web UI",
+      "default": "3500"
+    }
+  ],
+  "note": "Set the <b>secret key</b> and <b>database password</b> before you deploy, since the stack won't start without them. The first start sets up the database and takes a couple of minutes, then open <code>http://&lt;your-host&gt;:3500</code> (or whichever port you picked). The first account you sign up becomes the admin. Anyone who can reach it can sign up after that, so once you're in, switch off Allow creating new accounts under System Admin --&gt; Instance settings. Set the address field to wherever you'll open it, or invite links will point at localhost. Teable's image sends a small daily usage report to Teable (your instance ID, how many people are active, and a rough count of spaces and bases). To stop it, add <code>TEABLE_TELEMETRY_OFF</code> set to <code>true</code> to the stack's environment variables and redeploy. AI features and enterprise extras need a paid licence, everything else is free. Attachments live in the <code>teable-data</code> volume, logins in <code>teable-cache</code>, and your tables in <code>postgres-data</code>. Docs: <a href=\"https://help.teable.ai/en/deploy/docker\" target=\"_blank\">help.teable.ai</a>"
+}

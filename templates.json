@@ -918,6 +918,48 @@
     },
     {
       "id": 30,
+      "type": 3,
+      "title": "Teable",
+      "name": "teable",
+      "description": "Spreadsheet-style database in the vein of Airtable, built on Postgres: grid, kanban, calendar, gallery and form views, file attachments, formulas, real-time collaboration and an API. Source: https://github.com/teableio/teable",
+      "categories": [
+        "Database",
+        "Productivity"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/teableio/teable/develop/apps/nextjs-app/public/images/favicon/favicon.svg",
+      "restart_policy": "unless-stopped",
+      "env": [
+        {
+          "name": "TEABLE_SECRET",
+          "label": "Secret key (required)",
+          "description": "Signs logins and encrypts stored tokens. Generate one with: openssl rand -hex 32"
+        },
+        {
+          "name": "TEABLE_DB_PASSWORD",
+          "label": "Database password (required)",
+          "description": "Letters and numbers only, since it goes into a database URL. Generate one with: openssl rand -hex 32"
+        },
+        {
+          "name": "TEABLE_URL",
+          "label": "Address you'll open it on",
+          "description": "Like http://192.168.1.10:3500. Invite links and profile pictures point here, so they break on any other address.",
+          "default": "http://localhost:3500"
+        },
+        {
+          "name": "TEABLE_PORT",
+          "label": "Host port for the web UI",
+          "default": "3500"
+        }
+      ],
+      "note": "Set the <b>secret key</b> and <b>database password</b> before you deploy, since the stack won't start without them. The first start sets up the database and takes a couple of minutes, then open <code>http://&lt;your-host&gt;:3500</code> (or whichever port you picked). The first account you sign up becomes the admin. Anyone who can reach it can sign up after that, so once you're in, switch off Allow creating new accounts under System Admin --&gt; Instance settings. Set the address field to wherever you'll open it, or invite links will point at localhost. Teable's image sends a small daily usage report to Teable (your instance ID, how many people are active, and a rough count of spaces and bases). To stop it, add <code>TEABLE_TELEMETRY_OFF</code> set to <code>true</code> to the stack's environment variables and redeploy. AI features and enterprise extras need a paid licence, everything else is free. Attachments live in the <code>teable-data</code> volume, logins in <code>teable-cache</code>, and your tables in <code>postgres-data</code>. Docs: <a href=\"https://help.teable.ai/en/deploy/docker\" target=\"_blank\">help.teable.ai</a>",
+      "repository": {
+        "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
+        "stackfile": "apps/teable/compose.yml"
+      }
+    },
+    {
+      "id": 31,
       "type": 1,
       "title": "Termix",
       "name": "termix",
@@ -941,7 +983,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8080</code> and create an account, which becomes the admin. Registration stays open after that, so switch it off in the admin settings unless you want other people signing up. Hosts, keys and the database live in the <code>/app/data</code> volume, and its secrets are generated there on first start. Behind a reverse proxy it needs websockets. It sends a small anonymous usage report once a day, which you can switch off in Admin Settings &gt; Usage Statistics. Docs: <a href=\"https://docs.termix.site\" target=\"_blank\">docs.termix.site</a>"
     },
     {
-      "id": 31,
+      "id": 32,
       "type": 1,
       "title": "TREK",
       "name": "trek",
@@ -992,7 +1034,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8099</code> and sign in as <code>admin@trek.local</code>. The password's printed in the container's logs on first start (search them for First Run), and TREK makes you pick a new one straight away. Anyone who can reach it can register their own account, so switch off Password Registration under Administration --&gt; Settings if that's not what you want. Place search asks TREK's own places.liketrek.com as well as OpenStreetMap, add a <code>TREK_PLACES_ENABLED=false</code> env to keep it to OpenStreetMap. The database, its encryption key and every upload live in the two volumes. Docs: <a href=\"https://github.com/liketrek/TREK/wiki\" target=\"_blank\">github.com/liketrek/TREK/wiki</a>"
     },
     {
-      "id": 32,
+      "id": 33,
       "type": 1,
       "title": "Verdaccio",
       "name": "verdaccio",
@@ -1016,7 +1058,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:4873</code> to browse packages, and point npm at it with <code>npm config set registry http://&lt;your-host&gt;:4873/</code>. Anything it doesn't host comes from npmjs and gets cached. There's no admin: <code>npm login --registry http://&lt;your-host&gt;:4873/</code> makes an account the first time, and any account can publish and unpublish any package. Sign-ups stay open and packages can be read without logging in, which is upstream's default and only changes in its config.yaml, so keep it on your own network. Authors with an email get their avatar from Gravatar in the web UI. Accounts, packages, the npmjs cache and the generated token secret live in the volume. Docs: <a href=\"https://www.verdaccio.org/docs/docker\" target=\"_blank\">verdaccio.org</a>"
     },
     {
-      "id": 33,
+      "id": 34,
       "type": 3,
       "title": "Wakapi",
       "name": "wakapi",
@@ -1052,7 +1094,7 @@
       }
     },
     {
-      "id": 34,
+      "id": 35,
       "type": 1,
       "title": "Wallos",
       "name": "wallos",
@@ -1086,7 +1128,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8282</code> and register. The first account becomes the admin, and sign-ups are closed after that. The database and any logos you upload live in the two volumes. Docs: <a href=\"https://github.com/ellite/wallos#readme\" target=\"_blank\">github.com/ellite/wallos</a>"
     },
     {
-      "id": 35,
+      "id": 36,
       "type": 3,
       "title": "Zipline",
       "name": "zipline",
