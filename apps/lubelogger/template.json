@@ -1,0 +1,21 @@
+{
+  "title": "LubeLogger",
+  "name": "lubelogger",
+  "description": "Vehicle maintenance and fuel tracker: log services, repairs, fuel-ups, taxes and odometer readings for each car, attach receipts, and get reminders when something's due. Source: https://github.com/hargata/lubelog",
+  "categories": ["Productivity", "Finance"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/hargata/lubelog/main/wwwroot/defaults/lubelogger_icon_192.png",
+  "image": "ghcr.io/hargata/lubelogger:latest",
+  "restart_policy": "unless-stopped",
+  "ports": ["8180:8080/tcp"],
+  "volumes": [{ "container": "/App/data" }, { "container": "/root/.aspnet/DataProtection-Keys" }],
+  "env": [
+    {
+      "name": "LUBELOGGER_LOCALE_OVERRIDE",
+      "label": "Locale",
+      "description": "Sets the currency, number and date format, like en-GB or de-DE.",
+      "default": "en-US"
+    }
+  ],
+  "note": "Open <code>http://&lt;your-host&gt;:8180</code>. There's no login out of the box, so anyone who can reach it can see and change everything until you turn one on under Settings --&gt; Admin --&gt; Enable Authentication, which sets up the root account. Vehicles, records, uploaded receipts and settings live in the first volume, and the second keeps everyone logged in across updates. The server checks GitHub for new versions and its sponsor list. Docs: <a href=\"https://docs.lubelogger.com\" target=\"_blank\">docs.lubelogger.com</a>"
+}
