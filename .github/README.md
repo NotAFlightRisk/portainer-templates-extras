@@ -11,6 +11,7 @@
 <!-- apps -->
 | App | Type | What it is |
 | --- | --- | --- |
+| <img src="https://raw.githubusercontent.com/Bubka/2FAuth/master/public/favicon_lg.png" width="16" alt="" /> [2FAuth](https://github.com/Bubka/2FAuth) | stack | Web app for your two-factor authentication codes, a self-hosted stand-in for Google Authenticator: add accounts by scanning or uploading their QR codes, then copy codes from any browser. |
 | <img src="https://raw.githubusercontent.com/toeverything/AFFiNE/canary/packages/frontend/apps/electron/resources/icons/icon_stable_512x512.png" width="16" alt="" /> [AFFiNE](https://github.com/toeverything/AFFiNE) | stack | Workspace that mixes docs, whiteboards and databases, so a page can flip between writing and an endless canvas. Edits sync to this server as you type. |
 | <img src="https://raw.githubusercontent.com/apache/answer-website/main/static/img/head-icon.png" width="16" alt="" /> [Apache Answer](https://github.com/apache/answer) | container | Question-and-answer site for a community, product forum or team knowledge base, with voting, accepted answers, tags, reputation and badges. |
 | <img src="https://raw.githubusercontent.com/alam00000/bentopdf/main/public/images/favicon-512x512.png" width="16" alt="" /> [BentoPDF](https://github.com/alam00000/bentopdf) | container | PDF toolkit that runs in your browser, so files never leave your machine. Merge, split, compress, convert, sign and edit. |

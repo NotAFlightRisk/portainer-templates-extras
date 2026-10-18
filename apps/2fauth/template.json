@@ -1,0 +1,22 @@
+{
+  "title": "2FAuth",
+  "name": "2fauth",
+  "description": "Web app for your two-factor authentication codes, a self-hosted stand-in for Google Authenticator: add accounts by scanning or uploading their QR codes, then copy codes from any browser. Source: https://github.com/Bubka/2FAuth",
+  "categories": ["Security"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/Bubka/2FAuth/master/public/favicon_lg.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "TWOFAUTH_APP_KEY",
+      "label": "App key (required)",
+      "description": "Exactly 32 characters. Generate one with: openssl rand -hex 16. Keep it the same when you redeploy."
+    },
+    {
+      "name": "TWOFAUTH_PORT",
+      "label": "Host port for the web UI",
+      "default": "8200"
+    }
+  ],
+  "note": "Set the <b>app key</b> before you deploy (exactly 32 characters, <code>openssl rand -hex 16</code> makes one), since the stack won't start without it. Keep it the same from then on, as it signs logins and encrypts your codes if you turn on encryption. Then open <code>http://&lt;your-host&gt;:8200</code> (or whichever port you picked) and register: the first account becomes the admin. Anyone who can reach it can register after that, so once you're in, tick Disable registration under Admin panel --&gt; Authentication (the menu under your email). Scanning a QR code with the camera and passkeys both need HTTPS, so behind plain http you'll be uploading QR screenshots and signing in with a password. Everything lives in the <code>2fauth-data</code> volume, and since that's every 2FA secret you've got, back it up. Docs: <a href=\"https://docs.2fauth.app\" target=\"_blank\">docs.2fauth.app</a>"
+}
