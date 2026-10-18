@@ -1,0 +1,27 @@
+{
+  "title": "NocoBase",
+  "name": "nocobase",
+  "description": "No-code platform for building internal tools and business apps: define your own data tables and relations, then build pages, forms, kanbans and calendars on top, with roles, permissions and workflows. Source: https://github.com/nocobase/nocobase",
+  "categories": ["Database", "Productivity"],
+  "platform": "linux",
+  "logo": "https://avatars.githubusercontent.com/u/66196787?s=256",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "NOCOBASE_ADMIN_PASSWORD",
+      "label": "Admin password (required)",
+      "description": "For signing in as admin@nocobase.com. Only used on the very first start."
+    },
+    {
+      "name": "NOCOBASE_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or NocoBase can't reach its database."
+    },
+    {
+      "name": "NOCOBASE_PORT",
+      "label": "Host port for the web UI",
+      "default": "13000"
+    }
+  ],
+  "note": "Set both <b>passwords</b> before you deploy, since the stack won't start without them. The first start installs everything and takes a minute or two (the log shows a few APP_COMMANDING errors while it does, which is normal). Then open <code>http://&lt;your-host&gt;:13000</code> (or whichever port you picked) and sign in as <code>admin@nocobase.com</code> with your admin password. Changing that password on the form later does nothing, so use Change password in the user menu at the top right instead. Anyone who can reach it can sign up, and new accounts see nothing until you give their role some permissions. To stop sign-ups, untick Allow to sign up under Settings --&gt; Authentication --&gt; basic --&gt; Configure. Uploads and its generated keys live in the <code>nocobase-storage</code> volume, everything else in <code>postgres-data</code>. Docs: <a href=\"https://docs.nocobase.com\" target=\"_blank\">docs.nocobase.com</a>"
+}

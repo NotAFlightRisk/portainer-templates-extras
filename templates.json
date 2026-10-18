@@ -694,6 +694,42 @@
     },
     {
       "id": 22,
+      "type": 3,
+      "title": "NocoBase",
+      "name": "nocobase",
+      "description": "No-code platform for building internal tools and business apps: define your own data tables and relations, then build pages, forms, kanbans and calendars on top, with roles, permissions and workflows. Source: https://github.com/nocobase/nocobase",
+      "categories": [
+        "Database",
+        "Productivity"
+      ],
+      "platform": "linux",
+      "logo": "https://avatars.githubusercontent.com/u/66196787?s=256",
+      "restart_policy": "unless-stopped",
+      "env": [
+        {
+          "name": "NOCOBASE_ADMIN_PASSWORD",
+          "label": "Admin password (required)",
+          "description": "For signing in as admin@nocobase.com. Only used on the very first start."
+        },
+        {
+          "name": "NOCOBASE_DB_PASSWORD",
+          "label": "Database password (required)",
+          "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or NocoBase can't reach its database."
+        },
+        {
+          "name": "NOCOBASE_PORT",
+          "label": "Host port for the web UI",
+          "default": "13000"
+        }
+      ],
+      "note": "Set both <b>passwords</b> before you deploy, since the stack won't start without them. The first start installs everything and takes a minute or two (the log shows a few APP_COMMANDING errors while it does, which is normal). Then open <code>http://&lt;your-host&gt;:13000</code> (or whichever port you picked) and sign in as <code>admin@nocobase.com</code> with your admin password. Changing that password on the form later does nothing, so use Change password in the user menu at the top right instead. Anyone who can reach it can sign up, and new accounts see nothing until you give their role some permissions. To stop sign-ups, untick Allow to sign up under Settings --&gt; Authentication --&gt; basic --&gt; Configure. Uploads and its generated keys live in the <code>nocobase-storage</code> volume, everything else in <code>postgres-data</code>. Docs: <a href=\"https://docs.nocobase.com\" target=\"_blank\">docs.nocobase.com</a>",
+      "repository": {
+        "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
+        "stackfile": "apps/nocobase/compose.yml"
+      }
+    },
+    {
+      "id": 23,
       "type": 1,
       "title": "Opengist",
       "name": "opengist",
@@ -718,7 +754,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:6157</code> and register. The first account becomes the admin and sign-ups stay open after it, so once everyone's in, tick Disable signup under Admin --&gt; Configuration (invitations still work). Public gists can be read without logging in unless you tick Require login there too. Every gist is a Git repo: clone and push over http on 6157, or over SSH on 2222 once you've added a key under Settings. Anyone who adds an email gets their avatar from Gravatar, which the same admin page can turn off. Behind an HTTPS proxy, add <code>OG_EXTERNAL_URL</code> (like <code>https://gist.example.com</code>) to the container's environment so the login cookie is Secure and passkeys work. The SQLite database, every gist's repo, the search index and the generated secret key live in the volume. Docs: <a href=\"https://opengist.io/docs\" target=\"_blank\">opengist.io</a>"
     },
     {
-      "id": 23,
+      "id": 24,
       "type": 1,
       "title": "Readeck",
       "name": "readeck",
@@ -742,7 +778,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8097</code> and create your account. Whoever gets there first becomes the admin, and there are no open sign-ups after that, the admin adds users under Settings --&gt; Users. The <a href=\"https://readeck.org/en/extension\" target=\"_blank\">browser extension</a> saves pages in one click. Readeck won't fetch pages on private addresses, so links to things on your LAN save without their content. The settings, generated secret key, SQLite database and every saved page live in the volume. Docs: <a href=\"https://readeck.org/en/docs/\" target=\"_blank\">readeck.org</a>"
     },
     {
-      "id": 24,
+      "id": 25,
       "type": 1,
       "title": "RSSHub",
       "name": "rsshub",
@@ -768,7 +804,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:1200</code> to check it's up, then add feeds to your reader as paths on it, like <code>/github/issue/DIYgod/RSSHub</code>. Every route is listed in the <a href=\"https://docs.rsshub.app\" target=\"_blank\">docs</a>. There's no login, so set an access key if it faces the internet. Nothing to back up, feeds are cached in memory. Some routes need a browser, and for those swap the image tag to <code>chromium-bundled</code>."
     },
     {
-      "id": 25,
+      "id": 26,
       "type": 1,
       "title": "Seerr",
       "name": "seerr",
@@ -799,7 +835,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:5055</code> and the setup wizard walks you through connecting your media server, then Sonarr and Radarr. Settings and the request database live in the <code>/app/config</code> volume. Coming from Overseerr or Jellyseerr? Seerr can take over their config, see the <a href=\"https://docs.seerr.dev\" target=\"_blank\">docs</a> for how."
     },
     {
-      "id": 26,
+      "id": 27,
       "type": 1,
       "title": "SilverBullet",
       "name": "silverbullet",
@@ -824,7 +860,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:3300</code> and the setup wizard asks for an admin account, then your first space (at <code>/notes</code> by default). There's no setup code, so whoever gets there first owns the server - do it straight after deploying, and from the address you'll actually use, since the admin dashboard always sends you back there (change it under Admin --&gt; Server). Over plain http on anything but localhost it runs online-only, so no offline use, local encryption or single sign-on. Put it behind an HTTPS proxy to get those back. Accounts, settings and every page (as plain Markdown files) live in the volume. This is the slim image, so if you want the Runtime API, which needs Chromium, use the <code>latest</code> tag instead. Docs: <a href=\"https://docs.silverbullet.md/Install\" target=\"_blank\">docs.silverbullet.md</a>"
     },
     {
-      "id": 27,
+      "id": 28,
       "type": 3,
       "title": "SiYuan",
       "name": "siyuan",
@@ -862,7 +898,7 @@
       }
     },
     {
-      "id": 28,
+      "id": 29,
       "type": 1,
       "title": "Super Productivity",
       "name": "super-productivity",
@@ -881,7 +917,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8095</code>. There's no login, and your tasks are saved in your browser rather than on the server, so set up sync (WebDAV, Dropbox and others) in its settings if you use more than one device. Docs: <a href=\"https://github.com/super-productivity/super-productivity#readme\" target=\"_blank\">github.com/super-productivity/super-productivity</a>"
     },
     {
-      "id": 29,
+      "id": 30,
       "type": 1,
       "title": "Termix",
       "name": "termix",
@@ -905,7 +941,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8080</code> and create an account, which becomes the admin. Registration stays open after that, so switch it off in the admin settings unless you want other people signing up. Hosts, keys and the database live in the <code>/app/data</code> volume, and its secrets are generated there on first start. Behind a reverse proxy it needs websockets. It sends a small anonymous usage report once a day, which you can switch off in Admin Settings &gt; Usage Statistics. Docs: <a href=\"https://docs.termix.site\" target=\"_blank\">docs.termix.site</a>"
     },
     {
-      "id": 30,
+      "id": 31,
       "type": 1,
       "title": "TREK",
       "name": "trek",
@@ -956,7 +992,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8099</code> and sign in as <code>admin@trek.local</code>. The password's printed in the container's logs on first start (search them for First Run), and TREK makes you pick a new one straight away. Anyone who can reach it can register their own account, so switch off Password Registration under Administration --&gt; Settings if that's not what you want. Place search asks TREK's own places.liketrek.com as well as OpenStreetMap, add a <code>TREK_PLACES_ENABLED=false</code> env to keep it to OpenStreetMap. The database, its encryption key and every upload live in the two volumes. Docs: <a href=\"https://github.com/liketrek/TREK/wiki\" target=\"_blank\">github.com/liketrek/TREK/wiki</a>"
     },
     {
-      "id": 31,
+      "id": 32,
       "type": 1,
       "title": "Verdaccio",
       "name": "verdaccio",
@@ -980,7 +1016,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:4873</code> to browse packages, and point npm at it with <code>npm config set registry http://&lt;your-host&gt;:4873/</code>. Anything it doesn't host comes from npmjs and gets cached. There's no admin: <code>npm login --registry http://&lt;your-host&gt;:4873/</code> makes an account the first time, and any account can publish and unpublish any package. Sign-ups stay open and packages can be read without logging in, which is upstream's default and only changes in its config.yaml, so keep it on your own network. Authors with an email get their avatar from Gravatar in the web UI. Accounts, packages, the npmjs cache and the generated token secret live in the volume. Docs: <a href=\"https://www.verdaccio.org/docs/docker\" target=\"_blank\">verdaccio.org</a>"
     },
     {
-      "id": 32,
+      "id": 33,
       "type": 3,
       "title": "Wakapi",
       "name": "wakapi",
@@ -1016,7 +1052,7 @@
       }
     },
     {
-      "id": 33,
+      "id": 34,
       "type": 1,
       "title": "Wallos",
       "name": "wallos",
@@ -1050,7 +1086,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8282</code> and register. The first account becomes the admin, and sign-ups are closed after that. The database and any logos you upload live in the two volumes. Docs: <a href=\"https://github.com/ellite/wallos#readme\" target=\"_blank\">github.com/ellite/wallos</a>"
     },
     {
-      "id": 34,
+      "id": 35,
       "type": 3,
       "title": "Zipline",
       "name": "zipline",
