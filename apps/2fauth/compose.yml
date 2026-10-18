@@ -1,0 +1,14 @@
+services:
+  2fauth:
+    image: 2fauth/2fauth:8
+    restart: unless-stopped
+    ports:
+      - "${TWOFAUTH_PORT:-8200}:8000"
+    environment:
+      APP_KEY: ${TWOFAUTH_APP_KEY:?Set an app key of exactly 32 characters}
+      APP_URL: ""
+    volumes:
+      - 2fauth-data:/2fauth
+
+volumes:
+  2fauth-data:
