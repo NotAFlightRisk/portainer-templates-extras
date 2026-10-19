@@ -1,0 +1,27 @@
+{
+  "title": "Langflow",
+  "name": "langflow",
+  "description": "Visual builder for AI agents and workflows: drag together models, prompts, tools, vector stores and MCP servers on a canvas, chat with the result in a playground, then call it as an API or serve it as an MCP server. Source: https://github.com/langflow-ai/langflow",
+  "categories": ["AI", "Automation", "Development"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/langflow-ai/langflow/main/src/frontend/src/assets/LangflowLogoColor.svg",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "LANGFLOW_ADMIN_PASSWORD",
+      "label": "Admin password (required)",
+      "description": "For signing in as langflow. Only used to create the account on the very first start."
+    },
+    {
+      "name": "LANGFLOW_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "Letters and numbers only, since it goes into a database URL. Generate one with: openssl rand -hex 32"
+    },
+    {
+      "name": "LANGFLOW_PORT",
+      "label": "Host port for the web UI",
+      "default": "7860"
+    }
+  ],
+  "note": "Set both <b>passwords</b> before you deploy, since the stack won't start without them. The first start takes a couple of minutes, then open <code>http://&lt;your-host&gt;:7860</code> (or whichever port you picked) and sign in as <code>langflow</code> with your admin password. Changing that password on the form later does nothing. Add your AI provider's key under Settings --&gt; Model Providers (Ollama works too). The sign-up link makes accounts that stay locked until an admin switches them on, and the open-source version only does that through its API, so treat it as a one-person app. Any account can run its own Python on the server, so only switch on people you trust. Langflow sends anonymous usage stats to its makers. To stop it, add <code>LANGFLOW_TELEMETRY_OFF</code> set to <code>true</code> to the stack's environment variables and redeploy. Uploaded files and its generated keys live in the <code>langflow-data</code> volume, your flows and settings in <code>postgres-data</code>. Docs: <a href=\"https://docs.langflow.org/deployment-docker\" target=\"_blank\">docs.langflow.org</a>"
+}
