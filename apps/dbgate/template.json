@@ -1,0 +1,22 @@
+{
+  "title": "DbGate",
+  "name": "dbgate",
+  "description": "Database manager in the browser for PostgreSQL, MySQL, MariaDB, SQL Server, SQLite, MongoDB, Redis and more: browse and edit tables, write queries, compare schemas, draw diagrams and import or export data. Source: https://github.com/dbgate/dbgate",
+  "categories": ["Database", "Development", "Tools"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/dbgate/dbgate/master/packages/web/public/logo512.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "DBGATE_PASSWORD",
+      "label": "Password (required)",
+      "description": "For logging in as admin. DbGate has no login at all without one, hence required."
+    },
+    {
+      "name": "DBGATE_PORT",
+      "label": "Host port for the web UI",
+      "default": "3600"
+    }
+  ],
+  "note": "Set a <b>password</b> before you deploy, since the stack won't start without one. Then open <code>http://&lt;your-host&gt;:3600</code> (or whichever port you picked) and log in as <code>admin</code>. Each browser gets asked once about anonymous usage analytics, which stay off unless you say yes. Add your databases with New Connection, and use <code>dockerhost</code> as the server for one published on the Docker host itself. A restart logs you out, nothing else is lost. Saved connections, queries and uploads live in the <code>dbgate-data</code> volume. Whenever someone opens it, DbGate's server also asks dbgate.cloud for new shared scripts and a premium advert, mentioning which kinds of database you use. Docs: <a href=\"https://docs.dbgate.io/env-variables/\" target=\"_blank\">docs.dbgate.io</a>"
+}

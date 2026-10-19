@@ -1,0 +1,14 @@
+services:
+  dbgate:
+    image: dbgate/dbgate:latest
+    restart: unless-stopped
+    ports:
+      - "${DBGATE_PORT:-3600}:3000"
+    environment:
+      LOGIN: admin
+      PASSWORD: ${DBGATE_PASSWORD:?Set a password}
+    volumes:
+      - dbgate-data:/root/.dbgate
+
+volumes:
+  dbgate-data:
