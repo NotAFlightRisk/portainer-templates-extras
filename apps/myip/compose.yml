@@ -1,0 +1,8 @@
+services:
+  myip:
+    image: jason5ng32/myip:latest
+    restart: unless-stopped
+    ports:
+      - "${MYIP_PORT:-18966}:18966"
+    environment:
+      ALLOWED_DOMAINS: ${MYIP_HOSTS:?Set the host name or IP you'll open it on}
