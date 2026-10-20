@@ -3,6 +3,7 @@
 import argparse
 import json
 import os
+import re
 import shlex
 import subprocess
 import sys
@@ -13,6 +14,7 @@ from urllib.error import HTTPError, URLError
 from build import APPS, build, env_default
 
 STAND_IN = "smoke-test-only".ljust(32, "0")  # some apps want keys exactly 32 long
+ADDRESS_NAME = re.compile(r"_URL$")
 
 
 def docker(*args, **kwargs):
@@ -21,10 +23,12 @@ def docker(*args, **kwargs):
     )
 
 
-def form_values(template):
+def form_values(template, address="http://localhost"):
     """What a deploy with the defaults sends, with a stand-in for anything required"""
     return {
-        var["name"]: env_default(var) or STAND_IN for var in template.get("env", [])
+        var["name"]: env_default(var)
+        or (address if ADDRESS_NAME.search(var["name"]) else STAND_IN)
+        for var in template.get("env", [])
     }
 
 
@@ -57,11 +61,13 @@ def start_stack(slug, template, name):
     env = os.environ | form_values(template)
     compose = ["compose", "-p", name, "-f", str(APPS / slug / "compose.yml")]
     config = json.loads(docker(*compose, "config", "--format", "json", env=env).stdout)
-    docker(*compose, "up", "-d", env=env)
     ports = [
         p for service in config["services"].values() for p in service.get("ports", [])
     ]
-    return ports[0]["published"] if ports else None
+    port = ports[0]["published"] if ports else None
+    env |= form_values(template, f"http://127.0.0.1:{port}")
+    docker(*compose, "up", "-d", env=env)
+    return port
 
 
 def answers(port, name, timeout):
