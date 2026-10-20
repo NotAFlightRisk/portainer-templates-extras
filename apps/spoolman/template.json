@@ -1,0 +1,13 @@
+{
+  "title": "Spoolman",
+  "name": "spoolman",
+  "description": "3D printer filament tracker that keeps count of your spools, what's left on each and where they live, makes printable QR labels, and takes usage straight from Moonraker (Klipper) or OctoPrint as you print. Source: https://github.com/Donkie/Spoolman",
+  "categories": ["Tools"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/Donkie/Spoolman/master/client_v2/static/favicon.svg",
+  "image": "ghcr.io/donkie/spoolman:latest",
+  "restart_policy": "unless-stopped",
+  "ports": ["7912:8000/tcp"],
+  "volumes": [{ "container": "/home/app/.local/share/spoolman" }],
+  "note": "Open <code>http://&lt;your-host&gt;:7912</code>. There's no login at all, so anyone who can reach it can see and change your spools - keep it on your own network. Add spools searches your own catalogue plus SpoolmanDB, a public list of filaments the server downloads from GitHub, so most details fill themselves in. Moonraker and the OctoPrint plugin connect to that same address. The database and its nightly backups live in the volume. The page loads its fonts from Google Fonts. Docs: <a href=\"https://github.com/Donkie/Spoolman/wiki\" target=\"_blank\">github.com/Donkie/Spoolman/wiki</a>"
+}
