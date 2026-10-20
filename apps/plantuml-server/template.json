@@ -1,0 +1,12 @@
+{
+  "title": "PlantUML Server",
+  "name": "plantuml-server",
+  "description": "Web editor and rendering server for PlantUML, turning plain-text descriptions into sequence, class, component and other diagrams as PNG, SVG or ASCII, with a link for each one you can embed in docs and wikis. Source: https://github.com/plantuml/plantuml-server",
+  "categories": ["Development", "Tools"],
+  "platform": "linux",
+  "logo": "https://avatars.githubusercontent.com/u/5711322?s=256",
+  "image": "plantuml/plantuml-server:jetty",
+  "restart_policy": "unless-stopped",
+  "ports": ["8380:8080/tcp"],
+  "note": "Open <code>http://&lt;your-host&gt;:8380</code>. There's no login and nothing saved on the server, since each diagram is encoded into its own address, so bookmark or share the page's address to keep one. The link above the editor renders it straight into a doc or wiki, and swapping <code>/png/</code> for <code>/svg/</code> gives you an SVG. PNGs get cut off at 4096 pixels across while SVGs don't, so for bigger ones add <code>PLANTUML_LIMIT_SIZE</code> (say <code>16384</code>) to the container's environment. Includes work from public web addresses, but not from local files or your own network. Docs: <a href=\"https://plantuml.com/server\" target=\"_blank\">plantuml.com/server</a>"
+}
