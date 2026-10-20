@@ -1,0 +1,30 @@
+services:
+  kener:
+    image: rajnandan1/kener:latest
+    restart: unless-stopped
+    ports:
+      - "${KENER_PORT:-3700}:3000"
+    environment:
+      ORIGIN: ${KENER_URL:?Set the address you'll open it on}
+      KENER_SECRET_KEY: ${KENER_SECRET:?Set a secret key}
+      REDIS_URL: redis://redis:6379
+    volumes:
+      - kener-data:/app/database
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  kener-data:
+  redis-data:
