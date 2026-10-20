@@ -1,0 +1,22 @@
+{
+  "title": "MyIP",
+  "name": "myip",
+  "description": "IP toolbox for checking your own connection: your IPv4 and IPv6 addresses and where they look like they are, which sites you can reach, WebRTC and DNS leak tests, a speed test, and lookups for MTR, DNS records and whois. Source: https://github.com/jason5ng32/MyIP",
+  "categories": ["Networking", "Tools"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/jason5ng32/MyIP/main/public/logos/ios-logo-512.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "MYIP_HOSTS",
+      "label": "Host name or IP you'll open it on (required)",
+      "description": "Just the host, no http:// and no port, like 192.168.1.20 or myip.example.com. For several, use commas and no spaces."
+    },
+    {
+      "name": "MYIP_PORT",
+      "label": "Host port for the web UI",
+      "default": "18966"
+    }
+  ],
+  "note": "Fill in the <b>host name or IP</b> you'll open it on before you deploy, since the stack won't start without one. That's just the host part of the address, like <code>192.168.1.20</code> or <code>myip.example.com</code>, with no <code>http://</code> and no port. MyIP's server only answers lookups for pages opened on a host it knows (plus localhost), so if it's missing or wrong the page loads but your IP cards sit there loading forever. To fix it, change it in the stack's environment variables and redeploy. More than one host goes in as a list with commas and no spaces, like <code>192.168.1.20,myip.example.com</code>, since a space quietly breaks the host after it. Then open <code>http://&lt;your-host&gt;:18966</code> (or whichever port you picked). There's no login and nothing stored. Checking your connection is the whole point, so the page talks to lots of outside services: its makers' ipcheck.ing probes, IP lookup services (through the server), leak-test servers and the sites in the connectivity test. Docs: <a href=\"https://github.com/jason5ng32/MyIP#readme\" target=\"_blank\">github.com/jason5ng32/MyIP</a>"
+}
