@@ -1,0 +1,27 @@
+{
+  "title": "Kener",
+  "name": "kener",
+  "description": "Status page with built-in monitoring: it checks your sites, APIs, ports and DNS on a schedule and shows uptime, response times, incidents and planned maintenance on a public page. Source: https://github.com/rajnandan1/kener",
+  "categories": ["Monitoring"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/rajnandan1/kener/main/static/logo.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "KENER_URL",
+      "label": "Address you'll open it on (required)",
+      "description": "Exactly what you'll type in the browser, port included and no slash at the end, like http://192.168.1.20:3700."
+    },
+    {
+      "name": "KENER_SECRET",
+      "label": "Secret key (required)",
+      "description": "Signs everyone's logins. Generate one with: openssl rand -hex 32. Keep it the same when you redeploy."
+    },
+    {
+      "name": "KENER_PORT",
+      "label": "Host port for the web UI",
+      "default": "3700"
+    }
+  ],
+  "note": "Fill in the <b>address</b> and <b>secret key</b> before you deploy, since the stack won't start without them. The address has to be exactly what you'll type in the browser, like <code>http://192.168.1.20:3700</code>: the port you're using, and no slash at the end. Kener refuses any form sent from another address, so if it's wrong the status page still shows but signing in or saving anything gives you <i>Cross-site POST form submissions are forbidden</i>. To fix it, change the address in the stack's environment variables and redeploy. Then go to <code>/account/signin</code> straight away, as the first person there sets up the admin account. New monitors need a type under Configuration (the service URL on its own is just a link), and only show on the public status page once you add them to it under Pages. The two sample monitors check kener.ing and load their icons from there for every visitor, so delete them when you've added your own. Settings, monitors and their history live in the <code>kener-data</code> volume. Docs: <a href=\"https://kener.ing/docs/\" target=\"_blank\">kener.ing/docs</a>"
+}
