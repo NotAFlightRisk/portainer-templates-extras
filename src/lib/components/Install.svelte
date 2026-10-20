@@ -173,16 +173,15 @@
   }
 
   .code {
-    display: flex;
-    align-items: start;
+    --copy-width: 5.5rem;
+
+    position: relative;
     border: 1px solid var(--line-soft);
     border-radius: var(--radius-s);
     background: var(--canvas);
   }
 
   pre {
-    flex: 1;
-    min-width: 0;
     margin: 0;
     padding: var(--space-m);
     max-height: 26rem;
@@ -196,6 +195,13 @@
     &.wrap {
       white-space: pre-wrap;
       line-height: 1.6;
+    }
+
+    & code::before {
+      content: '';
+      float: right;
+      width: calc(var(--copy-width) + var(--space-s));
+      height: 1lh;
     }
 
     & :global(.key) {
@@ -216,10 +222,13 @@
   }
 
   .copy {
-    flex: none;
+    position: absolute;
+    top: var(--space-m);
+    right: var(--space-m);
     display: inline-flex;
-    margin: var(--space-s) var(--space-s) 0 0;
+    min-width: var(--copy-width);
     align-items: center;
+    justify-content: center;
     gap: var(--space-2xs);
     padding: var(--space-2xs) var(--space-s);
     border: 0;
