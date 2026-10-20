@@ -1,0 +1,36 @@
+services:
+  yourls:
+    image: yourls:1
+    restart: unless-stopped
+    ports:
+      - "${YOURLS_PORT:-8400}:8080"
+    environment:
+      YOURLS_SITE: ${YOURLS_URL:?Set the address you'll open it on}
+      YOURLS_USER: ${YOURLS_ADMIN_USER:-admin}
+      YOURLS_PASS: ${YOURLS_ADMIN_PASSWORD:?Set an admin password}
+      YOURLS_DB_HOST: db
+      YOURLS_DB_NAME: yourls
+      YOURLS_DB_USER: yourls
+      YOURLS_DB_PASS: ${YOURLS_DB_PASSWORD:?Set a database password}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: yourls
+      MARIADB_USER: yourls
+      MARIADB_PASSWORD: ${YOURLS_DB_PASSWORD:?Set a database password}
+      MARIADB_RANDOM_ROOT_PASSWORD: "1"
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  db-data:
