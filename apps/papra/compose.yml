@@ -1,0 +1,15 @@
+services:
+  papra:
+    image: ghcr.io/papra-hq/papra:latest
+    restart: unless-stopped
+    ports:
+      - "${PAPRA_PORT:-1221}:1221"
+    environment:
+      APP_BASE_URL: ${PAPRA_URL:?Set the address you'll open it on}
+      AUTH_SECRET: ${PAPRA_AUTH_SECRET:?Set an auth secret}
+      AUTH_IS_REGISTRATION_ENABLED: ${PAPRA_SIGNUPS:-true}
+    volumes:
+      - papra-data:/app/app-data
+
+volumes:
+  papra-data:

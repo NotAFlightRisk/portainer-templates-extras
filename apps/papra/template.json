@@ -1,0 +1,27 @@
+{
+  "title": "Papra",
+  "name": "papra",
+  "description": "Document archive for receipts, contracts, payslips and all the other paperwork you need to keep: upload them, search their text (scans included), and tag them by hand or with rules, in separate organisations for home and work. Source: https://github.com/papra-hq/papra",
+  "categories": ["Documents", "Productivity"],
+  "platform": "linux",
+  "logo": "https://avatars.githubusercontent.com/u/193336953?s=256",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "PAPRA_URL",
+      "label": "Address you'll open it on (required)",
+      "description": "Exactly what you'll type in the browser, port included and no slash at the end, like http://192.168.1.20:1221."
+    },
+    {
+      "name": "PAPRA_AUTH_SECRET",
+      "label": "Auth secret (required)",
+      "description": "At least 32 characters. Generate one with: openssl rand -hex 32. Keep it the same when you redeploy."
+    },
+    {
+      "name": "PAPRA_PORT",
+      "label": "Host port for the web UI",
+      "default": "1221"
+    }
+  ],
+  "note": "Fill in the <b>address</b> and <b>auth secret</b> before you deploy, since the stack won't start without them. The address has to be exactly what you'll type in the browser, like <code>http://192.168.1.20:1221</code>: the port you're using, and no slash at the end. Papra only accepts logins from that address, so if it's wrong the page still loads but signing up or logging in fails with <i>Invalid callbackURL</i>. To fix it, change the address in the stack's environment variables and redeploy. The first account you make is the admin, and sign-ups stay open after that. To close them, add <code>PAPRA_SIGNUPS</code> set to <code>false</code> to the stack's environment variables and redeploy. Documents and the database live in the <code>papra-data</code> volume. Docs: <a href=\"https://docs.papra.app/self-hosting/configuration/\" target=\"_blank\">docs.papra.app</a>"
+}
