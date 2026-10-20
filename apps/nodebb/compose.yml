@@ -1,0 +1,43 @@
+services:
+  nodebb:
+    image: ghcr.io/nodebb/nodebb:4.x
+    restart: unless-stopped
+    ports:
+      - "${NODEBB_PORT:-4567}:4567"
+    environment:
+      database: postgres
+      postgres__host: db
+      postgres__port: "5432"
+      postgres__username: nodebb
+      postgres__password: ${NODEBB_DB_PASSWORD:?Set a database password}
+      postgres__database: nodebb
+    volumes:
+      - nodebb-config:/opt/config
+      - nodebb-modules:/usr/src/app/node_modules
+      - nodebb-build:/usr/src/app/build
+      - nodebb-uploads:/usr/src/app/public/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: nodebb
+      POSTGRES_USER: nodebb
+      POSTGRES_PASSWORD: ${NODEBB_DB_PASSWORD:?Set a database password}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nodebb -d nodebb"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  nodebb-config:
+  nodebb-modules:
+  nodebb-build:
+  nodebb-uploads:
+  db-data:
