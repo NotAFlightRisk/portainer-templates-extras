@@ -1493,12 +1493,17 @@
           "description": "Generate one with: openssl rand -hex 16"
         },
         {
+          "name": "YOURLS_COOKIE_KEY",
+          "label": "Cookie key",
+          "description": "Keeps you logged in, and your API signature token the same, across updates. Generate one with: openssl rand -hex 32. Left blank, both change every time it's updated."
+        },
+        {
           "name": "YOURLS_PORT",
           "label": "Host port",
           "default": "8400"
         }
       ],
-      "note": "Fill in the <b>address</b>, <b>admin password</b> and <b>database password</b> before you deploy, since the stack won't start without them. The address has to be exactly what you'll type in the browser, like <code>http://192.168.1.20:8400</code>: the port you're using, all lowercase, and no slash at the end. YOURLS builds every short link, page and button from it, so if it's wrong the short links it hands out point at that address, and the admin pages load without styling and can't shorten anything. To fix it, change the address in the stack's environment variables and redeploy. Then open <code>/admin</code> on that address (the bare address just says Forbidden, that's normal), click <i>Install YOURLS</i> once to set up the database, and log in with the admin username and password from the form. The password stays in the stack's environment variables, so that's where you change it. The install adds three sample links to yourls.org, delete them if you like. Short links are public, and so are their stats pages (add a <code>+</code> to any short link), which draw their charts with Google Charts. The admin list also shows each site's icon from Google. For scripts, use the signature token under Tools rather than your password. Links and stats live in the <code>db-data</code> volume. Docs: <a href=\"https://yourls.org/docs\" target=\"_blank\">yourls.org/docs</a>",
+      "note": "Fill in the <b>address</b>, <b>admin password</b> and <b>database password</b> before you deploy, since the stack won't start without them. The address has to be exactly what you'll type in the browser, like <code>http://192.168.1.20:8400</code>: the port you're using, all lowercase, and no slash at the end. YOURLS builds every short link, page and button from it, so if it's wrong <code>/admin</code> sends you off to that address to install, any page you do reach has no styling and won't shorten anything, and short links point at the wrong place. To fix it, change the address in the stack's environment variables and redeploy. Then open <code>/admin</code> on that address (the bare address just says Forbidden, that's normal), click <i>Install YOURLS</i> once to set up the database, and log in with the admin username and password from the form. The login lives in the stack's environment variables, so that's where you change the password. The install adds three sample links to yourls.org, delete them if you like. Short links are public, and so are their stats pages (add a <code>+</code> to any short link), which load their charts and site icons from Google. For scripts, use the signature token under Tools rather than your password, and set a cookie key so the token survives updates. Links and stats live in the <code>db-data</code> volume. Docs: <a href=\"https://yourls.org/docs\" target=\"_blank\">yourls.org/docs</a>",
       "repository": {
         "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
         "stackfile": "apps/yourls/compose.yml"

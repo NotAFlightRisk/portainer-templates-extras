@@ -8,6 +8,7 @@ services:
       YOURLS_SITE: ${YOURLS_URL:?Set the address you'll open it on}
       YOURLS_USER: ${YOURLS_ADMIN_USER:-admin}
       YOURLS_PASS: ${YOURLS_ADMIN_PASSWORD:?Set an admin password}
+      YOURLS_COOKIEKEY: ${YOURLS_COOKIE_KEY:-}
       YOURLS_DB_HOST: db
       YOURLS_DB_NAME: yourls
       YOURLS_DB_USER: yourls
