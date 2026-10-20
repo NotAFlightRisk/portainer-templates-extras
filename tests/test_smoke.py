@@ -1,0 +1,27 @@
+import sys
+import unittest
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+
+from smoke import STAND_IN, form_values
+
+TEMPLATE = {
+    "env": [
+        {"name": "PUB_PORT", "label": "Port", "default": "8080"},
+        {"name": "PUB_SECRET", "label": "Secret"},
+        {"name": "PUB_URL", "label": "Address"},
+    ]
+}
+
+
+class FormValuesTest(unittest.TestCase):
+    def test_required_address_gets_a_real_address_not_the_stand_in(self):
+        self.assertEqual(
+            form_values(TEMPLATE, "http://127.0.0.1:8080"),
+            {
+                "PUB_PORT": "8080",
+                "PUB_SECRET": STAND_IN,
+                "PUB_URL": "http://127.0.0.1:8080",
+            },
+        )

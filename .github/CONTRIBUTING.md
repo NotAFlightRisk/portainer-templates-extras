@@ -37,6 +37,7 @@ The bits that trip people up:
 - Every path holding data that has to survive an update gets a volume, `{ "container": "/data" }`. Caches and temp folders can be skipped.
 - Every `env` entry has a `label`, and every value is a string, `"8080"` not `8080`. One wrong type and Portainer refuses to load the whole list, not just your app.
 - Portainer sends every variable you list, even blank ones. Don't list anything that breaks when it's empty, and never give a secret a default.
+- Secrets aside, the only thing worth making someone fill in is the address they'll open the app on, and only for apps that build every link from it or refuse any other address. Name it `<APP>_URL`, give it no default, make it required in a stack (see below), and say in the `note` exactly what to type and what breaks if it's wrong.
 - A `select` needs exactly one option with `"default": true`, or Portainer sends nothing.
 - `note` shows on the deploy form. Say which port to open, how the first login works, where the data lives, and link the docs. It takes basic HTML, so write `&lt;` for `<`.
 
