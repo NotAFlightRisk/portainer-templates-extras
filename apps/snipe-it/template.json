@@ -1,0 +1,38 @@
+{
+  "title": "Snipe-IT",
+  "name": "snipe-it",
+  "description": "IT asset manager for keeping track of laptops, licences, accessories and consumables: who has what, check-outs and check-ins, audits, maintenance, depreciation and asset tag labels. Source: https://github.com/grokability/snipe-it",
+  "categories": ["Productivity", "Tools"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/grokability/snipe-it/master/public/img/snipe-logo-bug.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "SNIPEIT_URL",
+      "label": "Address you'll open it on (required)",
+      "description": "Exactly what you'll type in the browser, port included and no slash at the end, like http://192.168.1.20:8300. Every page and link is built from it."
+    },
+    {
+      "name": "SNIPEIT_APP_KEY",
+      "label": "App key (required)",
+      "description": "Exactly 32 characters. Generate one with: openssl rand -hex 16. Keep it the same when you redeploy."
+    },
+    {
+      "name": "SNIPEIT_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "Generate one with: openssl rand -hex 16"
+    },
+    {
+      "name": "SNIPEIT_TIMEZONE",
+      "label": "Timezone",
+      "description": "For the dates it shows, like Europe/London.",
+      "default": "UTC"
+    },
+    {
+      "name": "SNIPEIT_PORT",
+      "label": "Host port for the web UI",
+      "default": "8300"
+    }
+  ],
+  "note": "Fill in the <b>address</b>, <b>app key</b> and <b>database password</b> before you deploy, since the stack won't start without them. The address has to be exactly what you'll type in the browser, like <code>http://192.168.1.20:8300</code>: the port you're using, and no slash at the end. Snipe-IT builds every page, link and redirect from it, so if it's wrong the front page sends you off to that address instead, and any page you do reach has no styling and buttons that go nowhere. To fix it, change the address in the stack's environment variables and redeploy. Then open the address straight away, as whoever finishes the setup wizard first becomes the admin. There are no sign-ups, the admin adds everyone else under Users. Nothing gets emailed until you add mail settings to the stack's environment variables (see the docs). Uploads and backups live in the <code>snipeit-data</code> volume, everything else in <code>db-data</code>. Docs: <a href=\"https://snipe-it.readme.io/docs/docker\" target=\"_blank\">snipe-it.readme.io</a>"
+}
