@@ -350,15 +350,18 @@
   }
 
   .title {
+    flex: 1;
     display: grid;
     gap: var(--space-xs);
+    container-type: inline-size;
   }
 
   h1 {
-    font-size: var(--text-hero);
+    font-size: min(var(--text-hero), 12cqi);
     font-weight: 800;
     line-height: 1;
     letter-spacing: -0.03em;
+    overflow-wrap: anywhere;
   }
 
   .tags {
