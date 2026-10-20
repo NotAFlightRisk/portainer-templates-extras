@@ -1,0 +1,32 @@
+{
+  "title": "RustFS",
+  "name": "rustfs",
+  "description": "S3-compatible object storage written in Rust, an open-source alternative to MinIO, with a web console for browsing buckets and managing users, policies and access keys. Source: https://github.com/rustfs/rustfs",
+  "categories": ["Storage", "Cloud"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/rustfs/console/main/app/icon.svg",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "RUSTFS_ADMIN_USER",
+      "label": "Admin user (access key)",
+      "default": "admin"
+    },
+    {
+      "name": "RUSTFS_SECRET_KEY",
+      "label": "Admin password (secret key, required)",
+      "description": "Generate one with: openssl rand -hex 16. To change it later, change it here and redeploy."
+    },
+    {
+      "name": "RUSTFS_API_PORT",
+      "label": "Host port for the S3 API",
+      "default": "9010"
+    },
+    {
+      "name": "RUSTFS_CONSOLE_PORT",
+      "label": "Host port for the web console",
+      "default": "9011"
+    }
+  ],
+  "note": "Set the <b>secret key</b> before you deploy, since the stack won't start without one. Then open the console at <code>http://&lt;your-host&gt;:9011</code> (or whichever port you picked) and log in with the admin user as the account (<code>admin</code> unless you changed it) and the secret key as the key. S3 clients and SDKs go to <code>http://&lt;your-host&gt;:9010</code>, with path-style addressing and region <code>us-east-1</code>. Buckets start private. Rather than hand the admin's keys to other apps, make them their own user under Users. Changing the secret key on the form and redeploying changes the admin's password, and other users carry on as they were. Everything lives in the <code>rustfs-data</code> volume, as a single drive with no redundancy, so back it up like any other data. Docs: <a href=\"https://docs.rustfs.com/installation/docker/\" target=\"_blank\">docs.rustfs.com</a>"
+}
