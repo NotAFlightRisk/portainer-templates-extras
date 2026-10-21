@@ -1,0 +1,43 @@
+services:
+  dolibarr:
+    image: dolibarr/dolibarr:24
+    restart: unless-stopped
+    entrypoint: ["sh", "-c", "rm -f /var/www/documents/install.lock && exec docker-run.sh apache2-foreground"]
+    ports:
+      - "${DOLIBARR_PORT:-8480}:80"
+    environment:
+      DOLI_URL_ROOT: ${DOLIBARR_URL:-http://localhost:8480}
+      DOLI_ADMIN_LOGIN: admin
+      DOLI_ADMIN_PASSWORD: ${DOLIBARR_ADMIN_PASSWORD:?Set an admin password}
+      DOLI_INSTANCE_UNIQUE_ID: ${DOLIBARR_SECRET_KEY:?Set a secret key}
+      DOLI_DB_HOST: db
+      DOLI_DB_NAME: dolibarr
+      DOLI_DB_USER: dolibarr
+      DOLI_DB_PASSWORD: ${DOLIBARR_DB_PASSWORD:?Set a database password}
+    volumes:
+      - dolibarr-documents:/var/www/documents
+      - dolibarr-custom:/var/www/html/custom
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: dolibarr
+      MARIADB_USER: dolibarr
+      MARIADB_PASSWORD: ${DOLIBARR_DB_PASSWORD:?Set a database password}
+      MARIADB_RANDOM_ROOT_PASSWORD: "1"
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  dolibarr-documents:
+  dolibarr-custom:
+  db-data:
