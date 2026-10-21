@@ -444,6 +444,42 @@
     {
       "id": 15,
       "type": 3,
+      "title": "Easy!Appointments",
+      "name": "easy-appointments",
+      "description": "Online booking site for appointments: customers pick a service, a provider and a free slot, and you manage it all from a calendar with working hours, breaks and holidays per provider. Syncs with Google or CalDAV calendars. Source: https://github.com/alextselegidis/easyappointments",
+      "categories": [
+        "Productivity",
+        "Tools"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/alextselegidis/easyappointments/main/logo.png",
+      "restart_policy": "unless-stopped",
+      "env": [
+        {
+          "name": "EASYAPPOINTMENTS_URL",
+          "label": "Address you'll open it on (required)",
+          "description": "Exactly what you'll type in the browser, port included and no slash at the end, like http://192.168.1.20:8580. Every page and link is built from it."
+        },
+        {
+          "name": "EASYAPPOINTMENTS_DB_PASSWORD",
+          "label": "Database password (required)",
+          "description": "Generate one with: openssl rand -hex 16. Keep it the same when you redeploy."
+        },
+        {
+          "name": "EASYAPPOINTMENTS_PORT",
+          "label": "Host port for the web UI",
+          "default": "8580"
+        }
+      ],
+      "note": "Fill in the <b>address</b> and <b>database password</b> before you deploy, since the stack won't start without them. The address has to be exactly what you'll type in the browser, like <code>http://192.168.1.20:8580</code>: the port you're using, and no slash at the end. Easy!Appointments builds every page and link from it, so if it's wrong the front page sends you off to that address instead, and any page you do reach has no styling and buttons that do nothing. To fix it, change the address in the stack's environment variables and redeploy. Then open <code>/index.php/installation</code> on that address straight away, as whoever fills in that form first becomes the admin. Go there directly: once it's been opened, the front page says Database Migration Required until the install's done. It adds a sample service, provider and customer, so rename or delete those first. Customers book at the address itself, and you log in at <code>/index.php/login</code>. Nothing gets emailed until you add <code>EASYAPPOINTMENTS_SMTP_HOST</code>, <code>EASYAPPOINTMENTS_SMTP_USER</code> and <code>EASYAPPOINTMENTS_SMTP_PASSWORD</code> to the stack's environment variables and update the stack (plus <code>EASYAPPOINTMENTS_SMTP_PORT</code> if it isn't 587, and <code>EASYAPPOINTMENTS_SMTP_SECURITY</code> = <code>ssl</code> for port 465). Emails come from the company email you set at install. Everything lives in MariaDB, in the <code>db-data</code> volume, with logins and backups in <code>easyappointments-storage</code>. Docs: <a href=\"https://github.com/alextselegidis/easyappointments/tree/main/docs\" target=\"_blank\">github.com/alextselegidis/easyappointments</a>",
+      "repository": {
+        "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
+        "stackfile": "apps/easy-appointments/compose.yml"
+      }
+    },
+    {
+      "id": 16,
+      "type": 3,
       "title": "Etherpad",
       "name": "etherpad",
       "description": "Collaborative text editor where everyone types in the same document at once, with history, chat and plugins. This one runs on Postgres. Source: https://github.com/ether/etherpad",
@@ -493,7 +529,7 @@
       }
     },
     {
-      "id": 16,
+      "id": 17,
       "type": 3,
       "title": "ezBookkeeping",
       "name": "ezbookkeeping",
@@ -534,7 +570,7 @@
       }
     },
     {
-      "id": 17,
+      "id": 18,
       "type": 3,
       "title": "Firefly III",
       "name": "firefly-iii",
@@ -585,7 +621,7 @@
       }
     },
     {
-      "id": 18,
+      "id": 19,
       "type": 3,
       "title": "Grist",
       "name": "grist",
@@ -616,7 +652,7 @@
       }
     },
     {
-      "id": 19,
+      "id": 20,
       "type": 3,
       "title": "Halo",
       "name": "halo",
@@ -653,7 +689,7 @@
       }
     },
     {
-      "id": 20,
+      "id": 21,
       "type": 1,
       "title": "JupyterLab",
       "name": "jupyterlab",
@@ -677,7 +713,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8888</code>. It asks for a token, which is in the container's logs (the link ending <code>/lab?token=...</code>). Put that token and a new password into Setup a Password underneath, and you'll log in with the password from then on - otherwise the token changes on every restart. Whoever logs in gets a terminal inside the container, so keep it off the open internet unless it's behind HTTPS. Your notebooks, settings, password and anything you <code>pip install --user</code> live in the home folder volume. A plain <code>pip install</code> goes into the image and is gone after an update. Docs: <a href=\"https://jupyter-docker-stacks.readthedocs.io\" target=\"_blank\">jupyter-docker-stacks.readthedocs.io</a>"
     },
     {
-      "id": 21,
+      "id": 22,
       "type": 1,
       "title": "Kanboard",
       "name": "kanboard",
@@ -704,7 +740,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8094</code> and sign in as <code>admin</code> / <code>admin</code>, then change that password straight away under My profile --&gt; Change password, as it's the same on every install. There are no open sign-ups, the admin adds users. Set Settings --&gt; Application URL to the address you use, so links in emails point to the right place. The SQLite database and attachments live in the data volume, plugins in the other. Docs: <a href=\"https://docs.kanboard.org/v1/admin/docker/\" target=\"_blank\">docs.kanboard.org</a>"
     },
     {
-      "id": 22,
+      "id": 23,
       "type": 3,
       "title": "Kener",
       "name": "kener",
@@ -739,7 +775,7 @@
       }
     },
     {
-      "id": 23,
+      "id": 24,
       "type": 3,
       "title": "KitchenOwl",
       "name": "kitchenowl",
@@ -770,7 +806,7 @@
       }
     },
     {
-      "id": 24,
+      "id": 25,
       "type": 3,
       "title": "Langflow",
       "name": "langflow",
@@ -807,7 +843,7 @@
       }
     },
     {
-      "id": 25,
+      "id": 26,
       "type": 3,
       "title": "LibreTranslate",
       "name": "libretranslate",
@@ -839,7 +875,7 @@
       }
     },
     {
-      "id": 26,
+      "id": 27,
       "type": 1,
       "title": "LubeLogger",
       "name": "lubelogger",
@@ -874,7 +910,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8180</code>. There's no login out of the box, so anyone who can reach it can see and change everything until you turn one on under Settings --&gt; Admin --&gt; Enable Authentication, which sets up the root account. Vehicles, records, uploaded receipts and settings live in the first volume, and the second keeps everyone logged in across updates. The server checks GitHub for new versions and its sponsor list. Docs: <a href=\"https://docs.lubelogger.com\" target=\"_blank\">docs.lubelogger.com</a>"
     },
     {
-      "id": 27,
+      "id": 28,
       "type": 3,
       "title": "MyIP",
       "name": "myip",
@@ -905,7 +941,7 @@
       }
     },
     {
-      "id": 28,
+      "id": 29,
       "type": 3,
       "title": "NocoBase",
       "name": "nocobase",
@@ -941,7 +977,7 @@
       }
     },
     {
-      "id": 29,
+      "id": 30,
       "type": 3,
       "title": "NodeBB",
       "name": "nodebb",
@@ -972,7 +1008,7 @@
       }
     },
     {
-      "id": 30,
+      "id": 31,
       "type": 1,
       "title": "Opengist",
       "name": "opengist",
@@ -997,7 +1033,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:6157</code> and register. The first account becomes the admin and sign-ups stay open after it, so once everyone's in, tick Disable signup under Admin --&gt; Configuration (invitations still work). Public gists can be read without logging in unless you tick Require login there too. Every gist is a Git repo: clone and push over http on 6157, or over SSH on 2222 once you've added a key under Settings. Anyone who adds an email gets their avatar from Gravatar, which the same admin page can turn off. Behind an HTTPS proxy, add <code>OG_EXTERNAL_URL</code> (like <code>https://gist.example.com</code>) to the container's environment so the login cookie is Secure and passkeys work. The SQLite database, every gist's repo, the search index and the generated secret key live in the volume. Docs: <a href=\"https://opengist.io/docs\" target=\"_blank\">opengist.io</a>"
     },
     {
-      "id": 31,
+      "id": 32,
       "type": 3,
       "title": "Papra",
       "name": "papra",
@@ -1033,7 +1069,7 @@
       }
     },
     {
-      "id": 32,
+      "id": 33,
       "type": 1,
       "title": "PlantUML Server",
       "name": "plantuml-server",
@@ -1052,7 +1088,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8380</code>. There's no login and nothing saved on the server, since each diagram is encoded into its own address, so bookmark or share the page's address to keep one. The link above the editor renders it straight into a doc or wiki, and swapping <code>/png/</code> for <code>/svg/</code> gives you an SVG. PNGs get cut off at 4096 pixels across while SVGs don't, so for bigger ones add <code>PLANTUML_LIMIT_SIZE</code> (say <code>16384</code>) to the container's environment. Includes work from public web addresses, but not from local files or your own network. Docs: <a href=\"https://plantuml.com/server\" target=\"_blank\">plantuml.com/server</a>"
     },
     {
-      "id": 33,
+      "id": 34,
       "type": 1,
       "title": "Readeck",
       "name": "readeck",
@@ -1076,7 +1112,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8097</code> and create your account. Whoever gets there first becomes the admin, and there are no open sign-ups after that, the admin adds users under Settings --&gt; Users. The <a href=\"https://readeck.org/en/extension\" target=\"_blank\">browser extension</a> saves pages in one click. Readeck won't fetch pages on private addresses, so links to things on your LAN save without their content. The settings, generated secret key, SQLite database and every saved page live in the volume. Docs: <a href=\"https://readeck.org/en/docs/\" target=\"_blank\">readeck.org</a>"
     },
     {
-      "id": 34,
+      "id": 35,
       "type": 1,
       "title": "RSSHub",
       "name": "rsshub",
@@ -1102,7 +1138,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:1200</code> to check it's up, then add feeds to your reader as paths on it, like <code>/github/issue/DIYgod/RSSHub</code>. Every route is listed in the <a href=\"https://docs.rsshub.app\" target=\"_blank\">docs</a>. There's no login, so set an access key if it faces the internet. Nothing to back up, feeds are cached in memory. Some routes need a browser, and for those swap the image tag to <code>chromium-bundled</code>."
     },
     {
-      "id": 35,
+      "id": 36,
       "type": 3,
       "title": "RustFS",
       "name": "rustfs",
@@ -1143,7 +1179,7 @@
       }
     },
     {
-      "id": 36,
+      "id": 37,
       "type": 1,
       "title": "Seerr",
       "name": "seerr",
@@ -1174,7 +1210,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:5055</code> and the setup wizard walks you through connecting your media server, then Sonarr and Radarr. Settings and the request database live in the <code>/app/config</code> volume. Coming from Overseerr or Jellyseerr? Seerr can take over their config, see the <a href=\"https://docs.seerr.dev\" target=\"_blank\">docs</a> for how."
     },
     {
-      "id": 37,
+      "id": 38,
       "type": 1,
       "title": "SilverBullet",
       "name": "silverbullet",
@@ -1199,7 +1235,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:3300</code> and the setup wizard asks for an admin account, then your first space (at <code>/notes</code> by default). There's no setup code, so whoever gets there first owns the server - do it straight after deploying, and from the address you'll actually use, since the admin dashboard always sends you back there (change it under Admin --&gt; Server). Over plain http on anything but localhost it runs online-only, so no offline use, local encryption or single sign-on. Put it behind an HTTPS proxy to get those back. Accounts, settings and every page (as plain Markdown files) live in the volume. This is the slim image, so if you want the Runtime API, which needs Chromium, use the <code>latest</code> tag instead. Docs: <a href=\"https://docs.silverbullet.md/Install\" target=\"_blank\">docs.silverbullet.md</a>"
     },
     {
-      "id": 38,
+      "id": 39,
       "type": 3,
       "title": "SiYuan",
       "name": "siyuan",
@@ -1237,7 +1273,7 @@
       }
     },
     {
-      "id": 39,
+      "id": 40,
       "type": 3,
       "title": "Snipe-IT",
       "name": "snipe-it",
@@ -1284,7 +1320,7 @@
       }
     },
     {
-      "id": 40,
+      "id": 41,
       "type": 1,
       "title": "Spoolman",
       "name": "spoolman",
@@ -1307,7 +1343,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:7912</code>. There's no login at all, so anyone who can reach it can see and change your spools - keep it on your own network. Add spools searches your own catalogue plus SpoolmanDB, a public list of filaments the server downloads from GitHub, so most details fill themselves in. Moonraker and the OctoPrint plugin connect to that same address. The database and its nightly backups live in the volume. The page loads its fonts from Google Fonts. Docs: <a href=\"https://github.com/Donkie/Spoolman/wiki\" target=\"_blank\">github.com/Donkie/Spoolman/wiki</a>"
     },
     {
-      "id": 41,
+      "id": 42,
       "type": 1,
       "title": "Super Productivity",
       "name": "super-productivity",
@@ -1326,7 +1362,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8095</code>. There's no login, and your tasks are saved in your browser rather than on the server, so set up sync (WebDAV, Dropbox and others) in its settings if you use more than one device. Docs: <a href=\"https://github.com/super-productivity/super-productivity#readme\" target=\"_blank\">github.com/super-productivity/super-productivity</a>"
     },
     {
-      "id": 42,
+      "id": 43,
       "type": 3,
       "title": "Teable",
       "name": "teable",
@@ -1368,7 +1404,7 @@
       }
     },
     {
-      "id": 43,
+      "id": 44,
       "type": 1,
       "title": "Termix",
       "name": "termix",
@@ -1392,7 +1428,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8080</code> and create an account, which becomes the admin. Registration stays open after that, so switch it off in the admin settings unless you want other people signing up. Hosts, keys and the database live in the <code>/app/data</code> volume, and its secrets are generated there on first start. Behind a reverse proxy it needs websockets. It sends a small anonymous usage report once a day, which you can switch off in Admin Settings &gt; Usage Statistics. Docs: <a href=\"https://docs.termix.site\" target=\"_blank\">docs.termix.site</a>"
     },
     {
-      "id": 44,
+      "id": 45,
       "type": 1,
       "title": "TREK",
       "name": "trek",
@@ -1443,7 +1479,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8099</code> and sign in as <code>admin@trek.local</code>. The password's printed in the container's logs on first start (search them for First Run), and TREK makes you pick a new one straight away. Anyone who can reach it can register their own account, so switch off Password Registration under Administration --&gt; Settings if that's not what you want. Place search asks TREK's own places.liketrek.com as well as OpenStreetMap, add a <code>TREK_PLACES_ENABLED=false</code> env to keep it to OpenStreetMap. The database, its encryption key and every upload live in the two volumes. Docs: <a href=\"https://github.com/liketrek/TREK/wiki\" target=\"_blank\">github.com/liketrek/TREK/wiki</a>"
     },
     {
-      "id": 45,
+      "id": 46,
       "type": 1,
       "title": "Verdaccio",
       "name": "verdaccio",
@@ -1467,7 +1503,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:4873</code> to browse packages, and point npm at it with <code>npm config set registry http://&lt;your-host&gt;:4873/</code>. Anything it doesn't host comes from npmjs and gets cached. There's no admin: <code>npm login --registry http://&lt;your-host&gt;:4873/</code> makes an account the first time, and any account can publish and unpublish any package. Sign-ups stay open and packages can be read without logging in, which is upstream's default and only changes in its config.yaml, so keep it on your own network. Authors with an email get their avatar from Gravatar in the web UI. Accounts, packages, the npmjs cache and the generated token secret live in the volume. Docs: <a href=\"https://www.verdaccio.org/docs/docker\" target=\"_blank\">verdaccio.org</a>"
     },
     {
-      "id": 46,
+      "id": 47,
       "type": 3,
       "title": "Wakapi",
       "name": "wakapi",
@@ -1503,7 +1539,7 @@
       }
     },
     {
-      "id": 47,
+      "id": 48,
       "type": 1,
       "title": "Wallos",
       "name": "wallos",
@@ -1537,7 +1573,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8282</code> and register. The first account becomes the admin, and sign-ups are closed after that. The database and any logos you upload live in the two volumes. Docs: <a href=\"https://github.com/ellite/wallos#readme\" target=\"_blank\">github.com/ellite/wallos</a>"
     },
     {
-      "id": 48,
+      "id": 49,
       "type": 3,
       "title": "YOURLS",
       "name": "yourls",
@@ -1588,7 +1624,7 @@
       }
     },
     {
-      "id": 49,
+      "id": 50,
       "type": 3,
       "title": "Zipline",
       "name": "zipline",

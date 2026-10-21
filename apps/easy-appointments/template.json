@@ -1,0 +1,27 @@
+{
+  "title": "Easy!Appointments",
+  "name": "easy-appointments",
+  "description": "Online booking site for appointments: customers pick a service, a provider and a free slot, and you manage it all from a calendar with working hours, breaks and holidays per provider. Syncs with Google or CalDAV calendars. Source: https://github.com/alextselegidis/easyappointments",
+  "categories": ["Productivity", "Tools"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/alextselegidis/easyappointments/main/logo.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "EASYAPPOINTMENTS_URL",
+      "label": "Address you'll open it on (required)",
+      "description": "Exactly what you'll type in the browser, port included and no slash at the end, like http://192.168.1.20:8580. Every page and link is built from it."
+    },
+    {
+      "name": "EASYAPPOINTMENTS_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "Generate one with: openssl rand -hex 16. Keep it the same when you redeploy."
+    },
+    {
+      "name": "EASYAPPOINTMENTS_PORT",
+      "label": "Host port for the web UI",
+      "default": "8580"
+    }
+  ],
+  "note": "Fill in the <b>address</b> and <b>database password</b> before you deploy, since the stack won't start without them. The address has to be exactly what you'll type in the browser, like <code>http://192.168.1.20:8580</code>: the port you're using, and no slash at the end. Easy!Appointments builds every page and link from it, so if it's wrong the front page sends you off to that address instead, and any page you do reach has no styling and buttons that do nothing. To fix it, change the address in the stack's environment variables and redeploy. Then open <code>/index.php/installation</code> on that address straight away, as whoever fills in that form first becomes the admin. Go there directly: once it's been opened, the front page says Database Migration Required until the install's done. It adds a sample service, provider and customer, so rename or delete those first. Customers book at the address itself, and you log in at <code>/index.php/login</code>. Nothing gets emailed until you add <code>EASYAPPOINTMENTS_SMTP_HOST</code>, <code>EASYAPPOINTMENTS_SMTP_USER</code> and <code>EASYAPPOINTMENTS_SMTP_PASSWORD</code> to the stack's environment variables and update the stack (plus <code>EASYAPPOINTMENTS_SMTP_PORT</code> if it isn't 587, and <code>EASYAPPOINTMENTS_SMTP_SECURITY</code> = <code>ssl</code> for port 465). Emails come from the company email you set at install. Everything lives in MariaDB, in the <code>db-data</code> volume, with logins and backups in <code>easyappointments-storage</code>. Docs: <a href=\"https://github.com/alextselegidis/easyappointments/tree/main/docs\" target=\"_blank\">github.com/alextselegidis/easyappointments</a>"
+}
