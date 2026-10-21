@@ -1,0 +1,44 @@
+services:
+  easyappointments:
+    image: alextselegidis/easyappointments:latest
+    restart: unless-stopped
+    ports:
+      - "${EASYAPPOINTMENTS_PORT:-8580}:80"
+    environment:
+      BASE_URL: ${EASYAPPOINTMENTS_URL:?Set the address you'll open it on}
+      DB_HOST: db
+      DB_NAME: easyappointments
+      DB_USERNAME: easyappointments
+      DB_PASSWORD: ${EASYAPPOINTMENTS_DB_PASSWORD:?Set a database password}
+      MAIL_PROTOCOL: ${EASYAPPOINTMENTS_SMTP_HOST:+smtp}
+      MAIL_SMTP_HOST: ${EASYAPPOINTMENTS_SMTP_HOST:-}
+      MAIL_SMTP_PORT: ${EASYAPPOINTMENTS_SMTP_PORT:-587}
+      MAIL_SMTP_USER: ${EASYAPPOINTMENTS_SMTP_USER:-}
+      MAIL_SMTP_PASS: ${EASYAPPOINTMENTS_SMTP_PASSWORD:-}
+      MAIL_SMTP_AUTH: "1"
+      MAIL_SMTP_CRYPTO: ${EASYAPPOINTMENTS_SMTP_SECURITY:-}
+    volumes:
+      - easyappointments-storage:/var/www/html/storage
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: easyappointments
+      MARIADB_USER: easyappointments
+      MARIADB_PASSWORD: ${EASYAPPOINTMENTS_DB_PASSWORD:?Set a database password}
+      MARIADB_RANDOM_ROOT_PASSWORD: "1"
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  easyappointments-storage:
+  db-data:
