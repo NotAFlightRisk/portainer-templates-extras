@@ -1,0 +1,38 @@
+{
+  "title": "Dolibarr",
+  "name": "dolibarr",
+  "description": "ERP and CRM for small businesses and freelancers: contacts, quotes, orders, invoices and payments, stock, projects, expense reports, HR and accounting. You switch on just the parts you need. Source: https://github.com/Dolibarr/dolibarr",
+  "categories": ["Finance", "Productivity"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/Dolibarr/dolibarr/develop/htdocs/theme/dolibarr_256x256_color.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "DOLIBARR_ADMIN_PASSWORD",
+      "label": "Admin password (required)",
+      "description": "For the admin login. No spaces. Only used on the very first start, change it in Dolibarr after that."
+    },
+    {
+      "name": "DOLIBARR_SECRET_KEY",
+      "label": "Secret key (required)",
+      "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or saved bank details, API keys and mail passwords can't be read."
+    },
+    {
+      "name": "DOLIBARR_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "Generate one with: openssl rand -hex 16. Keep it the same when you redeploy."
+    },
+    {
+      "name": "DOLIBARR_PORT",
+      "label": "Host port for the web UI",
+      "default": "8480"
+    },
+    {
+      "name": "DOLIBARR_URL",
+      "label": "Address you'll open it on",
+      "description": "Like http://192.168.1.20:8480. Shared document links and links in emails point here.",
+      "default": "http://localhost:8480"
+    }
+  ],
+  "note": "Fill in the <b>admin password</b>, <b>secret key</b> and <b>database password</b> before you deploy (<code>openssl rand -hex 32</code> makes good secrets), since the stack won't start without them, and keep the key and database password the same when you redeploy. The first start takes a few minutes while it fills the database, so the page won't load straight away. Then open <code>http://&lt;your-host&gt;:8480</code> (or whichever port you picked) and log in as <code>admin</code> with your password. It sends you to Setup first: add your company's name, country and currency (it starts in euros), then switch on the modules you want under Setup --&gt; Modules. There are no sign-ups, you add everyone else under Users &amp; Groups. Put the address you'll actually type in the browser in the address field too, since shared document links and links in emails use it, and they point at <code>localhost</code> until you do. To change it later, edit the address in the stack's environment variables and redeploy. To update, redeploy with the image re-pulled: it backs up the database into the documents volume and upgrades it on start. The first time the home page loads after an install or update, your browser sends Dolibarr an anonymous ping (a hashed id, versions, database type and country). Uploads, generated PDFs and backups live in the <code>dolibarr-documents</code> volume, add-on modules in <code>dolibarr-custom</code>, everything else in <code>db-data</code>. Docs: <a href=\"https://wiki.dolibarr.org\" target=\"_blank\">wiki.dolibarr.org</a>"
+}
