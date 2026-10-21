@@ -14,6 +14,12 @@ services:
       DB_DATABASE: snipeit
       DB_USERNAME: snipeit
       DB_PASSWORD: ${SNIPEIT_DB_PASSWORD:?Set a database password}
+      MAIL_HOST: ${SNIPEIT_MAIL_HOST:-}
+      MAIL_PORT: ${SNIPEIT_MAIL_PORT:-587}
+      MAIL_USERNAME: ${SNIPEIT_MAIL_USER:-}
+      MAIL_PASSWORD: ${SNIPEIT_MAIL_PASSWORD:-}
+      MAIL_FROM_ADDR: ${SNIPEIT_MAIL_FROM:-}
+      MAIL_REPLYTO_ADDR: ${SNIPEIT_MAIL_FROM:-}
     volumes:
       - snipeit-data:/var/lib/snipeit
     depends_on:
