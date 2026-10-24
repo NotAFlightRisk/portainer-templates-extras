@@ -1,0 +1,33 @@
+{
+  "title": "EspoCRM",
+  "name": "espocrm",
+  "description": "CRM for keeping track of customers and sales: accounts, contacts, leads, opportunities, cases, meetings and calls, with a shared calendar, email inbox, reports and a no-code entity builder. Source: https://github.com/espocrm/espocrm",
+  "categories": ["Productivity", "Email"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/espocrm/espocrm/master/client/img/favicon-196.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "ESPOCRM_ADMIN_PASSWORD",
+      "label": "Admin password (required)",
+      "description": "For the admin login. Only used on the very first start, change it in EspoCRM after that."
+    },
+    {
+      "name": "ESPOCRM_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "Generate one with: openssl rand -hex 16. Keep it the same when you redeploy."
+    },
+    {
+      "name": "ESPOCRM_PORT",
+      "label": "Host port for the web UI",
+      "default": "8680"
+    },
+    {
+      "name": "ESPOCRM_URL",
+      "label": "Address you'll open it on",
+      "description": "Like http://192.168.1.20:8680. Links in emails and password resets point here.",
+      "default": "http://localhost:8680"
+    }
+  ],
+  "note": "Fill in the <b>admin password</b> and <b>database password</b> before you deploy (<code>openssl rand -hex 16</code> makes a good one), since the stack won't start without them, and keep the database password the same when you redeploy. The first start takes a minute while it sets up the database. Then open <code>http://&lt;your-host&gt;:8680</code> (or whichever port you picked) and log in as <code>admin</code> with your password. There are no sign-ups, you add everyone else under Administration --&gt; Users. Put the address you'll actually type in the browser in the address field too, since links in emails and password resets use it, and they point at <code>localhost</code> until you do. It's set from the stack on every start, so to change it later edit the address in the stack's environment variables and redeploy, rather than in Settings. Nothing gets emailed until you add an SMTP server under Administration --&gt; Outbound Emails. The <code>daemon</code> container runs the scheduled jobs (fetching email, reminders, clean-up), so leave it running. The Administration page shows a news panel from espocrm.com, which gets told your version and address, and a scheduled job asks espocrm.com for the latest version. To update, redeploy with the image re-pulled and it upgrades the database on start. Uploads and settings live in the <code>espocrm-data</code> volume, extensions and customisations in <code>espocrm-custom</code> and <code>espocrm-client-custom</code>, and your records in <code>db-data</code>. Docs: <a href=\"https://docs.espocrm.com\" target=\"_blank\">docs.espocrm.com</a>"
+}
