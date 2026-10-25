@@ -1549,6 +1549,48 @@
     },
     {
       "id": 48,
+      "type": 3,
+      "title": "tududi",
+      "name": "tududi",
+      "description": "Task manager for organising your life into areas, projects and tasks, with notes, tags, recurring tasks, Today and Upcoming views, and CalDAV sync with your other apps. Source: https://github.com/chrisvel/tududi",
+      "categories": [
+        "Productivity",
+        "Project Management"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/chrisvel/tududi/main/public/icon-logo.png",
+      "restart_policy": "unless-stopped",
+      "env": [
+        {
+          "name": "TUDUDI_EMAIL",
+          "label": "Admin email",
+          "default": "admin@example.com",
+          "description": "What you'll log in with. Doesn't need to be a real address."
+        },
+        {
+          "name": "TUDUDI_PASSWORD",
+          "label": "Admin password (required)",
+          "description": "Anything long and hard to guess."
+        },
+        {
+          "name": "TUDUDI_SESSION_SECRET",
+          "label": "Session secret (required)",
+          "description": "Signs logins and encrypts saved notification settings. Generate one with: openssl rand -hex 64"
+        },
+        {
+          "name": "TUDUDI_PORT",
+          "label": "Host port for the web UI",
+          "default": "3002"
+        }
+      ],
+      "note": "Set the <b>admin password</b> and <b>session secret</b> before you deploy (<code>openssl rand -hex 64</code> makes a good secret), since the stack won't start without them. Then open <code>http://&lt;your-host&gt;:3002</code> (or whichever port you picked) and log in with that email and password. The welcome page you land on first plays an intro video from YouTube. Sign-ups are off, so add other people from Access in the sidebar.The account is only made on the first start: changing the password here later does nothing (change it in your profile instead), and changing the email makes a second admin. Tasks, notes and settings live in <code>tududi-db</code>, attachments in <code>tududi-uploads</code> and backups in <code>tududi-backups</code>. Docs: <a href=\"https://docs.tududi.com\" target=\"_blank\">docs.tududi.com</a>",
+      "repository": {
+        "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
+        "stackfile": "apps/tududi/compose.yml"
+      }
+    },
+    {
+      "id": 49,
       "type": 1,
       "title": "Verdaccio",
       "name": "verdaccio",
@@ -1572,7 +1614,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:4873</code> to browse packages, and point npm at it with <code>npm config set registry http://&lt;your-host&gt;:4873/</code>. Anything it doesn't host comes from npmjs and gets cached. There's no admin: <code>npm login --registry http://&lt;your-host&gt;:4873/</code> makes an account the first time, and any account can publish and unpublish any package. Sign-ups stay open and packages can be read without logging in, which is upstream's default and only changes in its config.yaml, so keep it on your own network. Authors with an email get their avatar from Gravatar in the web UI. Accounts, packages, the npmjs cache and the generated token secret live in the volume. Docs: <a href=\"https://www.verdaccio.org/docs/docker\" target=\"_blank\">verdaccio.org</a>"
     },
     {
-      "id": 49,
+      "id": 50,
       "type": 3,
       "title": "Wakapi",
       "name": "wakapi",
@@ -1608,7 +1650,7 @@
       }
     },
     {
-      "id": 50,
+      "id": 51,
       "type": 1,
       "title": "Wallos",
       "name": "wallos",
@@ -1642,7 +1684,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8282</code> and register. The first account becomes the admin, and sign-ups are closed after that. The database and any logos you upload live in the two volumes. Docs: <a href=\"https://github.com/ellite/wallos#readme\" target=\"_blank\">github.com/ellite/wallos</a>"
     },
     {
-      "id": 51,
+      "id": 52,
       "type": 3,
       "title": "YOURLS",
       "name": "yourls",
@@ -1693,7 +1735,7 @@
       }
     },
     {
-      "id": 52,
+      "id": 53,
       "type": 3,
       "title": "Zipline",
       "name": "zipline",
