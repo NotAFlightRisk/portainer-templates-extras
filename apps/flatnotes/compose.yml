@@ -1,0 +1,16 @@
+services:
+  flatnotes:
+    image: dullage/flatnotes:v5
+    restart: unless-stopped
+    ports:
+      - "${FLATNOTES_PORT:-8780}:8080"
+    environment:
+      FLATNOTES_AUTH_TYPE: password
+      FLATNOTES_USERNAME: ${FLATNOTES_USERNAME:-admin}
+      FLATNOTES_PASSWORD: ${FLATNOTES_PASSWORD:?Set a password}
+      FLATNOTES_SECRET_KEY: ${FLATNOTES_SECRET_KEY:?Set a secret key}
+    volumes:
+      - flatnotes-data:/data
+
+volumes:
+  flatnotes-data:
