@@ -1,0 +1,19 @@
+services:
+  tududi:
+    image: chrisvel/tududi:latest
+    restart: unless-stopped
+    ports:
+      - "${TUDUDI_PORT:-3002}:3002"
+    environment:
+      TUDUDI_USER_EMAIL: ${TUDUDI_EMAIL:-admin@example.com}
+      TUDUDI_USER_PASSWORD: ${TUDUDI_PASSWORD:?Set a password}
+      TUDUDI_SESSION_SECRET: ${TUDUDI_SESSION_SECRET:?Set a session secret}
+    volumes:
+      - tududi-db:/app/db
+      - tududi-uploads:/app/uploads
+      - tududi-backups:/app/backups
+
+volumes:
+  tududi-db:
+  tududi-uploads:
+  tududi-backups:

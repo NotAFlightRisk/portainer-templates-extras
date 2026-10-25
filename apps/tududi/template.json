@@ -1,0 +1,33 @@
+{
+  "title": "tududi",
+  "name": "tududi",
+  "description": "Task manager for organising your life into areas, projects and tasks, with notes, tags, recurring tasks, Today and Upcoming views, and CalDAV sync with your other apps. Source: https://github.com/chrisvel/tududi",
+  "categories": ["Productivity", "Project Management"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/chrisvel/tududi/main/public/icon-logo.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "TUDUDI_EMAIL",
+      "label": "Admin email",
+      "default": "admin@example.com",
+      "description": "What you'll log in with. Doesn't need to be a real address."
+    },
+    {
+      "name": "TUDUDI_PASSWORD",
+      "label": "Admin password (required)",
+      "description": "Anything long and hard to guess."
+    },
+    {
+      "name": "TUDUDI_SESSION_SECRET",
+      "label": "Session secret (required)",
+      "description": "Signs logins and encrypts saved notification settings. Generate one with: openssl rand -hex 64"
+    },
+    {
+      "name": "TUDUDI_PORT",
+      "label": "Host port for the web UI",
+      "default": "3002"
+    }
+  ],
+  "note": "Set the <b>admin password</b> and <b>session secret</b> before you deploy (<code>openssl rand -hex 64</code> makes a good secret), since the stack won't start without them. Then open <code>http://&lt;your-host&gt;:3002</code> (or whichever port you picked) and log in with that email and password. The welcome page you land on first plays an intro video from YouTube. Sign-ups are off, so add other people from Access in the sidebar.The account is only made on the first start: changing the password here later does nothing (change it in your profile instead), and changing the email makes a second admin. Tasks, notes and settings live in <code>tududi-db</code>, attachments in <code>tududi-uploads</code> and backups in <code>tududi-backups</code>. Docs: <a href=\"https://docs.tududi.com\" target=\"_blank\">docs.tududi.com</a>"
+}
