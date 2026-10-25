@@ -1,0 +1,32 @@
+{
+  "title": "flatnotes",
+  "name": "flatnotes",
+  "description": "Distraction-free notes app with no folders or database, just a folder of markdown files behind full-text search, tags, wikilinks and a raw or WYSIWYG editor. Source: https://github.com/dullage/flatnotes",
+  "categories": ["Productivity", "Documents"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/dullage/flatnotes/develop/client/assets/apple-touch-icon.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "FLATNOTES_USERNAME",
+      "label": "Username",
+      "default": "admin"
+    },
+    {
+      "name": "FLATNOTES_PASSWORD",
+      "label": "Password (required)",
+      "description": "What you'll log in with. Anything long and hard to guess."
+    },
+    {
+      "name": "FLATNOTES_SECRET_KEY",
+      "label": "Secret key (required)",
+      "description": "Signs your logins. Generate one with: openssl rand -hex 32"
+    },
+    {
+      "name": "FLATNOTES_PORT",
+      "label": "Host port for the web UI",
+      "default": "8780"
+    }
+  ],
+  "note": "Set the <b>password</b> and <b>secret key</b> before you deploy (<code>openssl rand -hex 32</code> makes a good key), since the stack won't start without them. Then open <code>http://&lt;your-host&gt;:8780</code> (or whichever port you picked) and log in with that username and password. It's one account, read fresh on every start, so changing the password here and redeploying changes it, and a new secret key just logs you out. Notes are plain <code>.md</code> files in the <code>flatnotes-data</code> volume, with uploads in its <code>attachments</code> folder and the search index in <code>.flatnotes</code>. Docs: <a href=\"https://github.com/dullage/flatnotes/wiki\" target=\"_blank\">github.com/dullage/flatnotes/wiki</a>"
+}
