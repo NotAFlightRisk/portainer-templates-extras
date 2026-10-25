@@ -1,0 +1,17 @@
+{
+  "title": "OpenList",
+  "name": "openlist",
+  "description": "File list that puts your cloud drives and storage behind one web UI and WebDAV server, from OneDrive, Google Drive, Dropbox and S3 to SMB, FTP and local folders, with previews, share links and offline downloads. Source: https://github.com/OpenListTeam/OpenList",
+  "categories": ["File Sharing", "Storage", "Cloud"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/OpenListTeam/Logo/main/logo.svg",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "OPENLIST_PORT",
+      "label": "Host port for the web UI",
+      "default": "5244"
+    }
+  ],
+  "note": "Open <code>http://&lt;your-host&gt;:5244</code> (or whichever port you picked) and the setup page asks for an admin username and password. Whoever gets there first owns it, so do it straight away. Nothing's listed until you add a storage, from <i>Manage</i> at the bottom of the page, then Storages --> Add: pick a cloud drive, or <i>Local</i> with root folder <code>/opt/openlist/files</code> for files kept in the <code>openlist-files</code> volume. Settings, users and the database live in <code>openlist-data</code>. WebDAV is at <code>/dav</code> with the same login, but read-only until you tick <i>WebDAV manage</i> on your user under Manage --> Users. Logins are only kept in memory, so a restart or update signs everyone out.The logo, favicon and PDF and ePub viewers load from res.oplist.org, and Office files go through Microsoft's or Google's viewer, which only works for files they can reach (change it under Settings --> Preview). Docs: <a href=\"https://doc.oplist.org\" target=\"_blank\">doc.oplist.org</a>"
+}
