@@ -1,0 +1,32 @@
+services:
+  casdoor:
+    image: casbin/casdoor:4
+    restart: unless-stopped
+    ports:
+      - "${CASDOOR_PORT:-8800}:8000"
+    environment:
+      driverName: postgres
+      dataSourceName: user=casdoor password=${CASDOOR_DB_PASSWORD:?Set a database password} host=postgres port=5432 sslmode=disable dbname=casdoor
+      dbName: casdoor
+      initAdminPassword: ${CASDOOR_ADMIN_PASSWORD:?Set the admin password}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: casdoor
+      POSTGRES_USER: casdoor
+      POSTGRES_PASSWORD: ${CASDOOR_DB_PASSWORD:?Set a database password}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U casdoor -d casdoor"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres-data:
