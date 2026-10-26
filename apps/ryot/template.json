@@ -1,0 +1,38 @@
+{
+  "title": "Ryot",
+  "name": "ryot",
+  "description": "Tracker for the films, shows, books, anime, music and podcasts you get through, plus your workouts: progress, ratings, reviews and stats in one place, with imports from Trakt, Goodreads, Jellyfin, Plex and more. Source: https://github.com/IgnisDa/ryot",
+  "categories": ["Media", "Books", "Productivity"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/IgnisDa/ryot/main/apps/frontend/public/icons/maskable_icon_x512.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "RYOT_ADMIN_TOKEN",
+      "label": "Admin token (required)",
+      "description": "For admin jobs through the API, like resetting someone's password. Generate one with: openssl rand -hex 32"
+    },
+    {
+      "name": "RYOT_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or Ryot can't reach its database."
+    },
+    {
+      "name": "RYOT_TMDB_TOKEN",
+      "label": "TMDB read access token",
+      "description": "Needed to search films and shows. Free from themoviedb.org under Settings --> API, the long API Read Access Token."
+    },
+    {
+      "name": "RYOT_URL",
+      "label": "Address you'll open it on",
+      "description": "Like http://192.168.1.20:8880. Links in notifications and password resets point here.",
+      "default": "http://localhost:8880"
+    },
+    {
+      "name": "RYOT_PORT",
+      "label": "Host port for the web UI",
+      "default": "8880"
+    }
+  ],
+  "note": "Set the <b>admin token</b> and <b>database password</b> before you deploy (<code>openssl rand -hex 32</code> makes either), since the stack won't start without them. Then open <code>http://&lt;your-host&gt;:8880</code> (or whichever port you picked) and sign up: the first account becomes the admin. Anyone who can reach it can sign up after that, so once you're in, add <code>RYOT_SIGNUPS</code> = <code>false</code> to the stack's environment variables and redeploy. Anime, manga, podcasts and workouts work straight away, and books and music do once you switch the search source to Open Library or MusicBrainz (the default ones want API keys). Films and shows need the TMDB token. Ryot sends page views and a few events to its developer's Umami analytics from your browser; add <code>RYOT_TELEMETRY_OFF</code> = <code>true</code> the same way to stop it. Everything lives in Postgres, in the <code>postgres-data</code> volume. Docs: <a href=\"https://docs.ryot.io\" target=\"_blank\">docs.ryot.io</a>"
+}
