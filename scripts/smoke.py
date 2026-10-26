@@ -1,9 +1,11 @@
 """Starts apps the way Portainer would, with the form left at its defaults, and checks they answer"""
 
 import argparse
+import base64
 import json
 import os
 import re
+import secrets
 import shlex
 import subprocess
 import sys
@@ -15,6 +17,7 @@ from build import APPS, build, env_default
 
 STAND_IN = "smoke-test-only".ljust(32, "0")  # some apps want keys exactly 32 long
 ADDRESS_NAME = re.compile(r"_URL$")
+OPENSSL_HINT = re.compile(r"openssl rand -(hex|base64) (\d+)")
 
 
 def docker(*args, **kwargs):
@@ -23,11 +26,20 @@ def docker(*args, **kwargs):
     )
 
 
+def stand_in(var):
+    """What someone following the field's own openssl hint would paste, if it has one"""
+    hint = OPENSSL_HINT.search(var.get("description", ""))
+    if not hint:
+        return STAND_IN
+    key = secrets.token_bytes(int(hint[2]))
+    return key.hex() if hint[1] == "hex" else base64.b64encode(key).decode()
+
+
 def form_values(template, address="http://localhost"):
     """What a deploy with the defaults sends, with a stand-in for anything required"""
     return {
         var["name"]: env_default(var)
-        or (address if ADDRESS_NAME.search(var["name"]) else STAND_IN)
+        or (address if ADDRESS_NAME.search(var["name"]) else stand_in(var))
         for var in template.get("env", [])
     }
 

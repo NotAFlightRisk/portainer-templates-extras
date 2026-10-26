@@ -1,3 +1,4 @@
+import base64
 import sys
 import unittest
 from pathlib import Path
@@ -25,3 +26,14 @@ class FormValuesTest(unittest.TestCase):
                 "PUB_URL": "http://127.0.0.1:8080",
             },
         )
+
+    def test_secret_follows_its_openssl_hint(self):
+        template = {
+            "env": [
+                {"name": "HEX", "description": "openssl rand -hex 32"},
+                {"name": "B64", "description": "openssl rand -base64 32"},
+            ]
+        }
+        values = form_values(template)
+        self.assertEqual(len(bytes.fromhex(values["HEX"])), 32)
+        self.assertEqual(len(base64.b64decode(values["B64"], validate=True)), 32)
