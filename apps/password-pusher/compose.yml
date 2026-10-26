@@ -1,0 +1,17 @@
+services:
+  password-pusher:
+    image: pglombardo/pwpush:2
+    restart: unless-stopped
+    ports:
+      - "${PWPUSH_PORT:-5150}:5100"
+    environment:
+      PWPUSH_MASTER_KEY: ${PWPUSH_MASTER_KEY:?Set a master key}
+      SECRET_KEY_BASE: ${PWPUSH_SECRET_KEY_BASE:-}
+      PWP__ALLOW_ANONYMOUS: ${PWPUSH_ANONYMOUS:-true}
+      PWP__DISABLE_SIGNUPS: ${PWPUSH_DISABLE_SIGNUPS:-false}
+      PWP__FILES__STORAGE: local
+    volumes:
+      - pwpush-storage:/opt/PasswordPusher/storage
+
+volumes:
+  pwpush-storage:
