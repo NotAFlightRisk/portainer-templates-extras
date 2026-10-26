@@ -1,0 +1,34 @@
+services:
+  ryot:
+    image: ignisda/ryot:v10
+    restart: unless-stopped
+    ports:
+      - "${RYOT_PORT:-8880}:8000"
+    environment:
+      DATABASE_URL: postgres://ryot:${RYOT_DB_PASSWORD:?Set a database password}@postgres:5432/ryot
+      SERVER_ADMIN_ACCESS_TOKEN: ${RYOT_ADMIN_TOKEN:?Set an admin token}
+      FRONTEND_URL: ${RYOT_URL:-http://localhost:8880}
+      MOVIES_AND_SHOWS_TMDB_ACCESS_TOKEN: ${RYOT_TMDB_TOKEN:-}
+      USERS_ALLOW_REGISTRATION: ${RYOT_SIGNUPS:-true}
+      DISABLE_TELEMETRY: ${RYOT_TELEMETRY_OFF:-false}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ryot
+      POSTGRES_USER: ryot
+      POSTGRES_PASSWORD: ${RYOT_DB_PASSWORD:?Set a database password}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ryot -d ryot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres-data:
