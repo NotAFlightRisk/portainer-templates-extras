@@ -1,0 +1,42 @@
+{
+  "title": "SparkyFitness",
+  "name": "sparkyfitness",
+  "description": "Fitness tracker for food, exercise, water, sleep, fasting, mood and body measurements, with goals, long-term reports and family sharing, plus sync from phone health apps, Fitbit, Strava and more. Source: https://github.com/CodeWithCJ/SparkyFitness",
+  "categories": ["Productivity"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/CodeWithCJ/SparkyFitness/main/SparkyFitnessMobile/assets/images/logo.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "SPARKYFITNESS_URL",
+      "label": "Address you'll open it on (required)",
+      "description": "Exactly what you'll type in the browser, port included and no slash at the end, like http://192.168.1.20:3004."
+    },
+    {
+      "name": "SPARKYFITNESS_ENCRYPTION_KEY",
+      "label": "Encryption key (required)",
+      "description": "Encrypts the API keys you save for food databases and AI. Exactly 64 hex characters, so generate it with: openssl rand -hex 32. Never change it."
+    },
+    {
+      "name": "SPARKYFITNESS_AUTH_SECRET",
+      "label": "Auth secret (required)",
+      "description": "Signs logins and encrypts two-factor secrets. Generate one with: openssl rand -base64 32. Never change it."
+    },
+    {
+      "name": "SPARKYFITNESS_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or SparkyFitness can't reach its database."
+    },
+    {
+      "name": "SPARKYFITNESS_ADMIN_EMAIL",
+      "label": "Admin email",
+      "description": "Whoever signs up with this email gets the admin panel."
+    },
+    {
+      "name": "SPARKYFITNESS_PORT",
+      "label": "Host port for the web UI",
+      "default": "3004"
+    }
+  ],
+  "note": "Fill in the <b>address</b>, <b>encryption key</b>, <b>auth secret</b> and <b>database password</b> before you deploy, since the stack won't start without them. The address has to be exactly what you'll type in the browser, like <code>http://192.168.1.20:3004</code>: the port you're using, and no slash at the end. SparkyFitness only accepts logins from that address, so if it's wrong the page still loads but signing up or logging in fails with <i>Invalid origin</i>. To fix it, change the address in the stack's environment variables and redeploy. Don't change the encryption key or auth secret once it's running: a new key can't read the API keys you've saved, and a new secret logs everyone out and locks out anyone using two-factor. The first start takes a minute or so. Then open it and sign up, with the admin email if you set one, since that account gets the admin panel. Anyone who can reach it can sign up too, so once everyone's in, add <code>SPARKYFITNESS_DISABLE_SIGNUP</code> = <code>true</code> to the stack's environment variables and redeploy. Food search works straight away through Open Food Facts and a few other free databases. The server fetches news from the project's GitHub, and checks there for new releases unless you turn off <i>Check for New Releases</i> in the admin panel. Everything you log lives in Postgres, in the <code>sparkyfitness-db</code> volume, with photos in <code>sparkyfitness-uploads</code> and backups from the admin panel in <code>sparkyfitness-backup</code>. Docs: <a href=\"https://codewithcj.github.io/SparkyFitness/\" target=\"_blank\">codewithcj.github.io/SparkyFitness</a>"
+}
