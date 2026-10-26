@@ -1,0 +1,27 @@
+{
+  "title": "Password Pusher",
+  "name": "password-pusher",
+  "description": "Share passwords, text, files and links as a link that expires after a set number of views or days, so they don't sit in someone's chat history or inbox forever. Source: https://github.com/pglombardo/PasswordPusher",
+  "categories": ["Security", "File Sharing"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/pglombardo/PasswordPusher/master/app/assets/images/android-icon-192x192.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "PWPUSH_MASTER_KEY",
+      "label": "Master key (required)",
+      "description": "Encrypts the text of every push. Exactly 64 hex characters, so generate it with: openssl rand -hex 32. Keep it the same when you redeploy, or older pushes can't be opened."
+    },
+    {
+      "name": "PWPUSH_SECRET_KEY_BASE",
+      "label": "Login key",
+      "description": "Keeps people logged in through a restart. Generate one with: openssl rand -hex 64. Leave it blank and every restart logs everyone out."
+    },
+    {
+      "name": "PWPUSH_PORT",
+      "label": "Host port for the web UI",
+      "default": "5150"
+    }
+  ],
+  "note": "Set the <b>master key</b> before you deploy (<code>openssl rand -hex 32</code> makes one), since the stack won't start without it. Then open <code>http://&lt;your-host&gt;:5150</code> (or whichever port you picked), which goes straight to a first-run page for the admin account. It wants a boot code from the container's logs: search them for <i>Boot Code</i>. After that, anyone who can reach it can push without an account, and sign up for one too. To stop either, add <code>PWPUSH_ANONYMOUS</code> = <code>false</code> or <code>PWPUSH_DISABLE_SIGNUPS</code> = <code>true</code> to the stack's environment variables and redeploy. Pushes, files and accounts live in the <code>pwpush-storage</code> volume. Text is encrypted with the master key there, but uploaded files are kept as they are. Docs: <a href=\"https://docs.pwpush.com\" target=\"_blank\">docs.pwpush.com</a>"
+}
