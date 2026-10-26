@@ -89,5 +89,6 @@ jobs:
         env:
           APPS: ${{ steps.changed.outputs.apps }}
         run: |
+          set -o pipefail
           read -ra apps <<< "$APPS"
           python scripts/smoke.py "${apps[@]}" | tee -a "$GITHUB_STEP_SUMMARY"
