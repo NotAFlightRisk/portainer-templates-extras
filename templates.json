@@ -1550,6 +1550,56 @@
     },
     {
       "id": 47,
+      "type": 3,
+      "title": "SparkyFitness",
+      "name": "sparkyfitness",
+      "description": "Fitness tracker for food, exercise, water, sleep, fasting, mood and body measurements, with goals, long-term reports and family sharing, plus sync from phone health apps, Fitbit, Strava and more. Source: https://github.com/CodeWithCJ/SparkyFitness",
+      "categories": [
+        "Productivity"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/CodeWithCJ/SparkyFitness/main/SparkyFitnessMobile/assets/images/logo.png",
+      "restart_policy": "unless-stopped",
+      "env": [
+        {
+          "name": "SPARKYFITNESS_URL",
+          "label": "Address you'll open it on (required)",
+          "description": "Exactly what you'll type in the browser, port included and no slash at the end, like http://192.168.1.20:3004."
+        },
+        {
+          "name": "SPARKYFITNESS_ENCRYPTION_KEY",
+          "label": "Encryption key (required)",
+          "description": "Encrypts the API keys you save for food databases and AI. Exactly 64 hex characters, so generate it with: openssl rand -hex 32. Never change it."
+        },
+        {
+          "name": "SPARKYFITNESS_AUTH_SECRET",
+          "label": "Auth secret (required)",
+          "description": "Signs logins and encrypts two-factor secrets. Generate one with: openssl rand -base64 32. Never change it."
+        },
+        {
+          "name": "SPARKYFITNESS_DB_PASSWORD",
+          "label": "Database password (required)",
+          "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or SparkyFitness can't reach its database."
+        },
+        {
+          "name": "SPARKYFITNESS_ADMIN_EMAIL",
+          "label": "Admin email",
+          "description": "Whoever signs up with this email gets the admin panel."
+        },
+        {
+          "name": "SPARKYFITNESS_PORT",
+          "label": "Host port for the web UI",
+          "default": "3004"
+        }
+      ],
+      "note": "Fill in the <b>address</b>, <b>encryption key</b>, <b>auth secret</b> and <b>database password</b> before you deploy, since the stack won't start without them. The address has to be exactly what you'll type in the browser, like <code>http://192.168.1.20:3004</code>: the port you're using, and no slash at the end. SparkyFitness only accepts logins from that address, so if it's wrong the page still loads but signing up or logging in fails. To fix it, change the address in the stack's environment variables and redeploy. Don't change the encryption key or auth secret once it's running: a new key can't read the API keys you've saved, and a new secret logs everyone out and locks out anyone using two-factor. Then open it and sign up. If you set an admin email, sign up with that one and you'll get the admin panel. Anyone who can reach it can sign up too, so once everyone's in, add <code>SPARKYFITNESS_DISABLE_SIGNUP</code> = <code>true</code> to the stack's environment variables and redeploy. Everything you log lives in Postgres, in the <code>sparkyfitness-db</code> volume, with photos in <code>sparkyfitness-uploads</code> and backups from the admin panel in <code>sparkyfitness-backup</code>. Docs: <a href=\"https://codewithcj.github.io/SparkyFitness/\" target=\"_blank\">codewithcj.github.io/SparkyFitness</a>",
+      "repository": {
+        "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
+        "stackfile": "apps/sparkyfitness/compose.yml"
+      }
+    },
+    {
+      "id": 48,
       "type": 1,
       "title": "Spoolman",
       "name": "spoolman",
@@ -1572,7 +1622,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:7912</code>. There's no login at all, so anyone who can reach it can see and change your spools - keep it on your own network. Add spools searches your own catalogue plus SpoolmanDB, a public list of filaments the server downloads from GitHub, so most details fill themselves in. Moonraker and the OctoPrint plugin connect to that same address. The database and its nightly backups live in the volume. The page loads its fonts from Google Fonts. Docs: <a href=\"https://github.com/Donkie/Spoolman/wiki\" target=\"_blank\">github.com/Donkie/Spoolman/wiki</a>"
     },
     {
-      "id": 48,
+      "id": 49,
       "type": 1,
       "title": "Super Productivity",
       "name": "super-productivity",
@@ -1591,7 +1641,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8095</code>. There's no login, and your tasks are saved in your browser rather than on the server, so set up sync (WebDAV, Dropbox and others) in its settings if you use more than one device. Docs: <a href=\"https://github.com/super-productivity/super-productivity#readme\" target=\"_blank\">github.com/super-productivity/super-productivity</a>"
     },
     {
-      "id": 49,
+      "id": 50,
       "type": 3,
       "title": "Teable",
       "name": "teable",
@@ -1633,7 +1683,7 @@
       }
     },
     {
-      "id": 50,
+      "id": 51,
       "type": 1,
       "title": "Termix",
       "name": "termix",
@@ -1657,7 +1707,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8080</code> and create an account, which becomes the admin. Registration stays open after that, so switch it off in the admin settings unless you want other people signing up. Hosts, keys and the database live in the <code>/app/data</code> volume, and its secrets are generated there on first start. Behind a reverse proxy it needs websockets. It sends a small anonymous usage report once a day, which you can switch off in Admin Settings &gt; Usage Statistics. Docs: <a href=\"https://docs.termix.site\" target=\"_blank\">docs.termix.site</a>"
     },
     {
-      "id": 51,
+      "id": 52,
       "type": 1,
       "title": "TREK",
       "name": "trek",
@@ -1708,7 +1758,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8099</code> and sign in as <code>admin@trek.local</code>. The password's printed in the container's logs on first start (search them for First Run), and TREK makes you pick a new one straight away. Anyone who can reach it can register their own account, so switch off Password Registration under Administration --&gt; Settings if that's not what you want. Place search asks TREK's own places.liketrek.com as well as OpenStreetMap, add a <code>TREK_PLACES_ENABLED=false</code> env to keep it to OpenStreetMap. The database, its encryption key and every upload live in the two volumes. Docs: <a href=\"https://github.com/liketrek/TREK/wiki\" target=\"_blank\">github.com/liketrek/TREK/wiki</a>"
     },
     {
-      "id": 52,
+      "id": 53,
       "type": 3,
       "title": "tududi",
       "name": "tududi",
@@ -1750,7 +1800,7 @@
       }
     },
     {
-      "id": 53,
+      "id": 54,
       "type": 1,
       "title": "Verdaccio",
       "name": "verdaccio",
@@ -1774,7 +1824,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:4873</code> to browse packages, and point npm at it with <code>npm config set registry http://&lt;your-host&gt;:4873/</code>. Anything it doesn't host comes from npmjs and gets cached. There's no admin: <code>npm login --registry http://&lt;your-host&gt;:4873/</code> makes an account the first time, and any account can publish and unpublish any package. Sign-ups stay open and packages can be read without logging in, which is upstream's default and only changes in its config.yaml, so keep it on your own network. Authors with an email get their avatar from Gravatar in the web UI. Accounts, packages, the npmjs cache and the generated token secret live in the volume. Docs: <a href=\"https://www.verdaccio.org/docs/docker\" target=\"_blank\">verdaccio.org</a>"
     },
     {
-      "id": 54,
+      "id": 55,
       "type": 3,
       "title": "Wakapi",
       "name": "wakapi",
@@ -1810,7 +1860,7 @@
       }
     },
     {
-      "id": 55,
+      "id": 56,
       "type": 1,
       "title": "Wallos",
       "name": "wallos",
@@ -1844,7 +1894,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8282</code> and register. The first account becomes the admin, and sign-ups are closed after that. The database and any logos you upload live in the two volumes. Docs: <a href=\"https://github.com/ellite/wallos#readme\" target=\"_blank\">github.com/ellite/wallos</a>"
     },
     {
-      "id": 56,
+      "id": 57,
       "type": 3,
       "title": "YOURLS",
       "name": "yourls",
@@ -1895,7 +1945,7 @@
       }
     },
     {
-      "id": 57,
+      "id": 58,
       "type": 3,
       "title": "Zipline",
       "name": "zipline",
