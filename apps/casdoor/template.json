@@ -1,0 +1,27 @@
+{
+  "title": "Casdoor",
+  "name": "casdoor",
+  "description": "Identity and single sign-on server, so your other apps can share one login over OAuth 2, OIDC, SAML or CAS, with a web UI for users, organisations, apps, MFA and social logins. Source: https://github.com/casdoor/casdoor",
+  "categories": ["Security"],
+  "platform": "linux",
+  "logo": "https://avatars.githubusercontent.com/u/72992104?s=256",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "CASDOOR_ADMIN_PASSWORD",
+      "label": "Admin password (required)",
+      "description": "For the built-in admin account. Only used the very first time it starts."
+    },
+    {
+      "name": "CASDOOR_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or Casdoor can't reach its database."
+    },
+    {
+      "name": "CASDOOR_PORT",
+      "label": "Host port for the web UI",
+      "default": "8800"
+    }
+  ],
+  "note": "Set the <b>admin password</b> and <b>database password</b> before you deploy, since the stack won't start without them. Then open <code>http://&lt;your-host&gt;:8800</code> (or whichever port you picked) and log in as <code>admin</code> with that password. It's only read on the very first start, so change it later from the admin's own account page, not here. Everyone in the built-in organisation is an admin, so put your users in an organisation of their own, and give each app that should log in through Casdoor an application with its redirect URL. Apps find it at <code>/.well-known/openid-configuration</code>, and Casdoor names itself after whatever address they reach it on, so keep that the same everywhere. An update signs everyone out of Casdoor itself, as its sessions live in the container. Logos and pictures on its pages load from cdn.casbin.org. Users, apps and settings live in Postgres, in the <code>postgres-data</code> volume. Docs: <a href=\"https://casdoor.org/docs/overview\" target=\"_blank\">casdoor.org/docs</a>"
+}
