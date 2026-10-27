@@ -1,0 +1,12 @@
+{
+  "title": "Mermaid Live Editor",
+  "name": "mermaid-live-editor",
+  "description": "Browser editor for Mermaid diagrams, previewing flowcharts, sequence, class, Gantt and dozens of other diagram types live as you write them in plain text, then exporting them as PNG or SVG or sharing them as a link. Source: https://github.com/mermaid-js/mermaid-live-editor",
+  "categories": ["Development", "Tools"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/mermaid-js/mermaid-live-editor/develop/static/favicon.svg",
+  "image": "ghcr.io/mermaid-js/mermaid-live-editor:latest",
+  "restart_policy": "unless-stopped",
+  "ports": ["8980:8080/tcp"],
+  "note": "Open <code>http://&lt;your-host&gt;:8980</code>. There's no login and nothing to back up on the server, since your diagram and its history are kept in your browser's own storage, so another browser or a cleared cache starts empty. Share puts the whole diagram in the link, and Actions --&gt; PNG or SVG downloads it straight from your browser. The pink banner, Save diagram, Edit visually and Contact sales all belong to Mermaid Chart, the makers' paid service, and the two save buttons send your diagram there when clicked, as do the mermaid.ink and Kroki links under Actions. Otherwise the only outside request is the Config tab fetching its schema from mermaid.js.org. Docs: <a href=\"https://mermaid.js.org/intro/\" target=\"_blank\">mermaid.js.org</a>"
+}
