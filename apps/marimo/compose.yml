@@ -1,0 +1,26 @@
+services:
+  marimo:
+    image: ghcr.io/marimo-team/marimo:latest-data
+    restart: unless-stopped
+    ports:
+      - "${MARIMO_PORT:-2718}:8080"
+    command:
+      - marimo
+      - -q
+      - edit
+      - --token-password
+      - "${MARIMO_PASSWORD:?Set a password}"
+      - --port
+      - "8080"
+      - --host
+      - 0.0.0.0
+      - --headless
+    environment:
+      MARIMO_SESSION_SECRET: ${MARIMO_SESSION_SECRET:-}
+    volumes:
+      - marimo-notebooks:/app
+      - marimo-home:/home/appuser
+
+volumes:
+  marimo-notebooks:
+  marimo-home:
