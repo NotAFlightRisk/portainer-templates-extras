@@ -13,6 +13,11 @@
       "description": "What you'll log in with. Anything long and hard to guess, or generate one with: openssl rand -hex 16"
     },
     {
+      "name": "MARIMO_SESSION_SECRET",
+      "label": "Session secret",
+      "description": "Keeps you logged in across restarts and updates. Generate one with: openssl rand -hex 32. Left blank, every restart logs you out."
+    },
+    {
       "name": "MARIMO_PORT",
       "label": "Host port for the web UI",
       "default": "2718"
