@@ -1655,6 +1655,36 @@
     },
     {
       "id": 50,
+      "type": 3,
+      "title": "Spliit",
+      "name": "spliit",
+      "description": "Expense splitter for trips, flatmates and nights out, tracking who paid for what in a shared group and working out who owes who, with no accounts needed, just a link to the group. Handles several currencies, categories and uneven splits. Source: https://github.com/spliit-app/spliit",
+      "categories": [
+        "Finance"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/spliit-app/spliit/main/public/logo.svg",
+      "restart_policy": "unless-stopped",
+      "env": [
+        {
+          "name": "SPLIIT_DB_PASSWORD",
+          "label": "Database password (required)",
+          "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or Spliit can't reach its database."
+        },
+        {
+          "name": "SPLIIT_PORT",
+          "label": "Host port for the web UI",
+          "default": "3800"
+        }
+      ],
+      "note": "Set the <b>database password</b> before you deploy (<code>openssl rand -hex 32</code> makes a good one), since the stack won't start without it, and keep it the same when you redeploy. Then open <code>http://&lt;your-host&gt;:3800</code> (or whichever port you picked) and create a group. There are no accounts: anyone who can reach it can make a group, and anyone with a group's link can see and edit it, so share links with care and keep it off the open internet unless you mean to. Groups you've opened are listed in your browser, not on the server, so bookmark or save the link. Converting an expense from another currency asks api.frankfurter.dev for the rate, and the currency picker loads flags from flagcdn.com. Everything lives in Postgres, in the <code>postgres-data</code> volume. Docs: <a href=\"https://github.com/spliit-app/spliit#readme\" target=\"_blank\">github.com/spliit-app/spliit</a>",
+      "repository": {
+        "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
+        "stackfile": "apps/spliit/compose.yml"
+      }
+    },
+    {
+      "id": 51,
       "type": 1,
       "title": "Spoolman",
       "name": "spoolman",
@@ -1677,7 +1707,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:7912</code>. There's no login at all, so anyone who can reach it can see and change your spools - keep it on your own network. Add spools searches your own catalogue plus SpoolmanDB, a public list of filaments the server downloads from GitHub, so most details fill themselves in. Moonraker and the OctoPrint plugin connect to that same address. The database and its nightly backups live in the volume. The page loads its fonts from Google Fonts. Docs: <a href=\"https://github.com/Donkie/Spoolman/wiki\" target=\"_blank\">github.com/Donkie/Spoolman/wiki</a>"
     },
     {
-      "id": 51,
+      "id": 52,
       "type": 1,
       "title": "Super Productivity",
       "name": "super-productivity",
@@ -1696,7 +1726,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8095</code>. There's no login, and your tasks are saved in your browser rather than on the server, so set up sync (WebDAV, Dropbox and others) in its settings if you use more than one device. Docs: <a href=\"https://github.com/super-productivity/super-productivity#readme\" target=\"_blank\">github.com/super-productivity/super-productivity</a>"
     },
     {
-      "id": 52,
+      "id": 53,
       "type": 3,
       "title": "Teable",
       "name": "teable",
@@ -1738,7 +1768,7 @@
       }
     },
     {
-      "id": 53,
+      "id": 54,
       "type": 1,
       "title": "Termix",
       "name": "termix",
@@ -1762,7 +1792,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8080</code> and create an account, which becomes the admin. Registration stays open after that, so switch it off in the admin settings unless you want other people signing up. Hosts, keys and the database live in the <code>/app/data</code> volume, and its secrets are generated there on first start. Behind a reverse proxy it needs websockets. It sends a small anonymous usage report once a day, which you can switch off in Admin Settings &gt; Usage Statistics. Docs: <a href=\"https://docs.termix.site\" target=\"_blank\">docs.termix.site</a>"
     },
     {
-      "id": 54,
+      "id": 55,
       "type": 1,
       "title": "TREK",
       "name": "trek",
@@ -1813,7 +1843,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8099</code> and sign in as <code>admin@trek.local</code>. The password's printed in the container's logs on first start (search them for First Run), and TREK makes you pick a new one straight away. Anyone who can reach it can register their own account, so switch off Password Registration under Administration --&gt; Settings if that's not what you want. Place search asks TREK's own places.liketrek.com as well as OpenStreetMap, add a <code>TREK_PLACES_ENABLED=false</code> env to keep it to OpenStreetMap. The database, its encryption key and every upload live in the two volumes. Docs: <a href=\"https://github.com/liketrek/TREK/wiki\" target=\"_blank\">github.com/liketrek/TREK/wiki</a>"
     },
     {
-      "id": 55,
+      "id": 56,
       "type": 3,
       "title": "tududi",
       "name": "tududi",
@@ -1855,7 +1885,7 @@
       }
     },
     {
-      "id": 56,
+      "id": 57,
       "type": 1,
       "title": "Verdaccio",
       "name": "verdaccio",
@@ -1879,7 +1909,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:4873</code> to browse packages, and point npm at it with <code>npm config set registry http://&lt;your-host&gt;:4873/</code>. Anything it doesn't host comes from npmjs and gets cached. There's no admin: <code>npm login --registry http://&lt;your-host&gt;:4873/</code> makes an account the first time, and any account can publish and unpublish any package. Sign-ups stay open and packages can be read without logging in, which is upstream's default and only changes in its config.yaml, so keep it on your own network. Authors with an email get their avatar from Gravatar in the web UI. Accounts, packages, the npmjs cache and the generated token secret live in the volume. Docs: <a href=\"https://www.verdaccio.org/docs/docker\" target=\"_blank\">verdaccio.org</a>"
     },
     {
-      "id": 57,
+      "id": 58,
       "type": 3,
       "title": "Wakapi",
       "name": "wakapi",
@@ -1915,7 +1945,7 @@
       }
     },
     {
-      "id": 58,
+      "id": 59,
       "type": 1,
       "title": "Wallos",
       "name": "wallos",
@@ -1949,7 +1979,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8282</code> and register. The first account becomes the admin, and sign-ups are closed after that. The database and any logos you upload live in the two volumes. Docs: <a href=\"https://github.com/ellite/wallos#readme\" target=\"_blank\">github.com/ellite/wallos</a>"
     },
     {
-      "id": 59,
+      "id": 60,
       "type": 3,
       "title": "YOURLS",
       "name": "yourls",
@@ -2000,7 +2030,7 @@
       }
     },
     {
-      "id": 60,
+      "id": 61,
       "type": 3,
       "title": "Zipline",
       "name": "zipline",

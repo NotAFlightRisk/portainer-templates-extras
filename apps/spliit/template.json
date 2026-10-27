@@ -1,0 +1,22 @@
+{
+  "title": "Spliit",
+  "name": "spliit",
+  "description": "Expense splitter for trips, flatmates and nights out, tracking who paid for what in a shared group and working out who owes who, with no accounts needed, just a link to the group. Handles several currencies, categories and uneven splits. Source: https://github.com/spliit-app/spliit",
+  "categories": ["Finance"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/spliit-app/spliit/main/public/logo.svg",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "SPLIIT_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or Spliit can't reach its database."
+    },
+    {
+      "name": "SPLIIT_PORT",
+      "label": "Host port for the web UI",
+      "default": "3800"
+    }
+  ],
+  "note": "Set the <b>database password</b> before you deploy (<code>openssl rand -hex 32</code> makes a good one), since the stack won't start without it, and keep it the same when you redeploy. Then open <code>http://&lt;your-host&gt;:3800</code> (or whichever port you picked) and create a group. There are no accounts: anyone who can reach it can make a group, and anyone with a group's link can see and edit it, so share links with care and keep it off the open internet unless you mean to. Groups you've opened are listed in your browser, not on the server, so bookmark or save the link. Converting an expense from another currency asks api.frankfurter.dev for the rate, and the currency picker loads flags from flagcdn.com. Everything lives in Postgres, in the <code>postgres-data</code> volume. Docs: <a href=\"https://github.com/spliit-app/spliit#readme\" target=\"_blank\">github.com/spliit-app/spliit</a>"
+}
