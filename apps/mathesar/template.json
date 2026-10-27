@@ -1,0 +1,22 @@
+{
+  "title": "Mathesar",
+  "name": "mathesar",
+  "description": "Spreadsheet-like interface for PostgreSQL, for browsing, editing and linking tables without SQL, building queries by pointing and clicking and importing CSVs. Runs on its own database or connects to Postgres you already have. Source: https://github.com/mathesar-foundation/mathesar",
+  "categories": ["Database", "Productivity"],
+  "platform": "linux",
+  "logo": "https://avatars.githubusercontent.com/u/64070190?s=256",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "MATHESAR_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or Mathesar can't reach its database."
+    },
+    {
+      "name": "MATHESAR_PORT",
+      "label": "Host port for the web UI",
+      "default": "8250"
+    }
+  ],
+  "note": "TODO"
+}
