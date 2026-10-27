@@ -1,0 +1,40 @@
+services:
+  mathesar:
+    image: mathesar/mathesar:latest
+    restart: unless-stopped
+    ports:
+      - "${MATHESAR_PORT:-8250}:8000"
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.production
+      ALLOWED_HOSTS: "*"
+      POSTGRES_DB: mathesar_django
+      POSTGRES_USER: mathesar
+      POSTGRES_PASSWORD: ${MATHESAR_DB_PASSWORD:?Set a database password}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+    volumes:
+      - mathesar-secrets:/code/.secrets
+      - mathesar-media:/code/.media
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: mathesar_django
+      POSTGRES_USER: mathesar
+      POSTGRES_PASSWORD: ${MATHESAR_DB_PASSWORD:?Set a database password}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mathesar -d mathesar_django"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mathesar-secrets:
+  mathesar-media:
+  postgres-data:
