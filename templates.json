@@ -1088,7 +1088,7 @@
           "default": "8250"
         }
       ],
-      "note": "TODO",
+      "note": "Set the <b>database password</b> before you deploy (<code>openssl rand -hex 32</code> makes a good one), since the stack won't start without it, and keep it the same when you redeploy. Then open <code>http://&lt;your-host&gt;:8250</code> (or whichever port you picked) and make the admin account straight away, as whoever gets there first owns it. That page comes with two boxes ticked, a one-time install ping and anonymous usage stats, both sent to Mathesar, so untick them if you'd rather not (usage stats can also be switched off under Administration --&gt; Settings). Connect Database --&gt; Create a New Database makes one on the bundled Postgres, with sample data if you like, or point it at a Postgres server you already run. Your browser checks GitHub for new releases. The bundled database lives in the <code>postgres-data</code> volume, and the secret key that encrypts saved database passwords is made on first start in <code>mathesar-secrets</code>, so keep both. Docs: <a href=\"https://docs.mathesar.org\" target=\"_blank\">docs.mathesar.org</a>",
       "repository": {
         "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
         "stackfile": "apps/mathesar/compose.yml"
