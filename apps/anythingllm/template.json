@@ -1,0 +1,17 @@
+{
+  "title": "AnythingLLM",
+  "name": "anythingllm",
+  "description": "Private ChatGPT-style workspace for your own documents: upload files or scrape web pages, then chat with them using whichever model you like, from OpenAI or Anthropic keys to a local Ollama. Embeddings and the vector store run built in. Source: https://github.com/Mintplex-Labs/anything-llm",
+  "categories": ["AI", "Documents", "Productivity"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/Mintplex-Labs/anything-llm/master/frontend/src/media/logo/anything-llm-icon.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "ANYTHINGLLM_PORT",
+      "label": "Host port for the web UI",
+      "default": "3001"
+    }
+  ],
+  "note": "It's a big image (about 3.4 GB) and wants around 2 GB of RAM, so the first start takes a while. Then open <code>http://&lt;your-host&gt;:3001</code> (or whichever port you picked) and the setup asks for your AI provider: an OpenAI or Anthropic key, or the address of an Ollama or LM Studio server. Embeddings and the vector database run inside the container, so that's the only thing it needs from outside. <b>Until you set a password, anyone who can reach it can use it</b>, your API keys included. Pick Just me and set one during setup, or My team for separate accounts, or do it later under Settings --&gt; Security. AnythingLLM sends anonymous usage stats to its makers, starting with a ping on the first boot. Switch that off under Settings --&gt; Privacy &amp; Data. Documents, chats, vectors and its settings (API keys and password included) all live in the <code>anythingllm-storage</code> volume, so they survive updates. Docs: <a href=\"https://docs.anythingllm.com/installation-docker/overview\" target=\"_blank\">docs.anythingllm.com</a>"
+}
