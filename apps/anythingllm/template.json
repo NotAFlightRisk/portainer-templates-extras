@@ -1,0 +1,17 @@
+{
+  "title": "AnythingLLM",
+  "name": "anythingllm",
+  "description": "Private ChatGPT-style workspace for your own documents: upload files or scrape web pages, then chat with them using whichever model you like, from OpenAI or Anthropic keys to a local Ollama. Embeddings and the vector store run built in. Source: https://github.com/Mintplex-Labs/anything-llm",
+  "categories": ["AI", "Documents", "Productivity"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/Mintplex-Labs/anything-llm/master/frontend/src/media/logo/anything-llm-icon.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "ANYTHINGLLM_PORT",
+      "label": "Host port for the web UI",
+      "default": "3001"
+    }
+  ],
+  "note": "TODO"
+}

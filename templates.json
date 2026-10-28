@@ -60,6 +60,33 @@
     },
     {
       "id": 3,
+      "type": 3,
+      "title": "AnythingLLM",
+      "name": "anythingllm",
+      "description": "Private ChatGPT-style workspace for your own documents: upload files or scrape web pages, then chat with them using whichever model you like, from OpenAI or Anthropic keys to a local Ollama. Embeddings and the vector store run built in. Source: https://github.com/Mintplex-Labs/anything-llm",
+      "categories": [
+        "AI",
+        "Documents",
+        "Productivity"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/Mintplex-Labs/anything-llm/master/frontend/src/media/logo/anything-llm-icon.png",
+      "restart_policy": "unless-stopped",
+      "env": [
+        {
+          "name": "ANYTHINGLLM_PORT",
+          "label": "Host port for the web UI",
+          "default": "3001"
+        }
+      ],
+      "note": "TODO",
+      "repository": {
+        "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
+        "stackfile": "apps/anythingllm/compose.yml"
+      }
+    },
+    {
+      "id": 4,
       "type": 1,
       "title": "Apache Answer",
       "name": "apache-answer",
@@ -91,7 +118,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:9080</code> from the address you'll actually use, since the setup wizard saves it as the Site URL that links and uploads are built from. On the database step pick <b>SQLite</b> (it defaults to MySQL, which isn't there) and leave the file as <code>/data/answer.db</code>. The last step creates the admin, and whoever reaches the wizard first gets to, so do it straight away. Sign-ups stay open but need email verification, so new accounts can't post until you set up Admin --&gt; Advanced --&gt; SMTP, or close them under Advanced --&gt; Login. The database, config and uploads all live in the volume. Docs: <a href=\"https://answer.apache.org/docs\" target=\"_blank\">answer.apache.org/docs</a>"
     },
     {
-      "id": 4,
+      "id": 5,
       "type": 1,
       "title": "BentoPDF",
       "name": "bentopdf",
@@ -110,7 +137,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8090</code>. There's no login and nothing to back up, since every PDF is processed in your browser rather than on the server. Converting Word, Excel or PowerPoint files needs it served over HTTPS though (or opened as <code>localhost</code> on the same machine), as browsers block the bit it relies on over plain http. Docs: <a href=\"https://github.com/alam00000/bentopdf#readme\" target=\"_blank\">github.com/alam00000/bentopdf</a>"
     },
     {
-      "id": 5,
+      "id": 6,
       "type": 3,
       "title": "Bytebase",
       "name": "bytebase",
@@ -141,7 +168,7 @@
       }
     },
     {
-      "id": 6,
+      "id": 7,
       "type": 3,
       "title": "Casdoor",
       "name": "casdoor",
@@ -176,7 +203,7 @@
       }
     },
     {
-      "id": 7,
+      "id": 8,
       "type": 1,
       "title": "Cloudreve",
       "name": "cloudreve",
@@ -201,7 +228,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:5212</code> and sign up. The first account becomes the admin, and sign-ups stay open after that, so turn them off under Admin panel --&gt; Settings --&gt; User session if it's just you. Open the Admin panel from the address you'll actually use, too. It offers to save that as the Site URL, and until you say yes, download and share links point at localhost. The database, settings and every uploaded file live in the volume. Docs: <a href=\"https://docs.cloudreve.org/en/\" target=\"_blank\">docs.cloudreve.org</a>"
     },
     {
-      "id": 8,
+      "id": 9,
       "type": 1,
       "title": "CommaFeed",
       "name": "commafeed",
@@ -232,7 +259,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8082</code> and the first page creates the admin account. There's no setup code, so do it straight after deploying. Sign-ups are off, so the admin adds everyone else from the user menu --&gt; Manage users. It won't subscribe to feeds on private addresses, so for one on your own network add <code>COMMAFEED_HTTP_CLIENT_BLOCK_LOCAL_ADDRESSES=false</code> to the environment, but only if you trust everyone using it. Mobile apps log in with your username and an API key, which you make at the bottom of Settings --&gt; Profile, where the Fever and Google Reader addresses are too. Everything lives in the H2 database in the volume. Docs: <a href=\"https://athou.github.io/commafeed/documentation\" target=\"_blank\">athou.github.io/commafeed</a>"
     },
     {
-      "id": 9,
+      "id": 10,
       "type": 1,
       "title": "ConvertX",
       "name": "convertx",
@@ -285,7 +312,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:3000</code> and create your account straight away, since the first visitor gets it and sign-ups close after that. Uploads and the database live in the <code>/app/data</code> volume. It's a big image (LibreOffice, TeX and Calibre are all in there), so the first pull takes a while. You'll be logged out whenever the container restarts, unless you add a <code>JWT_SECRET</code> env var holding a long random string (<code>openssl rand -hex 32</code>). Docs: <a href=\"https://github.com/C4illin/ConvertX#readme\" target=\"_blank\">github.com/C4illin/ConvertX</a>"
     },
     {
-      "id": 10,
+      "id": 11,
       "type": 3,
       "title": "copyparty",
       "name": "copyparty",
@@ -316,7 +343,7 @@
       }
     },
     {
-      "id": 11,
+      "id": 12,
       "type": 1,
       "title": "CyberChef",
       "name": "cyberchef",
@@ -336,7 +363,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8088</code>. There's no login and nothing to back up, since every recipe runs in your browser and your data never reaches the server. Recipes live in the URL, so bookmark or share that to keep one. Docs: <a href=\"https://github.com/gchq/CyberChef/wiki\" target=\"_blank\">github.com/gchq/CyberChef/wiki</a>"
     },
     {
-      "id": 12,
+      "id": 13,
       "type": 3,
       "title": "DbGate",
       "name": "dbgate",
@@ -368,7 +395,7 @@
       }
     },
     {
-      "id": 13,
+      "id": 14,
       "type": 3,
       "title": "Dolibarr",
       "name": "dolibarr",
@@ -415,7 +442,7 @@
       }
     },
     {
-      "id": 14,
+      "id": 15,
       "type": 1,
       "title": "Donetick",
       "name": "donetick",
@@ -457,7 +484,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:2021</code> and click Create one. Sign-ups stay open: everyone makes their own account, then asks to join your circle with the code under Settings --&gt; Circle Settings, where you accept them. Once everyone's in, add <code>DONETICK_DISABLE_SIGNUP=true</code> to the container's environment. Crash reports and usage analytics stay off unless you tick them on the screen after signing up. Photo attachments and avatars need S3-compatible storage set up as their storage docs say, and uploads fail without it. The phone apps only connect over HTTPS with a real certificate, so they need a proxy in front. The SQLite database lives in the data volume, and the generated login secret and settings (<code>selfhosted.yaml</code>) in the config one. Docs: <a href=\"https://docs.donetick.com/getting-started/\" target=\"_blank\">docs.donetick.com</a>"
     },
     {
-      "id": 15,
+      "id": 16,
       "type": 1,
       "title": "drawDB",
       "name": "drawdb",
@@ -477,7 +504,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8098/editor</code>. There's no login and nothing to back up on the server, since diagrams are saved in your browser's own storage, so another browser or a cleared cache starts empty. File --&gt; Export as --&gt; JSON keeps a copy, and File --&gt; Import from brings it back. Plain /editor makes a fresh copy of your last diagram on every visit, so bookmark the /editor/diagrams/... address it moves you to. Share and version history need drawDB's separate backend, which isn't included. Icon fonts load from jsDelivr and cdnjs, and the home page at / pulls in tweets and a GitHub star count from outside services. Docs: <a href=\"https://drawdb-io.github.io/docs\" target=\"_blank\">drawdb-io.github.io/docs</a>"
     },
     {
-      "id": 16,
+      "id": 17,
       "type": 3,
       "title": "Easy!Appointments",
       "name": "easy-appointments",
@@ -513,7 +540,7 @@
       }
     },
     {
-      "id": 17,
+      "id": 18,
       "type": 3,
       "title": "EspoCRM",
       "name": "espocrm",
@@ -555,7 +582,7 @@
       }
     },
     {
-      "id": 18,
+      "id": 19,
       "type": 3,
       "title": "Etherpad",
       "name": "etherpad",
@@ -606,7 +633,7 @@
       }
     },
     {
-      "id": 19,
+      "id": 20,
       "type": 3,
       "title": "ezBookkeeping",
       "name": "ezbookkeeping",
@@ -647,7 +674,7 @@
       }
     },
     {
-      "id": 20,
+      "id": 21,
       "type": 3,
       "title": "Firefly III",
       "name": "firefly-iii",
@@ -698,7 +725,7 @@
       }
     },
     {
-      "id": 21,
+      "id": 22,
       "type": 3,
       "title": "flatnotes",
       "name": "flatnotes",
@@ -739,7 +766,7 @@
       }
     },
     {
-      "id": 22,
+      "id": 23,
       "type": 3,
       "title": "Grist",
       "name": "grist",
@@ -770,7 +797,7 @@
       }
     },
     {
-      "id": 23,
+      "id": 24,
       "type": 3,
       "title": "Halo",
       "name": "halo",
@@ -807,7 +834,7 @@
       }
     },
     {
-      "id": 24,
+      "id": 25,
       "type": 1,
       "title": "JupyterLab",
       "name": "jupyterlab",
@@ -831,7 +858,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8888</code>. It asks for a token, which is in the container's logs (the link ending <code>/lab?token=...</code>). Put that token and a new password into Setup a Password underneath, and you'll log in with the password from then on - otherwise the token changes on every restart. Whoever logs in gets a terminal inside the container, so keep it off the open internet unless it's behind HTTPS. Your notebooks, settings, password and anything you <code>pip install --user</code> live in the home folder volume. A plain <code>pip install</code> goes into the image and is gone after an update. Docs: <a href=\"https://jupyter-docker-stacks.readthedocs.io\" target=\"_blank\">jupyter-docker-stacks.readthedocs.io</a>"
     },
     {
-      "id": 25,
+      "id": 26,
       "type": 1,
       "title": "Kanboard",
       "name": "kanboard",
@@ -858,7 +885,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8094</code> and sign in as <code>admin</code> / <code>admin</code>, then change that password straight away under My profile --&gt; Change password, as it's the same on every install. There are no open sign-ups, the admin adds users. Set Settings --&gt; Application URL to the address you use, so links in emails point to the right place. The SQLite database and attachments live in the data volume, plugins in the other. Docs: <a href=\"https://docs.kanboard.org/v1/admin/docker/\" target=\"_blank\">docs.kanboard.org</a>"
     },
     {
-      "id": 26,
+      "id": 27,
       "type": 3,
       "title": "Kaneo",
       "name": "kaneo",
@@ -899,7 +926,7 @@
       }
     },
     {
-      "id": 27,
+      "id": 28,
       "type": 3,
       "title": "Kener",
       "name": "kener",
@@ -934,7 +961,7 @@
       }
     },
     {
-      "id": 28,
+      "id": 29,
       "type": 3,
       "title": "KitchenOwl",
       "name": "kitchenowl",
@@ -965,7 +992,7 @@
       }
     },
     {
-      "id": 29,
+      "id": 30,
       "type": 3,
       "title": "Langflow",
       "name": "langflow",
@@ -1002,7 +1029,7 @@
       }
     },
     {
-      "id": 30,
+      "id": 31,
       "type": 3,
       "title": "LibreTranslate",
       "name": "libretranslate",
@@ -1034,7 +1061,7 @@
       }
     },
     {
-      "id": 31,
+      "id": 32,
       "type": 1,
       "title": "LubeLogger",
       "name": "lubelogger",
@@ -1069,7 +1096,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8180</code>. There's no login out of the box, so anyone who can reach it can see and change everything until you turn one on under Settings --&gt; Admin --&gt; Enable Authentication, which sets up the root account. Vehicles, records, uploaded receipts and settings live in the first volume, and the second keeps everyone logged in across updates. The server checks GitHub for new versions and its sponsor list. Docs: <a href=\"https://docs.lubelogger.com\" target=\"_blank\">docs.lubelogger.com</a>"
     },
     {
-      "id": 32,
+      "id": 33,
       "type": 3,
       "title": "marimo",
       "name": "marimo",
@@ -1105,7 +1132,7 @@
       }
     },
     {
-      "id": 33,
+      "id": 34,
       "type": 3,
       "title": "Mathesar",
       "name": "mathesar",
@@ -1136,7 +1163,7 @@
       }
     },
     {
-      "id": 34,
+      "id": 35,
       "type": 1,
       "title": "Mermaid Live Editor",
       "name": "mermaid-live-editor",
@@ -1155,7 +1182,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8980</code>. There's no login and nothing to back up on the server, since your diagram and its history are kept in your browser's own storage, so another browser or a cleared cache starts empty. Share puts the whole diagram in the link, and Actions --&gt; PNG or SVG downloads it straight from your browser. The pink banner, Save diagram, Edit visually and Contact sales all belong to Mermaid Chart, the makers' paid service, and the two save buttons send your diagram there when clicked, as do the mermaid.ink and Kroki links under Actions. Otherwise the only outside request is the Config tab fetching its schema from mermaid.js.org. Docs: <a href=\"https://mermaid.js.org/intro/\" target=\"_blank\">mermaid.js.org</a>"
     },
     {
-      "id": 35,
+      "id": 36,
       "type": 3,
       "title": "MyIP",
       "name": "myip",
@@ -1186,7 +1213,7 @@
       }
     },
     {
-      "id": 36,
+      "id": 37,
       "type": 3,
       "title": "NocoBase",
       "name": "nocobase",
@@ -1222,7 +1249,7 @@
       }
     },
     {
-      "id": 37,
+      "id": 38,
       "type": 3,
       "title": "NodeBB",
       "name": "nodebb",
@@ -1253,7 +1280,7 @@
       }
     },
     {
-      "id": 38,
+      "id": 39,
       "type": 1,
       "title": "Opengist",
       "name": "opengist",
@@ -1278,7 +1305,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:6157</code> and register. The first account becomes the admin and sign-ups stay open after it, so once everyone's in, tick Disable signup under Admin --&gt; Configuration (invitations still work). Public gists can be read without logging in unless you tick Require login there too. Every gist is a Git repo: clone and push over http on 6157, or over SSH on 2222 once you've added a key under Settings. Anyone who adds an email gets their avatar from Gravatar, which the same admin page can turn off. Behind an HTTPS proxy, add <code>OG_EXTERNAL_URL</code> (like <code>https://gist.example.com</code>) to the container's environment so the login cookie is Secure and passkeys work. The SQLite database, every gist's repo, the search index and the generated secret key live in the volume. Docs: <a href=\"https://opengist.io/docs\" target=\"_blank\">opengist.io</a>"
     },
     {
-      "id": 39,
+      "id": 40,
       "type": 3,
       "title": "OpenList",
       "name": "openlist",
@@ -1305,7 +1332,7 @@
       }
     },
     {
-      "id": 40,
+      "id": 41,
       "type": 3,
       "title": "Papra",
       "name": "papra",
@@ -1341,7 +1368,7 @@
       }
     },
     {
-      "id": 41,
+      "id": 42,
       "type": 3,
       "title": "Password Pusher",
       "name": "password-pusher",
@@ -1377,7 +1404,7 @@
       }
     },
     {
-      "id": 42,
+      "id": 43,
       "type": 1,
       "title": "PlantUML Server",
       "name": "plantuml-server",
@@ -1396,7 +1423,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8380</code>. There's no login and nothing saved on the server, since each diagram is encoded into its own address, so bookmark or share the page's address to keep one. The link above the editor renders it straight into a doc or wiki, and swapping <code>/png/</code> for <code>/svg/</code> gives you an SVG. PNGs get cut off at 4096 pixels across while SVGs don't, so for bigger ones add <code>PLANTUML_LIMIT_SIZE</code> (say <code>16384</code>) to the container's environment. Includes work from public web addresses, but not from local files or your own network. Docs: <a href=\"https://plantuml.com/server\" target=\"_blank\">plantuml.com/server</a>"
     },
     {
-      "id": 43,
+      "id": 44,
       "type": 1,
       "title": "Readeck",
       "name": "readeck",
@@ -1420,7 +1447,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8097</code> and create your account. Whoever gets there first becomes the admin, and there are no open sign-ups after that, the admin adds users under Settings --&gt; Users. The <a href=\"https://readeck.org/en/extension\" target=\"_blank\">browser extension</a> saves pages in one click. Readeck won't fetch pages on private addresses, so links to things on your LAN save without their content. The settings, generated secret key, SQLite database and every saved page live in the volume. Docs: <a href=\"https://readeck.org/en/docs/\" target=\"_blank\">readeck.org</a>"
     },
     {
-      "id": 44,
+      "id": 45,
       "type": 1,
       "title": "RSSHub",
       "name": "rsshub",
@@ -1446,7 +1473,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:1200</code> to check it's up, then add feeds to your reader as paths on it, like <code>/github/issue/DIYgod/RSSHub</code>. Every route is listed in the <a href=\"https://docs.rsshub.app\" target=\"_blank\">docs</a>. There's no login, so set an access key if it faces the internet. Nothing to back up, feeds are cached in memory. Some routes need a browser, and for those swap the image tag to <code>chromium-bundled</code>."
     },
     {
-      "id": 45,
+      "id": 46,
       "type": 3,
       "title": "RustFS",
       "name": "rustfs",
@@ -1487,7 +1514,7 @@
       }
     },
     {
-      "id": 46,
+      "id": 47,
       "type": 3,
       "title": "Ryot",
       "name": "ryot",
@@ -1535,7 +1562,7 @@
       }
     },
     {
-      "id": 47,
+      "id": 48,
       "type": 1,
       "title": "Seerr",
       "name": "seerr",
@@ -1566,7 +1593,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:5055</code> and the setup wizard walks you through connecting your media server, then Sonarr and Radarr. Settings and the request database live in the <code>/app/config</code> volume. Coming from Overseerr or Jellyseerr? Seerr can take over their config, see the <a href=\"https://docs.seerr.dev\" target=\"_blank\">docs</a> for how."
     },
     {
-      "id": 48,
+      "id": 49,
       "type": 1,
       "title": "SilverBullet",
       "name": "silverbullet",
@@ -1591,7 +1618,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:3300</code> and the setup wizard asks for an admin account, then your first space (at <code>/notes</code> by default). There's no setup code, so whoever gets there first owns the server - do it straight after deploying, and from the address you'll actually use, since the admin dashboard always sends you back there (change it under Admin --&gt; Server). Over plain http on anything but localhost it runs online-only, so no offline use, local encryption or single sign-on. Put it behind an HTTPS proxy to get those back. Accounts, settings and every page (as plain Markdown files) live in the volume. This is the slim image, so if you want the Runtime API, which needs Chromium, use the <code>latest</code> tag instead. Docs: <a href=\"https://docs.silverbullet.md/Install\" target=\"_blank\">docs.silverbullet.md</a>"
     },
     {
-      "id": 49,
+      "id": 50,
       "type": 3,
       "title": "SiYuan",
       "name": "siyuan",
@@ -1629,7 +1656,7 @@
       }
     },
     {
-      "id": 50,
+      "id": 51,
       "type": 3,
       "title": "Snipe-IT",
       "name": "snipe-it",
@@ -1676,7 +1703,7 @@
       }
     },
     {
-      "id": 51,
+      "id": 52,
       "type": 3,
       "title": "SparkyFitness",
       "name": "sparkyfitness",
@@ -1726,7 +1753,7 @@
       }
     },
     {
-      "id": 52,
+      "id": 53,
       "type": 3,
       "title": "Spliit",
       "name": "spliit",
@@ -1756,7 +1783,7 @@
       }
     },
     {
-      "id": 53,
+      "id": 54,
       "type": 1,
       "title": "Spoolman",
       "name": "spoolman",
@@ -1779,7 +1806,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:7912</code>. There's no login at all, so anyone who can reach it can see and change your spools - keep it on your own network. Add spools searches your own catalogue plus SpoolmanDB, a public list of filaments the server downloads from GitHub, so most details fill themselves in. Moonraker and the OctoPrint plugin connect to that same address. The database and its nightly backups live in the volume. The page loads its fonts from Google Fonts. Docs: <a href=\"https://github.com/Donkie/Spoolman/wiki\" target=\"_blank\">github.com/Donkie/Spoolman/wiki</a>"
     },
     {
-      "id": 54,
+      "id": 55,
       "type": 1,
       "title": "Super Productivity",
       "name": "super-productivity",
@@ -1798,7 +1825,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8095</code>. There's no login, and your tasks are saved in your browser rather than on the server, so set up sync (WebDAV, Dropbox and others) in its settings if you use more than one device. Docs: <a href=\"https://github.com/super-productivity/super-productivity#readme\" target=\"_blank\">github.com/super-productivity/super-productivity</a>"
     },
     {
-      "id": 55,
+      "id": 56,
       "type": 3,
       "title": "Teable",
       "name": "teable",
@@ -1840,7 +1867,7 @@
       }
     },
     {
-      "id": 56,
+      "id": 57,
       "type": 1,
       "title": "Termix",
       "name": "termix",
@@ -1864,7 +1891,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8080</code> and create an account, which becomes the admin. Registration stays open after that, so switch it off in the admin settings unless you want other people signing up. Hosts, keys and the database live in the <code>/app/data</code> volume, and its secrets are generated there on first start. Behind a reverse proxy it needs websockets. It sends a small anonymous usage report once a day, which you can switch off in Admin Settings &gt; Usage Statistics. Docs: <a href=\"https://docs.termix.site\" target=\"_blank\">docs.termix.site</a>"
     },
     {
-      "id": 57,
+      "id": 58,
       "type": 1,
       "title": "TREK",
       "name": "trek",
@@ -1915,7 +1942,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8099</code> and sign in as <code>admin@trek.local</code>. The password's printed in the container's logs on first start (search them for First Run), and TREK makes you pick a new one straight away. Anyone who can reach it can register their own account, so switch off Password Registration under Administration --&gt; Settings if that's not what you want. Place search asks TREK's own places.liketrek.com as well as OpenStreetMap, add a <code>TREK_PLACES_ENABLED=false</code> env to keep it to OpenStreetMap. The database, its encryption key and every upload live in the two volumes. Docs: <a href=\"https://github.com/liketrek/TREK/wiki\" target=\"_blank\">github.com/liketrek/TREK/wiki</a>"
     },
     {
-      "id": 58,
+      "id": 59,
       "type": 3,
       "title": "tududi",
       "name": "tududi",
@@ -1957,7 +1984,7 @@
       }
     },
     {
-      "id": 59,
+      "id": 60,
       "type": 1,
       "title": "Verdaccio",
       "name": "verdaccio",
@@ -1981,7 +2008,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:4873</code> to browse packages, and point npm at it with <code>npm config set registry http://&lt;your-host&gt;:4873/</code>. Anything it doesn't host comes from npmjs and gets cached. There's no admin: <code>npm login --registry http://&lt;your-host&gt;:4873/</code> makes an account the first time, and any account can publish and unpublish any package. Sign-ups stay open and packages can be read without logging in, which is upstream's default and only changes in its config.yaml, so keep it on your own network. Authors with an email get their avatar from Gravatar in the web UI. Accounts, packages, the npmjs cache and the generated token secret live in the volume. Docs: <a href=\"https://www.verdaccio.org/docs/docker\" target=\"_blank\">verdaccio.org</a>"
     },
     {
-      "id": 60,
+      "id": 61,
       "type": 3,
       "title": "Wakapi",
       "name": "wakapi",
@@ -2017,7 +2044,7 @@
       }
     },
     {
-      "id": 61,
+      "id": 62,
       "type": 1,
       "title": "Wallos",
       "name": "wallos",
@@ -2051,7 +2078,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8282</code> and register. The first account becomes the admin, and sign-ups are closed after that. The database and any logos you upload live in the two volumes. Docs: <a href=\"https://github.com/ellite/wallos#readme\" target=\"_blank\">github.com/ellite/wallos</a>"
     },
     {
-      "id": 62,
+      "id": 63,
       "type": 3,
       "title": "YOURLS",
       "name": "yourls",
@@ -2102,7 +2129,7 @@
       }
     },
     {
-      "id": 63,
+      "id": 64,
       "type": 3,
       "title": "Zipline",
       "name": "zipline",
