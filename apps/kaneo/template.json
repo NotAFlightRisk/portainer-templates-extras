@@ -1,0 +1,32 @@
+{
+  "title": "Kaneo",
+  "name": "kaneo",
+  "description": "Project management for teams that want to get on with the work: boards, lists, Gantt charts, labels, time tracking and GitHub, GitLab or Gitea issue sync, in workspaces you invite people into. Source: https://github.com/usekaneo/kaneo",
+  "categories": ["Project Management", "Productivity"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/usekaneo/kaneo/main/apps/web/public/favicon.svg",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "KANEO_URL",
+      "label": "Address you'll open it on (required)",
+      "description": "Exactly what you'll type in the browser, port included and no slash at the end, like http://192.168.1.20:5173."
+    },
+    {
+      "name": "KANEO_SECRET",
+      "label": "Secret key (required)",
+      "description": "Signs everyone's logins. Generate one with: openssl rand -hex 32. Keep it the same when you redeploy."
+    },
+    {
+      "name": "KANEO_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or Kaneo can't reach its database."
+    },
+    {
+      "name": "KANEO_PORT",
+      "label": "Host port for the web UI",
+      "default": "5173"
+    }
+  ],
+  "note": "TODO"
+}

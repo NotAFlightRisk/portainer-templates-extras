@@ -1,0 +1,36 @@
+services:
+  kaneo:
+    image: ghcr.io/usekaneo/kaneo:2
+    restart: unless-stopped
+    ports:
+      - "${KANEO_PORT:-5173}:5173"
+    environment:
+      KANEO_CLIENT_URL: ${KANEO_URL:?Set the address you'll open it on}
+      AUTH_SECRET: ${KANEO_SECRET:?Set a secret key}
+      POSTGRES_DB: kaneo
+      POSTGRES_USER: kaneo
+      POSTGRES_PASSWORD: ${KANEO_DB_PASSWORD:?Set a database password}
+      POSTGRES_HOST: postgres
+      DISABLE_REGISTRATION: ${KANEO_DISABLE_REGISTRATION:-false}
+      NOTIFICATION_SECRET_ENCRYPTION_KEY: ${KANEO_NOTIFICATION_KEY:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: kaneo
+      POSTGRES_USER: kaneo
+      POSTGRES_PASSWORD: ${KANEO_DB_PASSWORD:?Set a database password}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kaneo -d kaneo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres-data:
