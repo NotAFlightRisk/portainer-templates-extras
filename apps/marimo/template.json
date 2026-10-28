@@ -1,0 +1,27 @@
+{
+  "title": "marimo",
+  "name": "marimo",
+  "description": "Python notebooks saved as plain .py files, where running a cell reruns everything that depends on it, with SQL cells, interactive widgets and a dataframe explorer built in. pandas, Polars, DuckDB and Altair come installed. Source: https://github.com/marimo-team/marimo",
+  "categories": ["Development", "Tools"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/marimo-team/marimo/main/frontend/public/apple-touch-icon.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "MARIMO_PASSWORD",
+      "label": "Password (required)",
+      "description": "What you'll log in with. Anything long and hard to guess, or generate one with: openssl rand -hex 16"
+    },
+    {
+      "name": "MARIMO_SESSION_SECRET",
+      "label": "Session secret",
+      "description": "Keeps you logged in across restarts and updates. Generate one with: openssl rand -hex 32. Left blank, every restart logs you out."
+    },
+    {
+      "name": "MARIMO_PORT",
+      "label": "Host port for the web UI",
+      "default": "2718"
+    }
+  ],
+  "note": "Set the <b>password</b> before you deploy, since the stack won't start without one. Then open <code>http://&lt;your-host&gt;:2718</code> (or whichever port you picked) and log in with it. The home page lists every notebook in the <code>marimo-notebooks</code> volume, marimo's tutorials included, and new ones save there as plain <code>.py</code> files. Your settings live in <code>marimo-home</code>. Packages you add from inside a notebook go into the container rather than a volume, so they're gone after an update and you'll need to install them again. Whoever logs in can run any Python on the server, so keep it off the open internet unless it's behind HTTPS. Docs: <a href=\"https://docs.marimo.io\" target=\"_blank\">docs.marimo.io</a>"
+}
