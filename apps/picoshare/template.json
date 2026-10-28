@@ -1,0 +1,22 @@
+{
+  "title": "PicoShare",
+  "name": "picoshare",
+  "description": "Minimalist file sharing: upload any file and get a direct link to it, with no re-encoding, no size limit and an optional expiry date. Guest links let other people upload files to you. Source: https://github.com/mtlynch/picoshare",
+  "categories": ["File Sharing"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/mtlynch/picoshare/master/handlers/static/android-chrome-384x384.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "PICOSHARE_PASSWORD",
+      "label": "Password (required)",
+      "description": "What you'll log in with. Anything long and hard to guess, or generate one with: openssl rand -hex 16"
+    },
+    {
+      "name": "PICOSHARE_PORT",
+      "label": "Host port for the web UI",
+      "default": "4001"
+    }
+  ],
+  "note": "Set the <b>password</b> before you deploy, since the stack won't start without one. Then open <code>http://&lt;your-host&gt;:4001</code> (or whichever port you picked), click Log In and enter it. Changing it on the form and redeploying swaps it for the new one. Share links are built from the address you're on, and anyone with a link can download the file without logging in. Uploads expire after 30 days unless you pick otherwise, and you can change that default under System --&gt; Settings. Guest Links make an upload page for someone else, with optional limits on size and number of files. Everything, files included, lives in a SQLite database in the <code>picoshare-data</code> volume. Docs: <a href=\"https://github.com/mtlynch/picoshare#readme\" target=\"_blank\">github.com/mtlynch/picoshare</a>"
+}
