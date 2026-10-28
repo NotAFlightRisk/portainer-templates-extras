@@ -1,0 +1,22 @@
+{
+  "title": "PicoShare",
+  "name": "picoshare",
+  "description": "Minimalist file sharing: upload any file and get a direct link to it, with no re-encoding, no size limit and an optional expiry date. Guest links let other people upload files to you. Source: https://github.com/mtlynch/picoshare",
+  "categories": ["File Sharing"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/mtlynch/picoshare/master/handlers/static/android-chrome-384x384.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "PICOSHARE_PASSWORD",
+      "label": "Password (required)",
+      "description": "What you'll log in with. Anything long and hard to guess, or generate one with: openssl rand -hex 16"
+    },
+    {
+      "name": "PICOSHARE_PORT",
+      "label": "Host port for the web UI",
+      "default": "4001"
+    }
+  ],
+  "note": "TODO"
+}
