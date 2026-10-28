@@ -862,7 +862,7 @@
       "type": 3,
       "title": "Kaneo",
       "name": "kaneo",
-      "description": "Project management for teams that want to get on with the work: boards, lists, Gantt charts, labels, time tracking and GitHub, GitLab or Gitea issue sync, in workspaces you invite people into. Source: https://github.com/usekaneo/kaneo",
+      "description": "Project management for small teams: kanban boards, a backlog, Gantt charts, labels, time tracking and GitHub, GitLab or Gitea issue sync, in workspaces you invite people into. Source: https://github.com/usekaneo/kaneo",
       "categories": [
         "Project Management",
         "Productivity"
@@ -892,7 +892,7 @@
           "default": "5173"
         }
       ],
-      "note": "TODO",
+      "note": "Fill in the <b>address</b>, <b>secret key</b> and <b>database password</b> before you deploy, since the stack won't start without them (<code>openssl rand -hex 32</code> makes a good secret and password), and keep the last two the same when you redeploy. The address has to be exactly what you'll type in the browser, like <code>http://192.168.1.20:5173</code>: the port you're using, and no slash at the end. Your browser reaches Kaneo through that address, so if it's wrong every page just says <i>Something went wrong!</i>. To fix it, change the address in the stack's environment variables and redeploy. Then open it straight away, as the first account made becomes the instance admin. After that anyone who can reach it can sign up, or carry on as a guest, and get a workspace of their own (they can't see yours), so once your people are in, add <code>KANEO_DISABLE_REGISTRATION</code> set to <code>true</code> to the stack's environment variables and redeploy. Invite people from the sidebar: with no email set up you get a link to send them, and it still works with sign-ups closed. Personal ntfy, Gotify and webhook notifications need a <code>KANEO_NOTIFICATION_KEY</code> (another <code>openssl rand -hex 32</code>) added the same way. File uploads in tasks and comments need S3-compatible storage, which this stack doesn't include. Everything else lives in Postgres, in the <code>postgres-data</code> volume. Docs: <a href=\"https://kaneo.app/docs\" target=\"_blank\">kaneo.app/docs</a>",
       "repository": {
         "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
         "stackfile": "apps/kaneo/compose.yml"
