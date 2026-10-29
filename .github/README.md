@@ -116,7 +116,7 @@ python scripts/online.py         # check logos, image tags, and clashes with the
 python -m unittest discover -s tests
 ```
 
-CI runs the build check, the tests, the online checks and `ruff`, and smoke tests whichever apps a PR touches.
+CI runs the build check, the tests, the online checks and `ruff`, and smoke tests whichever apps a PR touches, plus the lot every Monday.
 
 ---
 
