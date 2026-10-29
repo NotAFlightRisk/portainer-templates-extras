@@ -1124,7 +1124,7 @@
           "default": "UTC"
         }
       ],
-      "note": "Open <code>http://&lt;your-host&gt;:6246</code> and pick your media server, then add Sonarr, Radarr and Seerr under Settings if you use them. There's no login at all, and its settings page hands out every API key you've saved, so anyone who can reach it can delete your media - keep it on your own network, or behind a proxy that asks for a password. Nothing's deleted until a rule's grace period runs out, so test new rules on a collection first. The database and logs live in the <code>/opt/data</code> volume. It sends an anonymous weekly usage report unless you say no when it asks, or switch it off later under Settings. Docs: <a href=\"https://docs.maintainerr.info\" target=\"_blank\">docs.maintainerr.info</a>"
+      "note": "Open <code>http://&lt;your-host&gt;:6246</code> and pick your media server, then add Sonarr, Radarr and Seerr under Services if you use them. There's no login at all, so anyone who can reach it can change your rules and delete your media - keep it on your own network, or behind a proxy that asks for a password. Each rule's collection waits out a grace period (30 days unless you change it) before anything's deleted, so you can check what it caught first. The database and logs live in the <code>/opt/data</code> volume. It sends an anonymous usage report once a week, on until you switch it off under Settings --&gt; About --&gt; Telemetry. Docs: <a href=\"https://docs.maintainerr.info\" target=\"_blank\">docs.maintainerr.info</a>"
     },
     {
       "id": 34,
