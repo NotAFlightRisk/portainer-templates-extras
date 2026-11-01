@@ -1,0 +1,18 @@
+services:
+  livebook:
+    image: ghcr.io/livebook-dev/livebook:latest
+    restart: unless-stopped
+    ports:
+      - "${LIVEBOOK_PORT:-8590}:8080"
+      - "8591:8591"
+    environment:
+      LIVEBOOK_PASSWORD: ${LIVEBOOK_PASSWORD:?Set a password of 12 or more characters}
+      LIVEBOOK_SECRET_KEY_BASE: ${LIVEBOOK_SECRET_KEY_BASE:?Set a secret key}
+      LIVEBOOK_IFRAME_PORT: "8591"
+    volumes:
+      - livebook-notebooks:/data
+      - livebook-config:/home/livebook/.local/share/livebook
+
+volumes:
+  livebook-notebooks:
+  livebook-config:
