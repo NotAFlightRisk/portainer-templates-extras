@@ -1,0 +1,27 @@
+{
+  "title": "Livebook",
+  "name": "livebook",
+  "description": "Interactive Elixir notebooks saved as plain Markdown, with charts, tables, maps and forms built in, plus a way to turn a notebook into a small web app. Pulls in any Hex package from inside a notebook. Source: https://github.com/livebook-dev/livebook",
+  "categories": ["Development", "Tools"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/livebook-dev/livebook/main/assets/public/images/logo.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "LIVEBOOK_PASSWORD",
+      "label": "Password (required)",
+      "description": "What you'll log in with, 12 characters or more. Generate one with: openssl rand -hex 16"
+    },
+    {
+      "name": "LIVEBOOK_SECRET_KEY_BASE",
+      "label": "Secret key (required)",
+      "description": "Signs your login, so it survives restarts and updates. Generate one with: openssl rand -base64 48"
+    },
+    {
+      "name": "LIVEBOOK_PORT",
+      "label": "Host port for the web UI",
+      "default": "8590"
+    }
+  ],
+  "note": "Set the <b>password</b> and <b>secret key</b> before you deploy, since the stack won't start without both. Then open <code>http://&lt;your-host&gt;:8590</code> (or whichever port you picked) and log in. Charts and widgets load from port <b>8591</b> on the same host, so keep that one open too - it's fixed, and changing it breaks every output. Notebooks save to the <code>livebook-notebooks</code> volume (<code>/data</code> in the file picker), and settings live in <code>livebook-config</code>. Packages you pull in with <code>Mix.install</code> download again after an update, which is normal. Whoever logs in can run any code on the server, so keep it off the open internet unless it's behind HTTPS. Docs: <a href=\"https://hexdocs.pm/livebook\" target=\"_blank\">hexdocs.pm/livebook</a>"
+}
