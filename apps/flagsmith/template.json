@@ -1,0 +1,43 @@
+{
+  "title": "Flagsmith",
+  "name": "flagsmith",
+  "description": "Feature flags and remote config for your apps: switch features on per environment, roll out to a percentage or a segment of users, and change values without a deploy, with SDKs for most languages. Source: https://github.com/Flagsmith/flagsmith",
+  "categories": ["Development", "Tools"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/Flagsmith/flagsmith/main/docs/static/img/logo.svg",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "FLAGSMITH_SECRET",
+      "label": "Secret key (required)",
+      "description": "Signs everyone's logins. Generate one with: openssl rand -hex 32. Keep it the same when you redeploy."
+    },
+    {
+      "name": "FLAGSMITH_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or Flagsmith can't reach its database."
+    },
+    {
+      "name": "FLAGSMITH_SECURE_COOKIES",
+      "label": "Opening it over plain http?",
+      "description": "Flagsmith only keeps you logged in over HTTPS unless this is on. Switch it off once it's behind a reverse proxy with HTTPS.",
+      "select": [
+        {
+          "text": "Yes, plain http",
+          "value": "false",
+          "default": true
+        },
+        {
+          "text": "No, it's behind HTTPS",
+          "value": "true"
+        }
+      ]
+    },
+    {
+      "name": "FLAGSMITH_PORT",
+      "label": "Host port for the web UI and API",
+      "default": "8600"
+    }
+  ],
+  "note": "Fill in the <b>secret key</b> and <b>database password</b> before you deploy, since the stack won't start without them (<code>openssl rand -hex 32</code> makes a good one of each), and keep both the same when you redeploy. The first start takes a minute or two while it builds the database. Then open it on port 8600 straight away and click <i>Get Started</i>, as whoever gets there first makes the admin account and the first organisation. The free self-hosted edition allows one project per organisation, so for another project click the logo at the top left, then <i>Create Organisation</i>. There's no email set up, so email invites and password resets won't send. Bring teammates in with the invite link under <i>Users and Permissions</i> instead. Anyone who can reach it can sign up too, so once your people are in, add <code>FLAGSMITH_PREVENT_SIGNUP</code> set to <code>true</code> to the stack's environment variables and redeploy (that closes the invite link as well). Point your apps' SDKs at <code>http://&lt;address&gt;:8600/api/v1/</code>. Everything lives in Postgres, in the <code>postgres-data</code> volume. Two things phone home. On every start the server sends Flagsmith a count of your organisations, projects, flags and users (add <code>FLAGSMITH_TELEMETRY</code> set to <code>false</code> to stop it). And the dashboard loads its own feature flags from Flagsmith's cloud, sending your user id, email and organisation name along with them. To keep that in-house, make an organisation just for this with one project in it, copy the client-side key from that project's <i>SDK Keys</i> page, then add <code>FLAGSMITH_UI_FLAGS_KEY</code> set to that key and <code>FLAGSMITH_UI_FLAGS_URL</code> set to <code>/api/v1/</code>, and redeploy. Docs: <a href=\"https://docs.flagsmith.com/deployment-self-hosting\" target=\"_blank\">docs.flagsmith.com</a>"
+}
