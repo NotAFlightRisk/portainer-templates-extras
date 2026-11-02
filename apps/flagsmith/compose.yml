@@ -1,0 +1,38 @@
+services:
+  flagsmith:
+    image: flagsmith/flagsmith:latest
+    restart: unless-stopped
+    ports:
+      - "${FLAGSMITH_PORT:-8600}:8000"
+    environment:
+      DATABASE_URL: postgresql://flagsmith:${FLAGSMITH_DB_PASSWORD:?Set a database password}@postgres:5432/flagsmith
+      DJANGO_SECRET_KEY: ${FLAGSMITH_SECRET:?Set a secret key}
+      DJANGO_ALLOWED_HOSTS: "*"
+      USE_POSTGRES_FOR_ANALYTICS: "true"
+      USE_SECURE_COOKIES: ${FLAGSMITH_SECURE_COOKIES:-false}
+      COOKIE_SAME_SITE: Lax
+      PREVENT_SIGNUP: ${FLAGSMITH_PREVENT_SIGNUP:-false}
+      ENABLE_TELEMETRY: ${FLAGSMITH_TELEMETRY:-true}
+      FLAGSMITH_ON_FLAGSMITH_API_URL: ${FLAGSMITH_UI_FLAGS_URL:-https://edge.api.flagsmith.com/api/v1/}
+      FLAGSMITH_ON_FLAGSMITH_API_KEY: ${FLAGSMITH_UI_FLAGS_KEY:-MXSepNNQEacBBzxAU7RagJ}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: flagsmith
+      POSTGRES_USER: flagsmith
+      POSTGRES_PASSWORD: ${FLAGSMITH_DB_PASSWORD:?Set a database password}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U flagsmith -d flagsmith"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres-data:
