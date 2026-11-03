@@ -1,0 +1,28 @@
+{
+  "title": "Hister",
+  "name": "hister",
+  "description": "Search engine for your own browsing history. A browser extension sends every page you visit to it, and you search the full text of everything you've read, with previews, rules for what gets kept and an MCP server for AI tools. Source: https://github.com/asciimoo/hister",
+  "categories": ["Tools", "Productivity"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/asciimoo/hister/master/webui/app/static/logo.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "HISTER_TOKEN",
+      "label": "Access token (required)",
+      "description": "What you'll log in with, and what the browser extension sends. Generate one with: openssl rand -hex 32"
+    },
+    {
+      "name": "HISTER_URL",
+      "label": "Address you'll open it on",
+      "description": "Used for the search engine link your browser picks up and for preview links in suggestions, like http://192.168.1.20:4433",
+      "default": "http://localhost:4433"
+    },
+    {
+      "name": "HISTER_PORT",
+      "label": "Host port for the web UI",
+      "default": "4433"
+    }
+  ],
+  "note": "Set the <b>access token</b> before you deploy (<code>openssl rand -hex 32</code> makes a good one), since the stack won't start without one. Then open <code>http://&lt;your-host&gt;:4433</code> (or whichever port you picked) and sign in with it as the password. To fill it, install the Hister extension for <a href=\"https://addons.mozilla.org/en-US/firefox/addon/hister/\" target=\"_blank\">Firefox</a> or <a href=\"https://chromewebstore.google.com/detail/hister/cciilamhchpmbdnniabclekddabkifhb\" target=\"_blank\">Chrome</a>, and give it this address and the same token. Pages are only indexed from then on, and importing your old history is done with the <code>hister</code> command line tool. Set the address field to what you type in the browser if you want to add it as a search engine or open previews from suggestions, since those links point at localhost otherwise. Everything, the index and settings included, lives in the <code>hister-data</code> volume. Docs: <a href=\"https://hister.org/docs\" target=\"_blank\">hister.org/docs</a>"
+}

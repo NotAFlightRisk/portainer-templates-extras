@@ -1,0 +1,15 @@
+services:
+  hister:
+    image: ghcr.io/asciimoo/hister:latest
+    restart: unless-stopped
+    ports:
+      - "${HISTER_PORT:-4433}:4433"
+    environment:
+      HISTER__SERVER__ADDRESS: "0.0.0.0:4433"
+      HISTER__SERVER__BASE_URL: ${HISTER_URL:-http://localhost:4433}
+      HISTER__APP__ACCESS_TOKEN: ${HISTER_TOKEN:?Set an access token}
+    volumes:
+      - hister-data:/hister/data
+
+volumes:
+  hister-data:
