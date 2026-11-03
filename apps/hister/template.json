@@ -14,9 +14,8 @@
     },
     {
       "name": "HISTER_URL",
-      "label": "Address you'll open it on",
-      "description": "Used for the search engine link your browser picks up and for preview links in suggestions, like http://192.168.1.20:4433",
-      "default": "http://localhost:4433"
+      "label": "Address you'll open it on (required)",
+      "description": "Exactly what you'll type in the browser, port included and no slash at the end, like http://192.168.1.20:4433"
     },
     {
       "name": "HISTER_PORT",
@@ -24,5 +23,5 @@
       "default": "4433"
     }
   ],
-  "note": "Set the <b>access token</b> before you deploy (<code>openssl rand -hex 32</code> makes a good one), since the stack won't start without one. Then open <code>http://&lt;your-host&gt;:4433</code> (or whichever port you picked) and sign in with it as the password. To fill it, install the Hister extension for <a href=\"https://addons.mozilla.org/en-US/firefox/addon/hister/\" target=\"_blank\">Firefox</a> or <a href=\"https://chromewebstore.google.com/detail/hister/cciilamhchpmbdnniabclekddabkifhb\" target=\"_blank\">Chrome</a>, and give it this address and the same token. Pages are only indexed from then on, and importing your old history is done with the <code>hister</code> command line tool. Set the address field to what you type in the browser if you want to add it as a search engine or open previews from suggestions, since those links point at localhost otherwise. Everything, the index and settings included, lives in the <code>hister-data</code> volume. Docs: <a href=\"https://hister.org/docs\" target=\"_blank\">hister.org/docs</a>"
+  "note": "Set the <b>access token</b> (<code>openssl rand -hex 32</code> makes a good one) and the <b>address</b> before you deploy, since the stack won't start without both. The address has to be exactly what you type in the browser, like <code>http://192.168.1.20:4433</code>, with the same port as the host port field. Get it wrong and the page still loads, but search just says \"Cannot connect to Hister\", so fix the address and update the stack. Then open it and sign in with the token as the password. To fill it, install the Hister extension for <a href=\"https://addons.mozilla.org/en-US/firefox/addon/hister/\" target=\"_blank\">Firefox</a> or <a href=\"https://chromewebstore.google.com/detail/hister/cciilamhchpmbdnniabclekddabkifhb\" target=\"_blank\">Chrome</a> and give it the same address and token. Pages are only indexed from then on, and importing your old history is done with the <code>hister</code> command line tool. Everything, the index and settings included, lives in the <code>hister-data</code> volume. Docs: <a href=\"https://hister.org/docs\" target=\"_blank\">hister.org/docs</a>"
 }
