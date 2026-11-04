@@ -1,0 +1,31 @@
+services:
+  yamtrack:
+    image: ghcr.io/fuzzygrim/yamtrack:latest
+    restart: unless-stopped
+    ports:
+      - "${YAMTRACK_PORT:-8700}:8000"
+    environment:
+      SECRET: ${YAMTRACK_SECRET:?Set a secret key}
+      TZ: ${YAMTRACK_TZ:-UTC}
+      REGISTRATION: ${YAMTRACK_REGISTRATION:-true}
+      REDIS_URL: redis://redis:6379
+    volumes:
+      - yamtrack-db:/yamtrack/db
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  redis:
+    image: redis:8-alpine
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  yamtrack-db:
+  redis-data:

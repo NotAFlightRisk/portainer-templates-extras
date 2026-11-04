@@ -1,0 +1,31 @@
+{
+  "title": "Yamtrack",
+  "name": "yamtrack",
+  "description": "Media tracker for films, TV, anime, manga, games, books, comics and board games, with ratings, progress, a calendar of upcoming releases and imports from Trakt, Simkl, AniList, IMDb and more. Source: https://github.com/FuzzyGrim/Yamtrack",
+  "categories": [
+    "Media",
+    "Productivity"
+  ],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/FuzzyGrim/Yamtrack/dev/src/static/favicon/android-chrome-512x512.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "YAMTRACK_SECRET",
+      "label": "Secret key (required)",
+      "description": "Signs everyone's logins. Generate one with: openssl rand -hex 32. Keep it the same when you redeploy."
+    },
+    {
+      "name": "YAMTRACK_TZ",
+      "label": "Timezone",
+      "description": "For the release calendar and when things count as watched, like Europe/London.",
+      "default": "UTC"
+    },
+    {
+      "name": "YAMTRACK_PORT",
+      "label": "Host port for the web UI",
+      "default": "8700"
+    }
+  ],
+  "note": "Fill in the <b>secret key</b> before you deploy, since the stack won't start without one (<code>openssl rand -hex 32</code>), and keep it the same on every redeploy or everyone gets logged out. Open it on port 8700 and sign up - there's no admin, every account is its own tracker, and sign-ups stay open to anyone who can reach it. To close them, add <code>YAMTRACK_REGISTRATION</code> = <code>false</code> to the stack's environment variables and redeploy. Search works straight away using Yamtrack's own shared API keys, but the games, books and comics ones are rate limited, so add your own if you use those a lot (see the docs). Posters load from TMDB and the other sources in your browser. Settings --&gt; Import takes your history from Trakt, Simkl, AniList, IMDb, Goodreads, Steam and more, and Settings --&gt; Integrations hooks it up to Jellyfin, Plex or Emby. Everything you track lives in the <code>yamtrack-db</code> volume (SQLite). Docs: <a href=\"https://fuzzygrim.github.io/Yamtrack/\" target=\"_blank\">fuzzygrim.github.io/Yamtrack</a>"
+}
