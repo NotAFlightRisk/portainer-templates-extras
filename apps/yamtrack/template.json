@@ -1,0 +1,28 @@
+{
+  "title": "Yamtrack",
+  "name": "yamtrack",
+  "description": "Media tracker for films, TV, anime, manga, games, books, comics and board games, with ratings, progress, a calendar of upcoming releases and imports from Trakt, MyAnimeList, AniList and more. Source: https://github.com/FuzzyGrim/Yamtrack",
+  "categories": ["Media", "Productivity"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/FuzzyGrim/Yamtrack/dev/src/static/favicon/android-chrome-512x512.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "YAMTRACK_SECRET",
+      "label": "Secret key (required)",
+      "description": "Signs everyone's logins. Generate one with: openssl rand -hex 32. Keep it the same when you redeploy."
+    },
+    {
+      "name": "YAMTRACK_TZ",
+      "label": "Timezone",
+      "description": "For the release calendar and when things count as watched, like Europe/London.",
+      "default": "UTC"
+    },
+    {
+      "name": "YAMTRACK_PORT",
+      "label": "Host port for the web UI",
+      "default": "8700"
+    }
+  ],
+  "note": "TODO"
+}
