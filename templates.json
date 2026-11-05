@@ -2077,6 +2077,42 @@
     },
     {
       "id": 63,
+      "type": 3,
+      "title": "Tolgee",
+      "name": "tolgee",
+      "description": "Localisation platform for translating your app's strings, with in-context editing, machine translation, screenshots, comments, import and export in most formats, and a CLI and SDKs to sync with your code. Source: https://github.com/tolgee/tolgee-platform",
+      "categories": [
+        "Development",
+        "Productivity"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/tolgee/tolgee-platform/main/webapp/public/favicon.svg",
+      "restart_policy": "unless-stopped",
+      "env": [
+        {
+          "name": "TOLGEE_ADMIN_PASSWORD",
+          "label": "Admin password (required)",
+          "description": "Password for the admin account, which logs in with the username admin. Generate one with: openssl rand -hex 16."
+        },
+        {
+          "name": "TOLGEE_DB_PASSWORD",
+          "label": "Database password (required)",
+          "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or Tolgee can't reach its database."
+        },
+        {
+          "name": "TOLGEE_PORT",
+          "label": "Host port for the web UI",
+          "default": "8085"
+        }
+      ],
+      "note": "Fill in the <b>admin password</b> and <b>database password</b> before you deploy, since the stack won't start without them (<code>openssl rand -hex 16</code> and <code>openssl rand -hex 32</code>). Give it a minute or so on first start, then open it on port 8085 and log in as <code>admin</code> with your password - the login box asks for an email, but <code>admin</code> works. There's a demo project to poke at. Sign-ups are closed, so invite people from a project's Members page, which hands you a link to send them. To open sign-ups, add <code>TOLGEE_SIGNUPS</code> = <code>true</code> to the stack's environment variables and redeploy. Once a day it sends Tolgee a count of your projects, languages, translations and users; add <code>TOLGEE_TELEMETRY</code> = <code>false</code> the same way to stop that. Translations live in Postgres (the <code>postgres-data</code> volume), screenshots and avatars in <code>tolgee-data</code>. Some features, like tasks, glossaries, webhooks and SSO, need a paid licence, and machine translation wants your own key: add <code>TOLGEE_DEEPL_KEY</code> the same way for DeepL. Docs: <a href=\"https://docs.tolgee.io/platform/self_hosting/running_with_docker\" target=\"_blank\">docs.tolgee.io</a>",
+      "repository": {
+        "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
+        "stackfile": "apps/tolgee/compose.yml"
+      }
+    },
+    {
+      "id": 64,
       "type": 1,
       "title": "TREK",
       "name": "trek",
@@ -2127,7 +2163,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8099</code> and sign in as <code>admin@trek.local</code>. The password's printed in the container's logs on first start (search them for First Run), and TREK makes you pick a new one straight away. Anyone who can reach it can register their own account, so switch off Password Registration under Administration --&gt; Settings if that's not what you want. Place search asks TREK's own places.liketrek.com as well as OpenStreetMap, add a <code>TREK_PLACES_ENABLED=false</code> env to keep it to OpenStreetMap. The database, its encryption key and every upload live in the two volumes. Docs: <a href=\"https://github.com/liketrek/TREK/wiki\" target=\"_blank\">github.com/liketrek/TREK/wiki</a>"
     },
     {
-      "id": 64,
+      "id": 65,
       "type": 3,
       "title": "tududi",
       "name": "tududi",
@@ -2169,7 +2205,7 @@
       }
     },
     {
-      "id": 65,
+      "id": 66,
       "type": 1,
       "title": "Verdaccio",
       "name": "verdaccio",
@@ -2193,7 +2229,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:4873</code> to browse packages, and point npm at it with <code>npm config set registry http://&lt;your-host&gt;:4873/</code>. Anything it doesn't host comes from npmjs and gets cached. There's no admin: <code>npm login --registry http://&lt;your-host&gt;:4873/</code> makes an account the first time, and any account can publish and unpublish any package. Sign-ups stay open and packages can be read without logging in, which is upstream's default and only changes in its config.yaml, so keep it on your own network. Authors with an email get their avatar from Gravatar in the web UI. Accounts, packages, the npmjs cache and the generated token secret live in the volume. Docs: <a href=\"https://www.verdaccio.org/docs/docker\" target=\"_blank\">verdaccio.org</a>"
     },
     {
-      "id": 66,
+      "id": 67,
       "type": 3,
       "title": "Wakapi",
       "name": "wakapi",
@@ -2229,7 +2265,7 @@
       }
     },
     {
-      "id": 67,
+      "id": 68,
       "type": 1,
       "title": "Wallos",
       "name": "wallos",
@@ -2263,7 +2299,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8282</code> and register. The first account becomes the admin, and sign-ups are closed after that. The database and any logos you upload live in the two volumes. Docs: <a href=\"https://github.com/ellite/wallos#readme\" target=\"_blank\">github.com/ellite/wallos</a>"
     },
     {
-      "id": 68,
+      "id": 69,
       "type": 3,
       "title": "Yamtrack",
       "name": "yamtrack",
@@ -2300,7 +2336,7 @@
       }
     },
     {
-      "id": 69,
+      "id": 70,
       "type": 3,
       "title": "YOURLS",
       "name": "yourls",
@@ -2351,7 +2387,7 @@
       }
     },
     {
-      "id": 70,
+      "id": 71,
       "type": 3,
       "title": "Zipline",
       "name": "zipline",
