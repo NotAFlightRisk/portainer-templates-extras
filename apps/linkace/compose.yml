@@ -1,0 +1,26 @@
+x-linkace: &linkace
+  image: linkace/linkace:2.x
+  restart: unless-stopped
+  environment:
+    APP_KEY: ${LINKACE_APP_KEY:?Set an app key of exactly 32 characters}
+    APP_URL: ${LINKACE_URL:?Set the address you'll open it on}
+    DB_CONNECTION: sqlite
+    DB_DATABASE: /app/storage/linkace.sqlite
+    DB_USERNAME: linkace
+    META_ALLOW_PRIVATE_IP_RANGES: ${LINKACE_LAN_LINKS:-true}
+  volumes:
+    - linkace-storage:/app/storage
+
+services:
+  linkace:
+    <<: *linkace
+    command: ["sh", "-c", "touch /app/storage/linkace.sqlite && exec supervisord -c /etc/supervisor.d/supervisord.ini"]
+    ports:
+      - "${LINKACE_PORT:-9180}:80"
+
+  scheduler:
+    <<: *linkace
+    command: ["sh", "-c", "touch /app/storage/linkace.sqlite && while :; do php artisan schedule:run; sleep 60; done"]
+
+volumes:
+  linkace-storage:

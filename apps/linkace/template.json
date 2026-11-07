@@ -1,0 +1,27 @@
+{
+  "title": "LinkAce",
+  "name": "linkace",
+  "description": "Bookmark archive for keeping links you want to come back to, with tags, lists, notes, private or shared links, a browser bookmarklet, imports from any browser, and regular checks for links that have died. Source: https://github.com/Kovah/LinkAce",
+  "categories": ["Productivity", "Tools"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/Kovah/LinkAce/2.x/public/apple-touch-icon.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "LINKACE_APP_KEY",
+      "label": "App key (required)",
+      "description": "Exactly 32 characters. Generate one with: openssl rand -hex 16. Keep it the same when you redeploy."
+    },
+    {
+      "name": "LINKACE_URL",
+      "label": "Address you'll open it on (required)",
+      "description": "Exactly what you'll type in the browser, port included and no slash at the end, like http://192.168.1.20:9180"
+    },
+    {
+      "name": "LINKACE_PORT",
+      "label": "Host port for the web UI",
+      "default": "9180"
+    }
+  ],
+  "note": "Set the <b>app key</b> (exactly 32 characters, <code>openssl rand -hex 16</code> makes one) and the <b>address</b> before you deploy, since the stack won't start without both. Keep the key the same from then on, as it signs logins. The address is what you type in the browser, like <code>http://192.168.1.20:9180</code>. LinkAce only answers on that host name, so open it any other way (a different IP, or a domain you add later) and you just get \"Bad Request\" until you fix the address and update the stack. Then open it and click through the setup: the database step is already filled in for SQLite, so just continue, and the account you make next is the admin. There are no open sign-ups, invite people from User Management in the menu under your name. A second container runs the scheduler, which handles bookmark imports and checks your links every couple of hours. It can fetch links on your own network (like <code>http://192.168.1.10</code>) for titles and checks, so anyone you invite can point it at things on your LAN. Add <code>LINKACE_LAN_LINKS=false</code> to the stack's environment variables to stop that, though on Docker's default network it then can't reach sites that also have an IPv6 address either. By default every link you save is also sent to the Internet Archive's Wayback Machine, private ones included, which you can turn off under Settings --&gt; Wayback Machine backups. It also asks updates.linkace.org once a day whether there's a new version. Everything lives in the <code>linkace-storage</code> volume. Docs: <a href=\"https://www.linkace.org/docs/\" target=\"_blank\">linkace.org/docs</a>"
+}
