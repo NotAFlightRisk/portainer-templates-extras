@@ -1452,7 +1452,7 @@
       "ports": [
         "8920:80/tcp"
       ],
-      "note": "Open <code>http://&lt;your-host&gt;:8920</code>. There's no login and nothing to back up, since every tool works on your files inside the browser. Over plain http from another machine, the video, audio and GIF tools fail and the copy buttons do nothing, because the browser only allows what they need on HTTPS or <code>localhost</code>. Everything else, PDFs and images included, works fine, and Download still saves results. Put it behind an HTTPS reverse proxy to get the lot. Those video and audio tools fetch ffmpeg from unpkg.com, PDF compression fetches Ghostscript from a CDN, and icons load from api.iconify.design. Docs: <a href=\"https://github.com/iib0011/omni-tools\" target=\"_blank\">github.com/iib0011/omni-tools</a>"
+      "note": "Open <code>http://&lt;your-host&gt;:8920</code>. There's no login and nothing to back up, since every tool works on your files inside the browser. Over plain http from another machine, the video, audio and GIF tools fail and the copy buttons do nothing, because the browser only allows what they need on HTTPS or <code>localhost</code>. Everything else, PDFs and images included, works fine, and Download still saves results. Put it behind an HTTPS reverse proxy and they all work. Those video and audio tools fetch ffmpeg from unpkg.com, PDF compression fetches Ghostscript from a CDN, and icons load from api.iconify.design. Docs: <a href=\"https://github.com/iib0011/omni-tools\" target=\"_blank\">github.com/iib0011/omni-tools</a>"
     },
     {
       "id": 44,
