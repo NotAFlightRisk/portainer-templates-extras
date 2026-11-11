@@ -1,6 +1,6 @@
 services:
   tududi:
-    image: chrisvel/tududi:latest
+    image: chrisvel/tududi:${TUDUDI_VERSION:-latest}
     restart: unless-stopped
     ports:
       - "${TUDUDI_PORT:-3002}:3002"
@@ -8,12 +8,36 @@ services:
       TUDUDI_USER_EMAIL: ${TUDUDI_EMAIL:-admin@example.com}
       TUDUDI_USER_PASSWORD: ${TUDUDI_PASSWORD:?Set a password}
       TUDUDI_SESSION_SECRET: ${TUDUDI_SESSION_SECRET:?Set a session secret}
+      DB_HOST: postgres
+      DB_NAME: tududi
+      DB_USER: tududi
+      DB_PASSWORD: ${TUDUDI_DB_PASSWORD:?Set a database password}
+      TUDUDI_ALLOW_DIALECT_SWITCH: ${TUDUDI_SQLITE_MOVED:-false}
     volumes:
       - tududi-db:/app/db
       - tududi-uploads:/app/uploads
       - tududi-backups:/app/backups
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: tududi
+      POSTGRES_USER: tududi
+      POSTGRES_PASSWORD: ${TUDUDI_DB_PASSWORD:?Set a database password}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tududi -d tududi"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   tududi-db:
   tududi-uploads:
   tududi-backups:
+  postgres-data:
