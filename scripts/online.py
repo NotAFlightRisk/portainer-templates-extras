@@ -123,7 +123,7 @@ def main_list_titles():
 
 def stack_images(slug):
     services = yaml.safe_load((APPS / slug / "compose.yml").read_text())["services"]
-    return [service["image"] for service in services.values()]
+    return [re.sub(r"\$\{\w+:-([^}]*)\}", r"\1", s["image"]) for s in services.values()]
 
 
 def main():

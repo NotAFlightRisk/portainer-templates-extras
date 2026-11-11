@@ -27,6 +27,11 @@ class SplitImageTest(unittest.TestCase):
                 self.assertEqual(online.split_image(image), expected)
 
 
+class StackImagesTest(unittest.TestCase):
+    def test_tag_defaults_are_filled_in(self):
+        self.assertIn("chrisvel/tududi:latest", online.stack_images("tududi"))
+
+
 class MainListTest(unittest.TestCase):
     def test_suffixes_are_ignored_and_our_own_copies_are_skipped(self):
         main_list = {
