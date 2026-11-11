@@ -21,6 +21,8 @@ services:
   scheduler:
     <<: *linkace
     command: ["sh", "-c", "touch /app/storage/linkace.sqlite && while :; do php artisan schedule:run; sleep 60; done"]
+    depends_on:
+      - linkace
 
 volumes:
   linkace-storage:
