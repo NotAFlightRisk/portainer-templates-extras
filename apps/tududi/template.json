@@ -24,10 +24,15 @@
       "description": "Signs logins and encrypts saved notification settings. Generate one with: openssl rand -hex 64"
     },
     {
+      "name": "TUDUDI_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or tududi can't reach its database."
+    },
+    {
       "name": "TUDUDI_PORT",
       "label": "Host port for the web UI",
       "default": "3002"
     }
   ],
-  "note": "Set the <b>admin password</b> and <b>session secret</b> before you deploy (<code>openssl rand -hex 64</code> makes a good secret), since the stack won't start without them. Then open <code>http://&lt;your-host&gt;:3002</code> (or whichever port you picked) and log in with that email and password. The welcome page you land on first plays an intro video from YouTube. Sign-ups are off, so add other people from Access in the sidebar.The account is only made on the first start: changing the password here later does nothing (change it in your profile instead), and changing the email makes a second admin. Tasks, notes and settings live in <code>tududi-db</code>, attachments in <code>tududi-uploads</code> and backups in <code>tududi-backups</code>. Docs: <a href=\"https://docs.tududi.com\" target=\"_blank\">docs.tududi.com</a>"
+  "note": "Set the <b>admin password</b>, <b>session secret</b> and <b>database password</b> before you deploy (<code>openssl rand -hex 64</code> and <code>openssl rand -hex 32</code> make good secrets), since the stack won't start without them. Then open <code>http://&lt;your-host&gt;:3002</code> (or whichever port you picked) and log in with that email and password. The welcome page you land on first plays an intro video from YouTube. Sign-ups are off, so add other people from Access in the sidebar. The account is only made on the first start: changing the password here later does nothing (change it in your profile instead), and changing the email makes a second admin. Tasks, notes and settings live in PostgreSQL in <code>postgres-data</code>, attachments in <code>tududi-uploads</code> and backups in <code>tududi-backups</code>. Coming from an older version of this template? tududi 2 dropped SQLite, so it won't start while your old data's still in <code>tududi-db</code>, and nothing in there gets touched. To move it across, add <code>TUDUDI_VERSION</code> = <code>1.15.1</code> to the stack's environment variables and redeploy, then on Backup &amp; Restore make a backup and download it. Next swap <code>TUDUDI_VERSION</code> for <code>TUDUDI_SQLITE_MOVED</code> = <code>true</code>, redeploy, and import that file on the same page. Keep the same admin email and session secret throughout. Their <a href=\"https://github.com/chrisvel/tududi/blob/main/docs/30-moving-to-postgres.md\" target=\"_blank\">moving guide</a> has the details. Docs: <a href=\"https://docs.tududi.com\" target=\"_blank\">docs.tududi.com</a>"
 }
