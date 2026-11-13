@@ -1,0 +1,13 @@
+{
+  "title": "Paperless-AI",
+  "name": "paperless-ai",
+  "description": "AI sidekick for Paperless-ngx that reads each new document and fills in its title, tags, correspondent, type and date, plus a chat for asking questions across your whole archive. Works with OpenAI, Claude, Ollama and other compatible APIs. Source: https://github.com/clusterzx/paperless-ai",
+  "categories": ["Documents", "AI"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/clusterzx/paperless-ai/main/src/web/public/logo.png",
+  "image": "clusterzx/paperless-ai:latest",
+  "restart_policy": "unless-stopped",
+  "ports": ["3900:3000/tcp"],
+  "volumes": [{ "container": "/app/data" }],
+  "note": "Open <code>http://&lt;your-host&gt;:3900</code> straight away, since whoever gets to the setup wizard first makes the login. It asks for your Paperless-ngx address and an API token (in Paperless, your profile --&gt; API Auth Token), then an AI provider. Use the host's IP rather than <code>localhost</code> for Paperless or a local Ollama, as <code>localhost</code> means the container itself. Out of the box it works through your WHOLE archive every 30 minutes, so with a paid API you'll want \"Only process documents with specific tags\" switched on first. Settings, history and the search index live in the <code>/app/data</code> volume, along with a 130 MB embedding model it downloads from Hugging Face the first time it indexes. Docs: <a href=\"https://github.com/clusterzx/paperless-ai#readme\" target=\"_blank\">github.com/clusterzx/paperless-ai</a>"
+}
