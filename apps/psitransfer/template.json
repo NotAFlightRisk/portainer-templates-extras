@@ -1,0 +1,27 @@
+{
+  "title": "PsiTransfer",
+  "name": "psitransfer",
+  "description": "File sharing in the WeTransfer mould: drop in files, pick how long they last, and send the link. Big uploads resume after a dropped connection, downloads come as single files, zip or tar.gz, and links can be one-time or password protected. Source: https://github.com/psi-4ward/psitransfer",
+  "categories": ["File Sharing"],
+  "platform": "linux",
+  "logo": "https://avatars.githubusercontent.com/u/1191572?s=256",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "PSITRANSFER_UPLOAD_PASS",
+      "label": "Upload password (required)",
+      "description": "Anyone uploading needs this, so strangers can't fill your disk. Downloads don't. Anything long and hard to guess, or generate one with: openssl rand -hex 16"
+    },
+    {
+      "name": "PSITRANSFER_ADMIN_PASS",
+      "label": "Admin password (optional)",
+      "description": "Turns on the /admin page, which lists every upload. Leave blank to keep it off, or generate one with: openssl rand -hex 16"
+    },
+    {
+      "name": "PSITRANSFER_PORT",
+      "label": "Host port for the web UI",
+      "default": "3030"
+    }
+  ],
+  "note": "Set the <b>upload password</b> before you deploy, since the stack won't start without one. Then open <code>http://&lt;your-host&gt;:3030</code> (or whichever port you picked), enter it, drop in some files, pick a retention and hit Upload. The download link works for anyone who has it, no password needed unless you set one on that upload under Settings. Uploads last a week by default, and anything still there after 75 days is deleted whatever was picked. If you set an admin password, <code>/admin</code> lists every upload with its size and downloads. Files live as plain files in the <code>psitransfer-data</code> volume, so they survive updates. Changing either password on the form and redeploying swaps it. Docs: <a href=\"https://github.com/psi-4ward/psitransfer/blob/master/docs/configuration.md\" target=\"_blank\">github.com/psi-4ward/psitransfer</a>"
+}
