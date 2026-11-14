@@ -1,0 +1,14 @@
+services:
+  psitransfer:
+    image: psitrax/psitransfer:v2
+    restart: unless-stopped
+    ports:
+      - "${PSITRANSFER_PORT:-3030}:3000"
+    environment:
+      PSITRANSFER_UPLOAD_PASS: ${PSITRANSFER_UPLOAD_PASS:?Set an upload password}
+      PSITRANSFER_ADMIN_PASS: ${PSITRANSFER_ADMIN_PASS:-}
+    volumes:
+      - psitransfer-data:/data
+
+volumes:
+  psitransfer-data:
