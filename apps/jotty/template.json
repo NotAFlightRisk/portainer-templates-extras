@@ -1,0 +1,16 @@
+{
+  "title": "jotty·page",
+  "name": "jotty",
+  "description": "Checklists and notes app that keeps everything as plain Markdown files, with kanban boards, sharing between users, optional note encryption and a mobile-friendly PWA. Source: https://github.com/fccview/jotty",
+  "categories": ["Productivity"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/fccview/jotty/main/public/app-icons/android-chrome-512x512.png",
+  "image": "ghcr.io/fccview/jotty:latest",
+  "restart_policy": "unless-stopped",
+  "ports": ["1122:3000/tcp"],
+  "volumes": [
+    { "container": "/app/data" },
+    { "container": "/app/config" }
+  ],
+  "note": "Open <code>http://&lt;your-host&gt;:1122</code> and you'll land on a setup page, where whoever gets there first creates the admin account. There are no open sign-ups after that, the admin adds everyone else from the user menu under Settings --> Admin Dashboard --> Users. Checklists and notes are plain Markdown files in the first volume, with users and sessions alongside them, and themes and custom CSS sit in the second, so everything survives updates. It runs fine over plain http. If you put it behind an HTTPS proxy, add <code>HTTPS=true</code> to the container's environment so the login cookie is marked secure. No analytics, but the server checks GitHub for new releases, which you can switch off with Notify me of new updates under Admin Dashboard --> App preferences. Docs: <a href=\"https://github.com/fccview/jotty/tree/main/howto\" target=\"_blank\">github.com/fccview/jotty</a>"
+}
