@@ -1,0 +1,29 @@
+{
+  "title": "Sure",
+  "name": "sure",
+  "description": "Personal finance app for keeping your whole net worth in one place, with accounts, investments, budgets, transaction rules, CSV imports and reports, plus an optional AI assistant. A community fork of Maybe Finance. Source: https://github.com/we-promise/sure",
+  "categories": [
+    "Finance"
+  ],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/we-promise/sure/main/public/android-chrome-512x512.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "SURE_SECRET_KEY_BASE",
+      "label": "Secret key base (required)",
+      "description": "Signs logins and encrypts saved bank and API credentials. Generate one with: openssl rand -hex 64. Keep it the same when you redeploy, or saved credentials can't be read."
+    },
+    {
+      "name": "SURE_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or Sure can't reach its database."
+    },
+    {
+      "name": "SURE_PORT",
+      "label": "Host port for the web UI",
+      "default": "3400"
+    }
+  ],
+  "note": "Fill in both <b>secrets</b> before you deploy, since the stack won't start without them (<code>openssl rand -hex 64</code> for the key base, <code>openssl rand -hex 32</code> for the database), and keep them the same on every redeploy - the key base also encrypts saved bank and API credentials. Give it a minute on first start while it sets up the database, then open it on port 3400 and pick \"create your account\". The first account becomes the super admin. Sign-ups stay open after that, and everyone else gets their own separate household, so close them under Settings --&gt; Self-Hosting --&gt; Onboarding, or add <code>SURE_ONBOARDING</code> = <code>closed</code> (or <code>invite_only</code>) to the stack's environment variables and redeploy. Exchange rates and share prices come from Twelve Data with a free key, or switch both to Yahoo Finance (no key) on the same page, and the AI assistant wants an OpenAI-compatible key there too. Bank syncing is optional. A worker container runs imports, syncs and the scheduled jobs. Your data lives in Postgres, in the <code>postgres-data</code> volume, and uploads in <code>sure-storage</code>. Docs: <a href=\"https://github.com/we-promise/sure/blob/main/docs/hosting/docker.md\" target=\"_blank\">self-hosting with Docker</a>"
+}

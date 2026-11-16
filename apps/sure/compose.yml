@@ -1,0 +1,69 @@
+x-sure-env: &sure-env
+  SECRET_KEY_BASE: ${SURE_SECRET_KEY_BASE:?Set a secret key base}
+  SELF_HOSTED: "true"
+  RAILS_FORCE_SSL: "false"
+  RAILS_ASSUME_SSL: "false"
+  ONBOARDING_STATE: ${SURE_ONBOARDING:-open}
+  DB_HOST: postgres
+  DB_PORT: "5432"
+  POSTGRES_DB: sure
+  POSTGRES_USER: sure
+  POSTGRES_PASSWORD: ${SURE_DB_PASSWORD:?Set a database password}
+  REDIS_URL: redis://redis:6379/1
+
+services:
+  sure:
+    image: ghcr.io/we-promise/sure:stable
+    restart: unless-stopped
+    ports:
+      - "${SURE_PORT:-3400}:3000"
+    environment: *sure-env
+    volumes:
+      - sure-storage:/rails/storage
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  worker:
+    image: ghcr.io/we-promise/sure:stable
+    restart: unless-stopped
+    command: ["bundle", "exec", "sidekiq"]
+    environment: *sure-env
+    volumes:
+      - sure-storage:/rails/storage
+    depends_on:
+      sure:
+        condition: service_started
+
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: sure
+      POSTGRES_USER: sure
+      POSTGRES_PASSWORD: ${SURE_DB_PASSWORD:?Set a database password}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sure -d sure"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:8-alpine
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  sure-storage:
+  postgres-data:
+  redis-data:
