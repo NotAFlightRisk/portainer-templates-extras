@@ -2122,6 +2122,41 @@
     {
       "id": 65,
       "type": 3,
+      "title": "Sure",
+      "name": "sure",
+      "description": "Personal finance app for keeping your whole net worth in one place, with accounts, investments, budgets, transaction rules, CSV imports and reports, plus an optional AI assistant. A community fork of Maybe Finance. Source: https://github.com/we-promise/sure",
+      "categories": [
+        "Finance"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/we-promise/sure/main/public/android-chrome-512x512.png",
+      "restart_policy": "unless-stopped",
+      "env": [
+        {
+          "name": "SURE_SECRET_KEY_BASE",
+          "label": "Secret key base (required)",
+          "description": "Signs logins and encrypts saved bank and API credentials. Generate one with: openssl rand -hex 64. Keep it the same when you redeploy, or saved credentials can't be read."
+        },
+        {
+          "name": "SURE_DB_PASSWORD",
+          "label": "Database password (required)",
+          "description": "Generate one with: openssl rand -hex 32. Keep it the same when you redeploy, or Sure can't reach its database."
+        },
+        {
+          "name": "SURE_PORT",
+          "label": "Host port for the web UI",
+          "default": "3400"
+        }
+      ],
+      "note": "Fill in both <b>secrets</b> before you deploy, since the stack won't start without them (<code>openssl rand -hex 64</code> for the key base, <code>openssl rand -hex 32</code> for the database), and keep them the same on every redeploy - the key base also encrypts saved bank and API credentials. Give it a minute on first start while it sets up the database, then open it on port 3400 and pick \"create your account\". The first account becomes the super admin. Sign-ups stay open after that, and everyone else gets their own separate household, so close them under Settings --&gt; Self-Hosting --&gt; Onboarding, or add <code>SURE_ONBOARDING</code> = <code>closed</code> (or <code>invite_only</code>) to the stack's environment variables and redeploy. Exchange rates and share prices come from Twelve Data with a free key, or switch both to Yahoo Finance (no key) on the same page, and the AI assistant wants an OpenAI-compatible key there too. Bank syncing is optional. A worker container runs imports, syncs and the scheduled jobs. Your data lives in Postgres, in the <code>postgres-data</code> volume, and uploads in <code>sure-storage</code>. Docs: <a href=\"https://github.com/we-promise/sure/blob/main/docs/hosting/docker.md\" target=\"_blank\">self-hosting with Docker</a>",
+      "repository": {
+        "url": "https://github.com/NotAFlightRisk/portainer-templates-extras",
+        "stackfile": "apps/sure/compose.yml"
+      }
+    },
+    {
+      "id": 66,
+      "type": 3,
       "title": "Teable",
       "name": "teable",
       "description": "Spreadsheet-style database in the vein of Airtable, built on Postgres: grid, kanban, calendar, gallery and form views, file attachments, formulas, real-time collaboration and an API. Source: https://github.com/teableio/teable",
@@ -2162,7 +2197,7 @@
       }
     },
     {
-      "id": 66,
+      "id": 67,
       "type": 1,
       "title": "Termix",
       "name": "termix",
@@ -2186,7 +2221,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8080</code> and create an account, which becomes the admin. Registration stays open after that, so switch it off in the admin settings unless you want other people signing up. Hosts, keys and the database live in the <code>/app/data</code> volume, and its secrets are generated there on first start. Behind a reverse proxy it needs websockets. It sends a small anonymous usage report once a day, which you can switch off in Admin Settings &gt; Usage Statistics. Docs: <a href=\"https://docs.termix.site\" target=\"_blank\">docs.termix.site</a>"
     },
     {
-      "id": 67,
+      "id": 68,
       "type": 3,
       "title": "Tolgee",
       "name": "tolgee",
@@ -2222,7 +2257,7 @@
       }
     },
     {
-      "id": 68,
+      "id": 69,
       "type": 1,
       "title": "TREK",
       "name": "trek",
@@ -2273,7 +2308,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8099</code> and sign in as <code>admin@trek.local</code>. The password's printed in the container's logs on first start (search them for First Run), and TREK makes you pick a new one straight away. Anyone who can reach it can register their own account, so switch off Password Registration under Administration --&gt; Settings if that's not what you want. Place search asks TREK's own places.liketrek.com as well as OpenStreetMap, add a <code>TREK_PLACES_ENABLED=false</code> env to keep it to OpenStreetMap. The database, its encryption key and every upload live in the two volumes. Docs: <a href=\"https://github.com/liketrek/TREK/wiki\" target=\"_blank\">github.com/liketrek/TREK/wiki</a>"
     },
     {
-      "id": 69,
+      "id": 70,
       "type": 3,
       "title": "tududi",
       "name": "tududi",
@@ -2320,7 +2355,7 @@
       }
     },
     {
-      "id": 70,
+      "id": 71,
       "type": 1,
       "title": "Verdaccio",
       "name": "verdaccio",
@@ -2344,7 +2379,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:4873</code> to browse packages, and point npm at it with <code>npm config set registry http://&lt;your-host&gt;:4873/</code>. Anything it doesn't host comes from npmjs and gets cached. There's no admin: <code>npm login --registry http://&lt;your-host&gt;:4873/</code> makes an account the first time, and any account can publish and unpublish any package. Sign-ups stay open and packages can be read without logging in, which is upstream's default and only changes in its config.yaml, so keep it on your own network. Authors with an email get their avatar from Gravatar in the web UI. Accounts, packages, the npmjs cache and the generated token secret live in the volume. Docs: <a href=\"https://www.verdaccio.org/docs/docker\" target=\"_blank\">verdaccio.org</a>"
     },
     {
-      "id": 71,
+      "id": 72,
       "type": 3,
       "title": "Wakapi",
       "name": "wakapi",
@@ -2380,7 +2415,7 @@
       }
     },
     {
-      "id": 72,
+      "id": 73,
       "type": 1,
       "title": "Wallos",
       "name": "wallos",
@@ -2414,7 +2449,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8282</code> and register. The first account becomes the admin, and sign-ups are closed after that. The database and any logos you upload live in the two volumes. Docs: <a href=\"https://github.com/ellite/wallos#readme\" target=\"_blank\">github.com/ellite/wallos</a>"
     },
     {
-      "id": 73,
+      "id": 74,
       "type": 3,
       "title": "Yamtrack",
       "name": "yamtrack",
@@ -2451,7 +2486,7 @@
       }
     },
     {
-      "id": 74,
+      "id": 75,
       "type": 3,
       "title": "YOURLS",
       "name": "yourls",
@@ -2502,7 +2537,7 @@
       }
     },
     {
-      "id": 75,
+      "id": 76,
       "type": 3,
       "title": "Zipline",
       "name": "zipline",
