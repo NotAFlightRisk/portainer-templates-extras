@@ -1,0 +1,28 @@
+{
+  "title": "ChartDB",
+  "name": "chartdb",
+  "description": "Database diagram editor that draws your real schema from one query's output, for PostgreSQL, MySQL, MariaDB, SQL Server, SQLite, Oracle, ClickHouse and more, then lets you edit it and export it as SQL, even for a different database. Source: https://github.com/chartdb/chartdb",
+  "categories": ["Database", "Development", "Tools"],
+  "platform": "linux",
+  "logo": "https://avatars.githubusercontent.com/u/177466511?s=256",
+  "image": "ghcr.io/chartdb/chartdb:latest",
+  "restart_policy": "unless-stopped",
+  "ports": ["8087:80/tcp"],
+  "env": [
+    {
+      "name": "DISABLE_ANALYTICS",
+      "label": "Analytics off",
+      "description": "Keeps ChartDB's Fathom analytics script out of the page, so leave it as it is.",
+      "default": "true",
+      "preset": true
+    },
+    {
+      "name": "HIDE_CHARTDB_CLOUD",
+      "label": "Hide the star-us popup",
+      "description": "Stops the editor asking you to star the project on GitHub.",
+      "default": "true",
+      "preset": true
+    }
+  ],
+  "note": "Open <code>http://&lt;your-host&gt;:8087</code>, pick your database, run the query it gives you against it, and paste the result back in to get the diagram (a SQL or DBML schema dump works too). There's no login and nothing to back up on the server, since diagrams are saved in your browser's own storage, so another browser or a cleared cache starts empty. Backup --&gt; Export Diagram keeps a copy, and Restore Diagram brings it back. Actions --&gt; Export SQL works offline, but its AI tab needs an OpenAI key, which ChartDB hands to every visitor, so it's left off here. The page loads its font from Google Fonts and a GitHub star button from ghbtns.com. Docs: <a href=\"https://docs.chartdb.io\" target=\"_blank\">docs.chartdb.io</a>"
+}
