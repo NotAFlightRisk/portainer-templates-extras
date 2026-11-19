@@ -1,0 +1,40 @@
+services:
+  jellystat:
+    image: cyfershepard/jellystat:latest
+    restart: unless-stopped
+    ports:
+      - "${JELLYSTAT_PORT:-3060}:3000"
+    environment:
+      JWT_SECRET: ${JELLYSTAT_JWT_SECRET:?Set a JWT secret}
+      POSTGRES_IP: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: jellystat
+      POSTGRES_USER: jellystat
+      POSTGRES_PASSWORD: ${JELLYSTAT_DB_PASSWORD:?Set a database password}
+      TZ: ${JELLYSTAT_TZ:-UTC}
+    volumes:
+      - jellystat-backups:/app/backend/backup-data
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    shm_size: 1gb
+    environment:
+      POSTGRES_DB: jellystat
+      POSTGRES_USER: jellystat
+      POSTGRES_PASSWORD: ${JELLYSTAT_DB_PASSWORD:?Set a database password}
+      TZ: ${JELLYSTAT_TZ:-UTC}
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jellystat -d jellystat"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  jellystat-backups:
+  postgres-data:
