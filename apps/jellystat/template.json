@@ -1,0 +1,33 @@
+{
+  "title": "Jellystat",
+  "name": "jellystat",
+  "description": "Statistics for Jellyfin (and Emby): who watched what, when and on which device, with live sessions, per-library and per-user stats, play history and charts of when people actually watch. Source: https://github.com/CyferShepard/Jellystat",
+  "categories": ["Media", "Analytics"],
+  "platform": "linux",
+  "logo": "https://raw.githubusercontent.com/CyferShepard/Jellystat/main/public/icon-b-512.png",
+  "restart_policy": "unless-stopped",
+  "env": [
+    {
+      "name": "JELLYSTAT_JWT_SECRET",
+      "label": "JWT secret (required)",
+      "description": "Signs everyone's logins. Generate one with: openssl rand -hex 32. Keep it the same when you redeploy."
+    },
+    {
+      "name": "JELLYSTAT_DB_PASSWORD",
+      "label": "Database password (required)",
+      "description": "For the bundled Postgres. Generate one with: openssl rand -hex 16. Never change it after the first deploy."
+    },
+    {
+      "name": "JELLYSTAT_TZ",
+      "label": "Timezone",
+      "description": "Like Europe/London, for which day and hour a play counts towards. Set it before the first deploy, since the database keeps the first one.",
+      "default": "UTC"
+    },
+    {
+      "name": "JELLYSTAT_PORT",
+      "label": "Host port for the web UI",
+      "default": "3060"
+    }
+  ],
+  "note": "Fill in the <b>JWT secret</b> and <b>database password</b> before you deploy, since the stack won't start without them (<code>openssl rand -hex 32</code> and <code>openssl rand -hex 16</code>), and keep both the same on every redeploy. Open it on port 3060: the first visitor makes the Jellystat login, then it asks for your Jellyfin address and an API key (Jellyfin's Dashboard --&gt; API Keys). Do both steps in one go, as anyone can redo the first one until Jellyfin's connected. The address has to be one this container can reach, like <code>http://192.168.1.20:8096</code>, not <code>localhost</code>. It only counts plays from when it's running, but Settings --&gt; Tasks --&gt; Import Playback Reporting Plugin Data brings in older ones if you use that plugin. A few things answer without a login (who's watching right now, your Jellyfin admin users, recently added), so keep it on your own network. Stats live in Postgres (the <code>postgres-data</code> volume), and backups from Settings --&gt; Backup go in <code>jellystat-backups</code>. It checks GitHub for updates and loads a font from Google. Docs: <a href=\"https://github.com/CyferShepard/Jellystat#readme\" target=\"_blank\">github.com/CyferShepard/Jellystat</a>"
+}
