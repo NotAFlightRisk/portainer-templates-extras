@@ -58,12 +58,12 @@ If the app needs a database or anything else alongside it, put a `compose.yml` n
 ### 4. Check it, then open a PR
 
 ```bash
-python scripts/build.py          # validates everything, then writes templates.json and the README table
+python scripts/build.py          # validates everything, then writes templates.json
 python scripts/smoke.py <name>   # starts it in Docker with the defaults and checks it answers
 python scripts/online.py         # logo, image tag, and no clash with the main list
 ```
 
-The build tells you exactly what's wrong and where. Commit your app along with the regenerated `templates.json` and `.github/README.md`, and open a PR titled `feat: add <app>`. CI runs the same checks, and starts your app for real.
+The build tells you exactly what's wrong and where. Commit your app along with the regenerated `templates.json`, and open a PR titled `feat: add <app>`. The README's list of apps catches up by itself once it's merged. CI runs the same checks, and starts your app for real.
 
 If you can, also deploy it from Portainer itself: point Settings --> App Templates at the raw `templates.json` on your fork, deploy with the defaults, then log in and check your data survives a redeploy. It's the only test that catches everything. One catch with stacks - the generated template always points at this repo's compose file, so to try your own, add it in Portainer as a Git stack from your fork instead.
 

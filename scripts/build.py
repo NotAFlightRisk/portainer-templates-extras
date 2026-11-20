@@ -14,7 +14,6 @@ from jsonschema import Draft202012Validator, FormatChecker
 ROOT = Path(__file__).resolve().parent.parent
 APPS = ROOT / "apps"
 OUTPUT = ROOT / "templates.json"
-README = ROOT / ".github" / "README.md"
 REPO_URL = "https://github.com/NotAFlightRisk/portainer-templates-extras"
 SCHEMA = json.loads((Path(__file__).parent / "schema.json").read_text())
 VALIDATOR = Draft202012Validator(SCHEMA, format_checker=FormatChecker())
@@ -29,7 +28,6 @@ DOCKER_SOCKET = "/var/run/docker.sock"
 SECRET_NAME = re.compile(r"PASSW(OR)?D|SECRET|TOKEN|(^|_)KEY$", re.IGNORECASE)
 NAME = r"[A-Za-z_][A-Za-z0-9_]*"
 COMPOSE_VAR = re.compile(rf"(?<!\$)\$(?:\{{({NAME})(?:(:?[-?+])([^}}]*))?\}}|({NAME}))")
-APPS_TABLE = re.compile(r"(<!-- apps -->\n).*?(<!-- /apps -->)", re.DOTALL)
 
 
 def title_key(title):
@@ -211,26 +209,9 @@ def build(apps=APPS):
     return output, problems
 
 
-def apps_table(templates):
-    """The README's list of apps, so it can't drift from templates.json"""
-    rows = ["| App | Type | What it is |", "| --- | --- | --- |"]
-    for template in templates:
-        about, _, source = template["description"].rpartition(" Source: ")
-        kind = "stack" if template["type"] == 3 else "container"
-        about = about.replace("|", "\\|")
-        icon = f'<img src="{template["logo"]}" width="16" alt="" />'
-        rows.append(f"| {icon} [{template['title']}]({source}) | {kind} | {about} |")
-    return "\n".join(rows) + "\n"
-
-
 def generated(output):
     """Every file the build writes, and what it should hold"""
-    table = apps_table(output["templates"])
-    readme = APPS_TABLE.sub(lambda m: m[1] + table + m[2], README.read_text())
-    return {
-        OUTPUT: json.dumps(output, indent=2, ensure_ascii=False) + "\n",
-        README: readme,
-    }
+    return {OUTPUT: json.dumps(output, indent=2, ensure_ascii=False) + "\n"}
 
 
 def report(where, message):
