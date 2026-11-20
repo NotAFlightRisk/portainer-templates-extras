@@ -2,6 +2,7 @@
 
 import json
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -24,7 +25,10 @@ def apps_table(templates):
 def main():
     templates = json.loads(TEMPLATES.read_text())["templates"]
     table = apps_table(templates)
-    README.write_text(APPS_TABLE.sub(lambda m: m[1] + table + m[2], README.read_text()))
+    readme, found = APPS_TABLE.subn(lambda m: m[1] + table + m[2], README.read_text())
+    if found != 1:
+        sys.exit(f"found {found} <!-- apps --> tables in the README, wanted one")
+    README.write_text(readme)
     print(f"✓ listed {len(templates)} apps in the README")
 
 
