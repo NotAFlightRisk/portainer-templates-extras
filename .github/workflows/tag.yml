@@ -1,4 +1,4 @@
-name: 🏷️ Tag
+name: 🔖 Tag
 
 on:
   push:
@@ -24,17 +24,27 @@ concurrency:
 
 jobs:
   tag:
-    name: 🏷️ Next tag
+    name: 🔖 Next tag
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      HAS_BOT: ${{ secrets.BOT_PRIVATE_KEY != '' }}
     outputs:
       tag: ${{ steps.next.outputs.tag }}
       feature: ${{ steps.next.outputs.feature }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7 # zizmor: ignore[artipacked] this job pushes the tag
+      - uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        id: bot
+        if: env.HAS_BOT == 'true'
+        with:
+          client-id: Iv23liPIG7E12UlaQMaD
+          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
+          permission-contents: write
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
+          persist-credentials: false
       - name: Work out the next version
         id: next
         env:
@@ -53,12 +63,12 @@ jobs:
           echo "### $tag" >> "$GITHUB_STEP_SUMMARY"
       - name: Push it
         env:
+          GH_TOKEN: ${{ steps.bot.outputs.token || github.token }}
           TAG: ${{ steps.next.outputs.tag }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git tag -a "$TAG" -m "$TAG"
-          git push origin "$TAG"
+          sha=$(gh api "repos/$GITHUB_REPOSITORY/git/tags" -f tag="$TAG" -f message="$TAG" \
+            -f object="$GITHUB_SHA" -f type=commit -q .sha)
+          gh api "repos/$GITHUB_REPOSITORY/git/refs" -f ref="refs/tags/$TAG" -f sha="$sha" --silent
 
   release:
     name: 📦 Release
@@ -69,3 +79,5 @@ jobs:
     uses: ./.github/workflows/release.yml # zizmor: ignore[self-repository] actionlint can't read $/ yet
     with:
       tag: ${{ needs.tag.outputs.tag }}
+    secrets:
+      BOT_PRIVATE_KEY: ${{ secrets.BOT_PRIVATE_KEY }}
