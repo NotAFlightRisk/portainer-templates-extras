@@ -13,7 +13,7 @@
 - [ ] It uses the project's official image, with a tag they keep publishing
 - [ ] It deploys and works with the default values, and only secrets (plus its own address, if it needs one) have to be filled in
 - [ ] Every path it writes data to has a volume
-- [ ] `python scripts/build.py` passes, and I've committed `templates.json` and the README it regenerated
+- [ ] `python scripts/build.py` passes, and I've committed the `templates.json` it regenerated
 - [ ] I've deployed it from Portainer itself (say so below if you couldn't)
 
 ### Additional Info
