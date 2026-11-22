@@ -1,0 +1,52 @@
+services:
+  snapotter:
+    image: snapotter/snapotter:2
+    restart: unless-stopped
+    ports:
+      - "${SNAPOTTER_PORT:-1349}:1349"
+    environment:
+      DATABASE_URL: postgres://snapotter_app:${SNAPOTTER_DB_PASSWORD:?Set a database password}@postgres:5432/snapotter
+      DATABASE_MIGRATION_URL: postgres://snapotter:${SNAPOTTER_DB_PASSWORD:?Set a database password}@postgres:5432/snapotter
+      REDIS_URL: redis://redis:6379
+    volumes:
+      - snapotter-data:/data
+      - snapotter-workspace:/tmp/workspace
+    shm_size: 2gb
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: snapotter
+      POSTGRES_USER: snapotter
+      POSTGRES_PASSWORD: ${SNAPOTTER_DB_PASSWORD:?Set a database password}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U snapotter -d snapotter"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:8-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--maxmemory-policy", "noeviction", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  snapotter-data:
+  snapotter-workspace:
+  postgres-data:
+  redis-data:
