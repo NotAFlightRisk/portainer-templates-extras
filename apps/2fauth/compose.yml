@@ -1,6 +1,6 @@
 services:
   2fauth:
-    image: 2fauth/2fauth:8
+    image: 2fauth/2fauth:9
     restart: unless-stopped
     ports:
       - "${TWOFAUTH_PORT:-8200}:8000"
