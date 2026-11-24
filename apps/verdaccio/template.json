@@ -5,7 +5,7 @@
   "categories": ["Development", "Storage"],
   "platform": "linux",
   "logo": "https://raw.githubusercontent.com/verdaccio/verdaccio/master/packages/ui-components/src/components/Logo/img/logo.svg",
-  "image": "verdaccio/verdaccio:6",
+  "image": "verdaccio/verdaccio:7",
   "restart_policy": "unless-stopped",
   "ports": ["4873:4873/tcp"],
   "volumes": [{ "container": "/verdaccio/storage" }],
