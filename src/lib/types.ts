@@ -62,6 +62,7 @@ export interface Service {
 export interface Stack {
   compose: string;
   services: Service[];
+  images: string[];
 }
 
 export type Lang = 'yaml' | 'shell' | 'env' | 'text';

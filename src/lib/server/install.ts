@@ -83,7 +83,9 @@ export const envFile = (envs: Env[]) =>
 
 export function installTabs(app: App, stack?: Stack): Tab[] {
   const { template, title, slug } = app;
-  const needed = requiredEnv(app).map((env) => env.label.replace(/ \(required\)$/i, ''));
+  const needed = requiredEnv(app, stack).map((env) =>
+    env.label.replace(/ \(required\)$|, required(?=\)$)/i, '')
+  );
   const open = webPort(app, stack);
   const portainer = portainerTab(recommendedUrl(app), [
     `Open App Templates and pick ${title}.`,

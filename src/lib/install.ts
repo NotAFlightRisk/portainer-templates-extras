@@ -5,8 +5,12 @@ export const envDefault = (env: Env) =>
   env.select?.find((option) => option.default)?.value ?? env.default ?? '';
 
 /** Fields Portainer can't leave blank, which only stacks have (compose's ${VAR:?}) */
-export const requiredEnv = (app: App) =>
-  app.kind === 'stack' ? (app.template.env ?? []).filter((env) => !env.default && !env.select) : [];
+export function requiredEnv(app: App, stack?: Stack) {
+  const names = new Set(
+    [...(stack?.compose ?? '').matchAll(/\$\{(\w+):\?/g)].map(([, name]) => name)
+  );
+  return (app.template.env ?? []).filter((env) => names.has(env.name));
+}
 
 /** Swaps compose's ${VAR:-default} for its default, as an empty .env would */
 export const withDefaults = (text: string) =>

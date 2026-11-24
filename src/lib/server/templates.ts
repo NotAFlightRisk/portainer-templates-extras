@@ -1,5 +1,6 @@
 import { filterXSS } from 'xss';
 import { parse } from 'yaml';
+import { withDefaults } from '#lib/install.js';
 import { raw, site, templateUrls } from '#lib/site.js';
 import type { App, Card, Stack, Template } from '#lib/types.js';
 
@@ -14,11 +15,14 @@ type ComposePort =
 const freshFor = 10 * 60_000;
 let cached: { at: number; catalogue: Promise<Catalogue> } | undefined;
 
+/** Vercel's edge keeps a page for an hour, so a new template shows up without a deploy */
+export const edgeCache = { 'cache-control': 'public, s-maxage=3600' };
+
 /** How the main list dedupes titles, so "Super Productivity" matches "super-productivity" */
 const squash = (title: string) => title.toLowerCase().replace(/[^a-z0-9]/g, '');
 
 async function get(url: string) {
-  const res = await fetch(url);
+  const res = await fetch(url, { signal: AbortSignal.timeout(8_000) });
   if (!res.ok) throw new Error(`${url} answered ${res.status}`);
   return res;
 }
@@ -73,11 +77,13 @@ async function fetchCatalogue(): Promise<Catalogue> {
 /** Both lists, kept for a few minutes so a burst of page renders downloads them once */
 export function catalogue() {
   if (!cached || Date.now() - cached.at > freshFor) {
+    const last = cached?.catalogue;
     const fresh = fetchCatalogue();
-    cached = { at: Date.now(), catalogue: fresh };
-    fresh.catch(() => {
-      if (cached?.catalogue === fresh) cached = undefined;
-    });
+    cached = { at: Date.now(), catalogue: last ? fresh.catch(() => last) : fresh };
+    if (!last)
+      fresh.catch(() => {
+        if (cached?.catalogue === fresh) cached = undefined;
+      });
   }
   return cached.catalogue;
 }
@@ -98,17 +104,21 @@ export const shortPort = (port: ComposePort) => {
   return port.protocol && port.protocol !== 'tcp' ? `${mapping}/${port.protocol}` : mapping;
 };
 
-export async function stack(app: App): Promise<Stack> {
-  const compose = await (await get(`${raw}/${app.template.repository?.stackfile}`)).text();
-  const { services } = parse(compose) as {
+export function readStack(compose: string): Stack {
+  const { services } = parse(compose, { merge: true }) as {
     services: Record<string, { image?: string; ports?: ComposePort[] }>;
   };
+  const list = Object.entries(services).map(([name, service]) => ({
+    name,
+    image: service.image && withDefaults(service.image),
+    ports: (service.ports ?? []).map(shortPort)
+  }));
   return {
     compose,
-    services: Object.entries(services).map(([name, service]) => ({
-      name,
-      image: service.image,
-      ports: (service.ports ?? []).map(shortPort)
-    }))
+    services: list,
+    images: [...new Set(list.flatMap(({ image }) => image ?? []))]
   };
 }
+
+export const stack = async (app: App) =>
+  readStack(await (await get(`${raw}/${app.template.repository?.stackfile}`)).text());

@@ -22,7 +22,8 @@ export async function load({ params }) {
     tabs: installTabs(app, stack),
     services: stack?.services ?? [],
     port: webPort(app, stack),
-    required: requiredEnv(app).map(({ name }) => name),
+    images: stack?.images ?? [app.template.image],
+    required: requiredEnv(app, stack).map(({ name }) => name),
     related: related.map(toCard)
   };
 }

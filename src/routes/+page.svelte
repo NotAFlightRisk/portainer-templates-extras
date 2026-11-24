@@ -7,6 +7,7 @@
   import { portainerTab } from '#lib/install.js';
   import { site, templateUrls } from '#lib/site.js';
   import type { Card, Kind } from '#lib/types.js';
+  import type { Snapshot } from './$types';
 
   let { data } = $props();
 
@@ -41,6 +42,11 @@
   let query = $state('');
   let kind: Kind | 'all' = $state('all');
   let category = $state('');
+
+  export const snapshot: Snapshot<{ query: string; kind: Kind | 'all'; category: string }> = {
+    capture: () => ({ query, kind, category }),
+    restore: (saved) => ({ query, kind, category } = saved)
+  };
 
   const kinds = [
     { value: 'all', label: 'All' },

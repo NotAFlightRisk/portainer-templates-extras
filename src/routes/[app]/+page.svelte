@@ -17,9 +17,6 @@
   const report = $derived(
     `${site.repo}/issues/new?template=broken_template.yml&title=${encodeURIComponent(`[Broken]: ${app.title}`)}`
   );
-  const images = $derived(
-    app.kind === 'stack' ? data.services.flatMap(({ image }) => image ?? []) : [template.image]
-  );
 
   const clip = (text: string, max = 155) => {
     if (text.length <= max) return text;
@@ -52,7 +49,7 @@
 <Seo
   title="{app.title}: Portainer template and Docker Compose file"
   description={clip(
-    `${app.blurb} Install ${app.title} with Portainer, Docker Compose or docker run.`
+    `Install ${app.title} with Portainer, Docker Compose or docker run. ${app.blurb}`
   )}
   {graph}
 />
@@ -228,8 +225,8 @@
           </dd>
         </div>
         <div>
-          <dt>{images.length > 1 ? 'Images' : 'Image'}</dt>
-          {#each images as image (image)}
+          <dt>{data.images.length > 1 ? 'Images' : 'Image'}</dt>
+          {#each data.images as image (image)}
             <dd><code>{image}</code></dd>
           {/each}
         </div>
@@ -426,6 +423,7 @@
     border-radius: var(--radius-m);
     background: var(--surface);
     line-height: 1.75;
+    overflow-wrap: anywhere;
 
     & :global(b) {
       color: var(--text);
@@ -490,7 +488,12 @@
     }
 
     thead {
-      display: none;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
     }
 
     tr {
