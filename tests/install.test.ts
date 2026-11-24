@@ -46,6 +46,7 @@ const etherpad: Template = {
     { name: 'API_KEY', label: 'API key (secret, required)' },
     { name: 'TITLE', label: 'Pad title (optional)' },
     { name: 'NOTE', label: 'Note' },
+    { name: 'DB_USER', label: 'Database user', default: 'etherpad' },
     { name: 'PORT', label: 'Port', default: '9001' }
   ]
 };
@@ -128,7 +129,8 @@ describe('install tabs', () => {
       '      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Set a password}',
       '      API_KEY: ${API_KEY:?}',
       '      TITLE: ${TITLE:-}',
-      '      NOTE: ${NOTE?}'
+      '      NOTE: ${NOTE?}',
+      '      DB_USER: ${DB_USER:?}'
     ].join('\n'),
     services: [{ name: 'etherpad', image: 'etherpad/etherpad:3', ports: ['${PORT:-9001}:9001'] }],
     images: ['etherpad/etherpad:3']

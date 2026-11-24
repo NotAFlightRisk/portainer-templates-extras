@@ -9,7 +9,7 @@ export function requiredEnv(app: App, stack?: Stack) {
   const names = new Set(
     [...(stack?.compose ?? '').matchAll(/\$\{(\w+):\?/g)].map(([, name]) => name)
   );
-  return (app.template.env ?? []).filter((env) => names.has(env.name));
+  return (app.template.env ?? []).filter((env) => names.has(env.name) && !envDefault(env));
 }
 
 /** Swaps compose's ${VAR:-default} for its default, as an empty .env would */
