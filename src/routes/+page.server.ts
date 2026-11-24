@@ -1,6 +1,7 @@
-import { catalogue, toCard } from '#lib/server/templates.js';
+import { catalogue, edgeCache, toCard } from '#lib/server/templates.js';
 
-export async function load() {
+export async function load({ setHeaders }) {
+  setHeaders(edgeCache);
   const { apps, mainCount } = await catalogue();
   return {
     apps: apps.map(toCard),

@@ -43,6 +43,10 @@ const etherpad: Template = {
   repository: { url: 'https://github.com/x/y', stackfile: 'apps/etherpad/compose.yml' },
   env: [
     { name: 'ADMIN_PASSWORD', label: 'Admin password (required)' },
+    { name: 'API_KEY', label: 'API key (secret, required)' },
+    { name: 'TITLE', label: 'Pad title (optional)' },
+    { name: 'NOTE', label: 'Note' },
+    { name: 'DB_USER', label: 'Database user', default: 'etherpad' },
     { name: 'PORT', label: 'Port', default: '9001' }
   ]
 };
@@ -118,8 +122,18 @@ describe('ports', () => {
 
 describe('install tabs', () => {
   const stack = {
-    compose: 'services: {}',
-    services: [{ name: 'etherpad', image: 'etherpad/etherpad:3', ports: ['${PORT:-9001}:9001'] }]
+    compose: [
+      'services:',
+      '  etherpad:',
+      '    environment:',
+      '      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Set a password}',
+      '      API_KEY: ${API_KEY:?}',
+      '      TITLE: ${TITLE:-}',
+      '      NOTE: ${NOTE?}',
+      '      DB_USER: ${DB_USER:?}'
+    ].join('\n'),
+    services: [{ name: 'etherpad', image: 'etherpad/etherpad:3', ports: ['${PORT:-9001}:9001'] }],
+    images: ['etherpad/etherpad:3']
   };
 
   it('recommends the main list only for apps that are in it', () => {
@@ -129,9 +143,11 @@ describe('install tabs', () => {
     expect(main.code).toContain('Lissy93/portainer-templates');
   });
 
-  it('asks for the fields a stack cannot start without', () => {
+  it('asks only for the fields compose refuses to start without', () => {
     const [portainer] = installTabs(toApp(etherpad, false), stack);
-    expect(portainer.steps?.[1]).toBe('Fill in Admin password. Everything else can stay as it is.');
+    expect(portainer.steps?.[1]).toBe(
+      'Fill in Admin password and API key (secret). Everything else can stay as it is.'
+    );
     expect(portainer.steps?.[2]).toContain('`http://<your-server>:9001` in a browser');
   });
 

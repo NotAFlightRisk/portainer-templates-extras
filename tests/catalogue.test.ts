@@ -76,7 +76,8 @@ describe('the port a browser opens', () => {
   it('skips UDP and ports with no host side', () => {
     const stack = {
       compose: '',
-      services: [{ name: 'x', ports: ['53:53/udp', '8080', '${WEB:-3000}:3000'] }]
+      services: [{ name: 'x', ports: ['53:53/udp', '8080', '${WEB:-3000}:3000'] }],
+      images: []
     };
     expect(webPort(app([]), stack)).toBe('3000');
     expect(webPort(app(['53:53/udp', '8282:80/tcp']))).toBe('8282');

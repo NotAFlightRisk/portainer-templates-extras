@@ -1,4 +1,4 @@
-import { catalogue } from '#lib/server/templates.js';
+import { catalogue, edgeCache } from '#lib/server/templates.js';
 import { site } from '#lib/site.js';
 
 export async function GET() {
@@ -11,5 +11,5 @@ export async function GET() {
 ${urls}
 </urlset>
 `;
-  return new Response(xml, { headers: { 'Content-Type': 'application/xml' } });
+  return new Response(xml, { headers: { 'Content-Type': 'application/xml', ...edgeCache } });
 }

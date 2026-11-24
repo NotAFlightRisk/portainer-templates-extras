@@ -1,10 +1,11 @@
 import { error } from '@sveltejs/kit';
 import { requiredEnv, webPort } from '#lib/install.js';
 import { installTabs } from '#lib/server/install.js';
-import { catalogue, stack as fetchStack, toCard } from '#lib/server/templates.js';
+import { catalogue, edgeCache, stack as fetchStack, toCard } from '#lib/server/templates.js';
 import type { App } from '#lib/types.js';
 
-export async function load({ params }) {
+export async function load({ params, setHeaders }) {
+  setHeaders(edgeCache);
   const { apps, mainCount } = await catalogue();
   const app = apps.find(({ slug }) => slug === params.app);
   if (!app) error(404, "That app isn't in the list");
@@ -22,7 +23,8 @@ export async function load({ params }) {
     tabs: installTabs(app, stack),
     services: stack?.services ?? [],
     port: webPort(app, stack),
-    required: requiredEnv(app).map(({ name }) => name),
+    images: stack?.images ?? [app.template.image],
+    required: requiredEnv(app, stack).map(({ name }) => name),
     related: related.map(toCard)
   };
 }

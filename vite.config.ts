@@ -9,6 +9,8 @@ const plausible = process.env.PUBLIC_PLAUSIBLE_SCRIPT ?? '';
 const pulse = plausible ? [new URL(plausible).origin as Origin] : [];
 const sentry = process.env.PUBLIC_SENTRY_DSN ?? '';
 const oops = sentry ? [new URL(sentry).origin as Origin] : [];
+// Svelte's server HTML puts onerror="this.__e=event" on every <img>
+const imgOnerror = 'sha256-7dQwUgLau1NFCCGjfn9FsYptB6ZtWxJin6VohGIu20I=';
 const uploadMaps = Boolean(process.env.SENTRY_AUTH_TOKEN && process.env.SENTRY_URL);
 
 export default defineConfig({
@@ -32,7 +34,7 @@ export default defineConfig({
         mode: 'hash',
         directives: {
           'default-src': ['self'],
-          'script-src': ['self', ...pulse],
+          'script-src': ['self', 'unsafe-hashes', imgOnerror, ...pulse],
           'connect-src': ['self', ...pulse, ...oops],
           'img-src': ['self', 'data:', 'https:'],
           'style-src': ['self', 'unsafe-inline'],

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { highlight, inline } from '../src/lib/highlight.ts';
-import { toApp } from '../src/lib/server/templates.ts';
+import { readStack, toApp } from '../src/lib/server/templates.ts';
 import type { Template } from '../src/lib/types.ts';
 
 const template: Template = {
@@ -59,5 +59,34 @@ describe('highlight', () => {
     expect(inline('open `http://<host>` & go')).toBe(
       'open <code>http://&lt;host&gt;</code> &amp; go'
     );
+  });
+});
+
+describe('readStack', () => {
+  const { services, images } = readStack(
+    [
+      'x-app: &app',
+      '  image: example/app:${APP_VERSION:-2}',
+      'services:',
+      '  web:',
+      '    <<: *app',
+      "    ports: ['8080:80']",
+      '  worker:',
+      '    <<: *app',
+      '  db:',
+      '    image: postgres:18'
+    ].join('\n')
+  );
+
+  it('follows merge keys and fills in image defaults', () => {
+    expect(services.map(({ name, image }) => [name, image])).toEqual([
+      ['web', 'example/app:2'],
+      ['worker', 'example/app:2'],
+      ['db', 'postgres:18']
+    ]);
+  });
+
+  it('lists an image two services share once', () => {
+    expect(images).toEqual(['example/app:2', 'postgres:18']);
   });
 });
