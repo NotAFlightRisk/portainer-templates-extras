@@ -1,0 +1,19 @@
+{
+  "title": "RSS-Bridge",
+  "name": "rss-bridge",
+  "description": "Feed generator that makes RSS and Atom feeds for hundreds of sites that don't have one, like YouTube channels, GitHub issues and news sites, so you can follow them in any feed reader. Source: https://github.com/RSS-Bridge/rss-bridge",
+  "categories": ["Web", "Tools"],
+  "platform": "linux",
+  "logo": "https://avatars.githubusercontent.com/u/20958263?s=256",
+  "image": "rssbridge/rss-bridge:latest",
+  "restart_policy": "unless-stopped",
+  "ports": ["3150:80/tcp"],
+  "env": [
+    {
+      "name": "RSSBRIDGE_authentication_token",
+      "label": "Access token (optional)",
+      "description": "Leave blank to keep it open. Set one (openssl rand -hex 16 makes one) and every page and feed needs it, as ?token= on the end of the URL."
+    }
+  ],
+  "note": "Open <code>http://&lt;your-host&gt;:3150</code>, find a site in the list, fill in what it asks for and hit Generate feed. That opens a preview with a button for each format, and the Atom one (or whichever your reader takes) is the link to give your reader. There's no login unless you set the access token, and nothing to back up, since feeds are only cached for a while inside the container. Bridges break whenever sites change, so this follows the image they rebuild from their main branch on every fix, rather than their rare releases. It won't fetch anything on your LAN, but anyone who can reach it can make it fetch public sites, so keep it on your own network or set the token. Other settings go in as envs named after the sections in their <code>config.default.ini.php</code>, like <code>RSSBRIDGE_system_timezone</code>. Docs: <a href=\"https://rss-bridge.github.io/rss-bridge/\" target=\"_blank\">rss-bridge.github.io</a>"
+}
