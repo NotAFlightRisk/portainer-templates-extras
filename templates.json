@@ -1822,6 +1822,32 @@
     {
       "id": 56,
       "type": 1,
+      "title": "RSS-Bridge",
+      "name": "rss-bridge",
+      "description": "Feed generator that makes RSS and Atom feeds for hundreds of sites that don't have one, like YouTube channels, GitHub issues and news sites, so you can follow them in any feed reader. Source: https://github.com/RSS-Bridge/rss-bridge",
+      "categories": [
+        "Web",
+        "Tools"
+      ],
+      "platform": "linux",
+      "logo": "https://avatars.githubusercontent.com/u/20958263?s=256",
+      "image": "rssbridge/rss-bridge:latest",
+      "restart_policy": "unless-stopped",
+      "ports": [
+        "3150:80/tcp"
+      ],
+      "env": [
+        {
+          "name": "RSSBRIDGE_authentication_token",
+          "label": "Access token (optional)",
+          "description": "Leave blank to keep it open. Set one (openssl rand -hex 16 makes one) and every page and feed needs it, as ?token= on the end of the URL."
+        }
+      ],
+      "note": "Open <code>http://&lt;your-host&gt;:3150</code>, find a site in the list, fill in what it asks for and hit Generate feed. That opens a preview with a button for each format, so copy the Atom one (or whichever your reader takes) into your reader. There's no login unless you set the access token, and nothing to back up, since feeds are only cached for a while inside the container. Bridges break whenever sites change, so this follows the image they rebuild from their main branch on every fix, rather than their rare releases. It won't fetch private or LAN addresses, but anyone who can reach it can make it fetch public sites, so keep it on your own network or set the token. Other settings go in as envs named after the sections in their <code>config.default.ini.php</code>, like <code>RSSBRIDGE_system_timezone</code>. Docs: <a href=\"https://rss-bridge.github.io/rss-bridge/\" target=\"_blank\">rss-bridge.github.io</a>"
+    },
+    {
+      "id": 57,
+      "type": 1,
       "title": "RSSHub",
       "name": "rsshub",
       "description": "RSS feed maker for thousands of sites that don't have a feed of their own, like GitHub issues, news sites, forums and shops. Source: https://github.com/DIYgod/RSSHub",
@@ -1846,7 +1872,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:1200</code> to check it's up, then add feeds to your reader as paths on it, like <code>/github/issue/DIYgod/RSSHub</code>. Every route is listed in the <a href=\"https://docs.rsshub.app\" target=\"_blank\">docs</a>. There's no login, so set an access key if it faces the internet. Nothing to back up, feeds are cached in memory. Some routes need a browser, and for those swap the image tag to <code>chromium-bundled</code>."
     },
     {
-      "id": 57,
+      "id": 58,
       "type": 3,
       "title": "RustFS",
       "name": "rustfs",
@@ -1887,7 +1913,7 @@
       }
     },
     {
-      "id": 58,
+      "id": 59,
       "type": 3,
       "title": "Ryot",
       "name": "ryot",
@@ -1935,7 +1961,7 @@
       }
     },
     {
-      "id": 59,
+      "id": 60,
       "type": 1,
       "title": "Seerr",
       "name": "seerr",
@@ -1966,7 +1992,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:5055</code> and the setup wizard walks you through connecting your media server, then Sonarr and Radarr. Settings and the request database live in the <code>/app/config</code> volume. Coming from Overseerr or Jellyseerr? Seerr can take over their config, see the <a href=\"https://docs.seerr.dev\" target=\"_blank\">docs</a> for how."
     },
     {
-      "id": 60,
+      "id": 61,
       "type": 1,
       "title": "SilverBullet",
       "name": "silverbullet",
@@ -1991,7 +2017,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:3300</code> and the setup wizard asks for an admin account, then your first space (at <code>/notes</code> by default). There's no setup code, so whoever gets there first owns the server - do it straight after deploying, and from the address you'll actually use, since the admin dashboard always sends you back there (change it under Admin --&gt; Server). Over plain http on anything but localhost it runs online-only, so no offline use, local encryption or single sign-on. Put it behind an HTTPS proxy to get those back. Accounts, settings and every page (as plain Markdown files) live in the volume. This is the slim image, so if you want the Runtime API, which needs Chromium, use the <code>latest</code> tag instead. Docs: <a href=\"https://docs.silverbullet.md/Install\" target=\"_blank\">docs.silverbullet.md</a>"
     },
     {
-      "id": 61,
+      "id": 62,
       "type": 3,
       "title": "SiYuan",
       "name": "siyuan",
@@ -2029,7 +2055,7 @@
       }
     },
     {
-      "id": 62,
+      "id": 63,
       "type": 3,
       "title": "SnapOtter",
       "name": "snapotter",
@@ -2061,7 +2087,7 @@
       }
     },
     {
-      "id": 63,
+      "id": 64,
       "type": 3,
       "title": "Snipe-IT",
       "name": "snipe-it",
@@ -2108,7 +2134,7 @@
       }
     },
     {
-      "id": 64,
+      "id": 65,
       "type": 3,
       "title": "SparkyFitness",
       "name": "sparkyfitness",
@@ -2158,7 +2184,7 @@
       }
     },
     {
-      "id": 65,
+      "id": 66,
       "type": 3,
       "title": "Spliit",
       "name": "spliit",
@@ -2188,7 +2214,7 @@
       }
     },
     {
-      "id": 66,
+      "id": 67,
       "type": 1,
       "title": "Spoolman",
       "name": "spoolman",
@@ -2211,7 +2237,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:7912</code>. There's no login at all, so anyone who can reach it can see and change your spools - keep it on your own network. Add spools searches your own catalogue plus SpoolmanDB, a public list of filaments the server downloads from GitHub, so most details fill themselves in. Moonraker and the OctoPrint plugin connect to that same address. The database and its nightly backups live in the volume. The page loads its fonts from Google Fonts. Docs: <a href=\"https://github.com/Donkie/Spoolman/wiki\" target=\"_blank\">github.com/Donkie/Spoolman/wiki</a>"
     },
     {
-      "id": 67,
+      "id": 68,
       "type": 1,
       "title": "Super Productivity",
       "name": "super-productivity",
@@ -2230,7 +2256,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8095</code>. There's no login, and your tasks are saved in your browser rather than on the server, so set up sync (WebDAV, Dropbox and others) in its settings if you use more than one device. Docs: <a href=\"https://github.com/super-productivity/super-productivity#readme\" target=\"_blank\">github.com/super-productivity/super-productivity</a>"
     },
     {
-      "id": 68,
+      "id": 69,
       "type": 3,
       "title": "Sure",
       "name": "sure",
@@ -2265,7 +2291,7 @@
       }
     },
     {
-      "id": 69,
+      "id": 70,
       "type": 3,
       "title": "Teable",
       "name": "teable",
@@ -2307,7 +2333,7 @@
       }
     },
     {
-      "id": 70,
+      "id": 71,
       "type": 1,
       "title": "Termix",
       "name": "termix",
@@ -2331,7 +2357,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8080</code> and create an account, which becomes the admin. Registration stays open after that, so switch it off in the admin settings unless you want other people signing up. Hosts, keys and the database live in the <code>/app/data</code> volume, and its secrets are generated there on first start. Behind a reverse proxy it needs websockets. It sends a small anonymous usage report once a day, which you can switch off in Admin Settings &gt; Usage Statistics. Docs: <a href=\"https://docs.termix.site\" target=\"_blank\">docs.termix.site</a>"
     },
     {
-      "id": 71,
+      "id": 72,
       "type": 3,
       "title": "Tolgee",
       "name": "tolgee",
@@ -2367,7 +2393,7 @@
       }
     },
     {
-      "id": 72,
+      "id": 73,
       "type": 1,
       "title": "TREK",
       "name": "trek",
@@ -2418,7 +2444,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8099</code> and sign in as <code>admin@trek.local</code>. The password's printed in the container's logs on first start, over a thousand lines up, so set Lines to 5000 in Portainer's log view and search for <code>Password:</code>. TREK makes you pick a new one straight away. Anyone who can reach it can register their own account, so switch off Password Registration under Admin --&gt; Security if that's not what you want. Place search, address search and routing go through TREK's own servers at liketrek.com, under a key the install fetches for itself. Add <code>TREK_SERVICES=off</code> and <code>TREK_PLACES_ENABLED=false</code> envs to send nothing there. The database, its encryption key and every upload live in the two volumes. Docs: <a href=\"https://github.com/liketrek/TREK/wiki\" target=\"_blank\">github.com/liketrek/TREK/wiki</a>"
     },
     {
-      "id": 73,
+      "id": 74,
       "type": 3,
       "title": "tududi",
       "name": "tududi",
@@ -2465,7 +2491,7 @@
       }
     },
     {
-      "id": 74,
+      "id": 75,
       "type": 1,
       "title": "Verdaccio",
       "name": "verdaccio",
@@ -2489,7 +2515,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:4873</code> to browse packages, and point npm at it with <code>npm config set registry http://&lt;your-host&gt;:4873/</code>. Anything it doesn't host comes from npmjs and gets cached. There's no admin: <code>npm login --registry http://&lt;your-host&gt;:4873/</code> makes an account the first time, and any account can publish and unpublish any package. Sign-ups stay open and packages can be read without logging in, which is upstream's default and only changes in its config.yaml, so keep it on your own network. Authors with an email get their avatar from Gravatar in the web UI. Accounts, packages, the npmjs cache and the generated token secret live in the volume. Docs: <a href=\"https://www.verdaccio.org/docs/docker\" target=\"_blank\">verdaccio.org</a>"
     },
     {
-      "id": 75,
+      "id": 76,
       "type": 3,
       "title": "Wakapi",
       "name": "wakapi",
@@ -2525,7 +2551,7 @@
       }
     },
     {
-      "id": 76,
+      "id": 77,
       "type": 1,
       "title": "Wallos",
       "name": "wallos",
@@ -2559,7 +2585,7 @@
       "note": "Open <code>http://&lt;your-host&gt;:8282</code> and register. The first account becomes the admin, and sign-ups are closed after that. The database and any logos you upload live in the two volumes. Docs: <a href=\"https://github.com/ellite/wallos#readme\" target=\"_blank\">github.com/ellite/wallos</a>"
     },
     {
-      "id": 77,
+      "id": 78,
       "type": 3,
       "title": "Yamtrack",
       "name": "yamtrack",
@@ -2596,7 +2622,7 @@
       }
     },
     {
-      "id": 78,
+      "id": 79,
       "type": 3,
       "title": "YOURLS",
       "name": "yourls",
@@ -2647,7 +2673,7 @@
       }
     },
     {
-      "id": 79,
+      "id": 80,
       "type": 3,
       "title": "Zipline",
       "name": "zipline",
