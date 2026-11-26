@@ -5,7 +5,7 @@
   import Install from '#lib/components/Install.svelte';
   import Seo from '#lib/components/Seo.svelte';
   import { portainerTab } from '#lib/install.js';
-  import { site, templateUrls } from '#lib/site.js';
+  import { moreApps, site, templateUrls } from '#lib/site.js';
   import type { Card, Kind } from '#lib/types.js';
   import type { Snapshot } from './$types';
 
@@ -245,6 +245,23 @@
         >
       </div>
     </article>
+  </div>
+</section>
+
+<section class="band">
+  <div class="frame section">
+    <h2 class="more-head">More for self-hosters</h2>
+    <ul class="more">
+      {#each moreApps as app (app.name)}
+        <li>
+          <AppLogo src={app.logo} title={app.name} size={28} />
+          <div>
+            <h3><a href={app.url}>{app.name}</a></h3>
+            <p>{app.about}</p>
+          </div>
+        </li>
+      {/each}
+    </ul>
   </div>
 </section>
 
@@ -556,6 +573,61 @@
       display: flex;
       flex-wrap: wrap;
       gap: var(--space-l);
+    }
+  }
+
+  .more-head {
+    font-size: var(--text-xl);
+    font-weight: 700;
+  }
+
+  .more {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: var(--space-m);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    & li {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: var(--space-m);
+      padding: var(--space-m);
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius-l);
+      transition:
+        background-color 0.25s var(--ease-out),
+        border-color 0.25s var(--ease-out);
+
+      &:hover,
+      &:focus-within {
+        border-color: var(--line);
+        background: var(--surface-raised);
+      }
+    }
+
+    & h3 {
+      font-size: var(--text-m);
+      font-weight: 600;
+    }
+
+    & a {
+      color: var(--text);
+      text-decoration: none;
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+      }
+    }
+
+    & p {
+      color: var(--text-muted);
+      font-size: var(--text-s);
     }
   }
 </style>
